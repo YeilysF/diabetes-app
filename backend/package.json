@@ -10,10 +10,15 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "cjs-loader": "^0.1.0",
+    "core-util-is": "^1.0.3",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "mongoose": "^6.0.12",
     "morgan": "^1.10.0",
     "nodemon": "^2.0.15"
+  },
+  "devDependencies": {
+    "dotenv": "^10.0.0"
   }
 }

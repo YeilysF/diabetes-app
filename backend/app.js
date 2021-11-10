@@ -3,13 +3,13 @@ const app = express();
 const cors = require("cors");
 const morgan = require('morgan');
 const mongoose = require("mongoose"); //Handle MongoDB operations
-require("dotenv/config");
+require('dotenv/config');
 
 const api = process.env.API_URL;
 
 //allow app to request api from server
 app.use(cors()); 
-app.options("*", cors())
+app.options("*", cors());
 
 //middleware
 app.use(express.json());
@@ -30,7 +30,7 @@ app.use(`${api}/Nutritions`, NutritionRoutes);
 mongoose.connect(process.env.CONNECTION_DB, {
     //useNewUrlParser: true,
     //useUnifiedTopology: true,
-    dbName: "diabetes-app-database",
+    dbName: "diabetes-app-database"
   })
 .then(() => {
     console.log('Database Connection is Ready ....')
