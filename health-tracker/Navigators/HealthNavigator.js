@@ -1,6 +1,6 @@
 import React from 'react'
 import { createStackNavigator } from "@react-navigation/stack"
-import HealthScreen from '../Screens/HealthScreen'
+import HealthScreen from '../screens/HealthScreen'
 
 const Stack = createStackNavigator()
 
