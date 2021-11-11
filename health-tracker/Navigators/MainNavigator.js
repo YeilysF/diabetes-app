@@ -11,6 +11,7 @@ import Icon3 from "react-native-vector-icons/Ionicons";
 import HomeNavigator from "./HomeNavigator";
 import HealthNavigator from "./HealthNavigator";
 import ProfileNavigator from "./ProfileNavigator";
+import SearchNavigator from "./SearchNavigator";
 
 const Tab = createBottomTabNavigator();
 
@@ -33,6 +34,16 @@ const Main = () => {
         options={{
           tabBarIcon: ({ color }) => (
             <Icon name="home" color={color} size={30} />
+          ),
+        }}
+      />
+
+      <Tab.Screen
+        name="Search"
+        component={SearchNavigator}
+        options={{
+          tabBarIcon: ({ color }) => (
+            <Icon name="search" color={color} size={30} />
           ),
         }}
       />
