@@ -1,10 +1,11 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState } from "react";
+//import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <Text>Home Screen</Text>
+      <Text>Hello there!</Text>
     </View>
   );
 }
@@ -17,3 +18,4 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+
