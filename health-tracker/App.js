@@ -6,7 +6,8 @@ import { LogBox } from "react-native";
 import { NavigationContainer } from '@react-navigation/native';
 //import Toast from "react-native-toast-message";
 // <Toast ref={(ref) => Toast.setRef(ref)} />
-import MainNavigator from './navigators/MainNavigator';
+//import MainNavigator from './navigators/MainTabNavigator';
+import StackNavigator from './navigators/UserStackNavigator';
 //import DrawerNavigator from './navigators/DrawerNavigator';
 
 LogBox.ignoreAllLogs(true);
@@ -14,7 +15,7 @@ LogBox.ignoreAllLogs(true);
 export default function App() {
   return (
     <NavigationContainer>
-        <MainNavigator/>
+        <StackNavigator/>
     </NavigationContainer>
   );
 }
