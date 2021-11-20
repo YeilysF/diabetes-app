@@ -8,8 +8,6 @@ import { LinearGradient } from 'expo-linear-gradient'
 //Icons
 import Icon from "react-native-vector-icons/FontAwesome";
 import Icon2 from "react-native-vector-icons/FontAwesome";
-import Icon3 from "react-native-vector-icons/Ionicons";
-
 
 //Screens
 import HealthScreen from '../screens/HealthScreen';
