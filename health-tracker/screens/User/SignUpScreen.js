@@ -1,13 +1,16 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Button } from 'react-native';
 
-export default function App() {
+const SignUpScreen = (props) => {
   return (
     <View style={styles.container}>
-      <Text>Login Screen</Text>
+      <Text>Sign up Screen</Text>
+      <Button title="Go to Login" onPress={() => props.navigation.navigate('Login')} />
     </View>
   );
 }
+
+export default SignUpScreen;
 
 const styles = StyleSheet.create({
   container: {

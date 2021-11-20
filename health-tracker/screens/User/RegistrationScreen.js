@@ -1,13 +1,15 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
-export default function App() {
+const RegistrationScreen = (props) => {
   return (
     <View style={styles.container}>
-      <Text>Sign up Screen</Text>
+      <Text>Registration Screen</Text>
     </View>
   );
 }
+
+export default RegistrationScreen;
 
 const styles = StyleSheet.create({
   container: {

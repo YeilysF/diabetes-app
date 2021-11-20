@@ -27,12 +27,12 @@ const Item = ({ item, onPress, backgroundColor, textColor }) => (
   </TouchableOpacity>
 );
 
-export default function App(){
+const HealthScreen = (props) => {
   const [selectedId, setSelectedId] = useState(null);
 
   const renderItem = ({ item }) => {
-    const backgroundColor = item.id === selectedId ? "#6e3b6e" : "#f9c2ff";
-    const color = item.id === selectedId ? 'white' : 'black';
+    const backgroundColor = item.id === selectedId ? "lightsteelblue" : "#6495ed";
+    const color = item.id === selectedId ? 'white' : 'white';
 
     return (
       <Item
@@ -55,6 +55,8 @@ export default function App(){
     </SafeAreaView>
   );
 };
+
+export default HealthScreen;
 
 const styles = StyleSheet.create({
   container: {
