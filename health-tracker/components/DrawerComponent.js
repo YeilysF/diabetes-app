@@ -1,0 +1,99 @@
+import React from 'react';
+import { View, StyleSheet } from 'react-native';
+import {
+    useTheme,
+    Avatar,
+    Title,
+    Caption,
+    Paragraph,
+    Drawer,
+    Text,
+    TouchableRipple,
+    Switch
+} from 'react-native-paper';
+import {
+    DrawerContentScrollView,
+    DrawerItem,
+    DrawerItemList
+} from '@react-navigation/drawer';
+
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Icon2 from 'react-native-vector-icons/Feather';
+//import Ionicons from "react-native-vector-icons/Ionicons";
+//import MaterialIcon from "react-native-vector-icons/MaterialIcons";
+
+function DrawerComponent(props) {
+
+    return(
+        <View style={{flex:1}}>
+            <DrawerContentScrollView {...props}>
+                <View style={styles.drawerContent}>
+                    <View style={styles.userInfo}>
+                        <View style={{flexDirection:'row',marginTop: 15}}>
+                            <Avatar.Image source={require('../assets/default-avatar.png')} size={50}/>
+                            <View style={{marginLeft:15, flexDirection:'column'}}>
+                                <Title style={styles.title}>User</Title>
+                                <Caption style={styles.caption}>user@gmail.com</Caption>
+                            </View>
+                        </View>
+                    </View>
+
+                    <Drawer.Section style={styles.drawerSection}>
+                        <DrawerItemList {...props} />
+                        <DrawerItem 
+                            icon={() => (
+                                <Icon2 name="settings" size={20} color='#6495ed'/>
+                            )}
+                            label="Settings"
+                        />
+                        <DrawerItem 
+                            icon={() => (
+                                <Icon name="account-check-outline" size={20} color='#6495ed'/>
+                            )}
+                            label="Support"
+                        />
+                    </Drawer.Section>
+                    
+                </View>
+            </DrawerContentScrollView>
+
+            <Drawer.Section style={styles.bottomDrawerSection}>
+                <DrawerItem 
+                    icon={() => (
+                        <Icon name="exit-to-app" size={20} color='#6495ed'/>
+                    )}
+                    label="Sign Out"
+                    onPress={() => alert('Sign Out')}
+                />
+            </Drawer.Section>
+        </View>
+    );
+}
+
+export default DrawerComponent;
+
+const styles = StyleSheet.create({
+    drawerContent: {
+      flex: 1,
+    },
+    userInfo: {
+        paddingLeft: 10,
+    },
+    caption: {
+        fontSize: 14,
+        lineHeight: 14,
+    },
+    section: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      marginRight: 15,
+    },
+    drawerSection: {
+      marginTop: 15,
+    },
+    bottomDrawerSection: {
+        marginBottom: 15,
+        borderTopColor: '#f4f4f4',
+        borderTopWidth: 1
+    },
+  });

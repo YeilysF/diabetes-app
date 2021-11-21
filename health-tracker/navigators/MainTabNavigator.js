@@ -2,18 +2,23 @@ import React, { useContext } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from '@react-navigation/stack';
 import { View, Button } from "react-native";
-import Ionicons from "react-native-vector-icons/Ionicons";
 import { LinearGradient } from 'expo-linear-gradient'
 
 //Icons
 import Icon from "react-native-vector-icons/FontAwesome";
-import Icon2 from "react-native-vector-icons/FontAwesome";
+import Icon2 from "react-native-vector-icons/FontAwesome5";
+import Icon3 from "react-native-vector-icons/Feather";
+import Ionicons from "react-native-vector-icons/Ionicons";
 
 //Screens
 import HealthScreen from '../screens/HealthScreen';
 import HomeScreen from '../screens/HomeScreen';
 import ProfileScreen from '../screens/User/ProfileScreen'
 import SearchScreen from '../screens/SearchScreen'
+
+import UserStackNavigator from "./UserStackNavigator";
+import ReportScreen from "../screens/ReportScreen";
+import NotificationScreen from "../screens/NotificationScreen";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator()
@@ -32,14 +37,30 @@ const HealthNavigator = () => {
   )
 }
 
-const HomeNavigator = () => {
+const HomeNavigator = (props) => {
   return (
       <Stack.Navigator>
           <Stack.Screen 
               name='Home'
               component={HomeScreen}
               options={{
-                  headerShown: false,
+                headerShown: true,
+                headerTransparent: true,
+                headerTintColor: 'white',
+                headerLeft: () => (
+                  <Icon3 name="menu" color='white' size={25} style={{marginLeft: 23}} onPress={() => props.navigation.openDrawer()}></Icon3>
+                ),
+                headerRight: () => (
+                  <Ionicons name="notifications" color='white' size={25} style={{marginRight: 23}} onPress={() => props.navigation.navigate('Notifications')}></Ionicons>
+                ),
+              }}
+              
+          />
+          <Stack.Screen 
+              name="Notifications" 
+              component={NotificationScreen} 
+              options={{
+                headerShown: true,
               }}
           />
       </Stack.Navigator>
@@ -60,12 +81,12 @@ const ProfileNavigator = () => {
   )
 }
 
-const SearchNavigator = () => {
+const ReportNavigator = () => {
   return (
       <Stack.Navigator>
           <Stack.Screen 
-              name='Search'
-              component={SearchScreen}
+              name='Report'
+              component={ReportScreen}
               options={{
                   headerShown: false,
               }}
@@ -74,7 +95,7 @@ const SearchNavigator = () => {
   )
 }
 
-const Main = (props) => {
+const MainTabNavigator = () => {
   return (
     <Tab.Navigator
       initialRouteName="Home"
@@ -92,20 +113,9 @@ const Main = (props) => {
         component={HomeNavigator}
         options={{
           headerShown: false,
-          tabBarIcon: ({ color }) => (
+          tabBarIcon: () => (
             <Icon name="home" color='#6495ed' size={30} />
             ),
-        }}
-      />
-
-      <Tab.Screen
-        name="Search"
-        component={SearchNavigator}
-        options={{
-          headerShown: false,
-          tabBarIcon: ({ color }) => (
-            <Icon name="search" color='#6495ed' size={30} />
-          ),
         }}
       />
 
@@ -113,9 +123,20 @@ const Main = (props) => {
         name="Health"
         component={HealthNavigator}
         options={{
-          headerShown: false,
-          tabBarIcon: ({ color }) => (
-            <Icon2 name="heartbeat" color='#6495ed' size={30} />
+          headerShown: true,
+          tabBarIcon: () => (
+            <Icon name="heartbeat" color='#6495ed' size={30} />
+          ),
+        }}
+      />
+
+       <Tab.Screen
+        name="Report"
+        component={ReportNavigator}
+        options={{
+          headerShown: true,
+          tabBarIcon: () => (
+            <Icon2 name="notes-medical" color='#6495ed' size={30} />
           ),
         }}
       />
@@ -124,15 +145,16 @@ const Main = (props) => {
         name="Profile"
         component={ProfileNavigator}
         options={{
-          headerShown: false,
-          tabBarIcon: ({ color }) => (
+          headerShown: true,
+          tabBarIcon: () => (
             <Icon name="user" color='#6495ed' size={30} />
           ),
         }}
       />
 
+
     </Tab.Navigator>
   );
 };
 
-export default Main;
+export default MainTabNavigator;

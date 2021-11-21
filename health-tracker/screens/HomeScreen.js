@@ -6,21 +6,25 @@ import { useTheme } from '@react-navigation/native';
 import { LinearGradient } from 'expo-linear-gradient'
 import { FlatGrid } from 'react-native-super-grid';
 import Emoji from 'react-native-emoji';
-import Ionicon from "react-native-vector-icons/Ionicons";
+import Ionicons from "react-native-vector-icons/Ionicons";
+import { Searchbar } from 'react-native-paper';
 
 //vector icons
-import Icon from "react-native-vector-icons/FontAwesome5";
+import Icon from "react-native-vector-icons/FontAwesome";
 
 const HomeScreen = (props) => {
     const { colors } = useTheme();
 
+    const [searchQuery, setSearchQuery] = React.useState('');
+    const onChangeSearch = query => setSearchQuery(query);
+
     const [items, setItems] = React.useState([
-      { name: 'MEDICATIONS', icon: 'pill', color: '#dda0dd'},
-      { name: 'GLUCOSE', icon: 'droplet', color: '#00bfff'},
-      { name: 'INSULIN', icon: 'syringe', color: '#ffa07a'},
-      { name: 'BLOOD PRESSURE', icon: 'heart', color: '#f08080'},
-      { name: 'NUTRITION', icon: 'apple', color: '#40e0d0'},
-      { name: 'EXERCISE', icon: 'volleyball', color: '#b0c4de'},
+      { name: 'MEDICATIONS', link: require('../assets/images/2.png'), color1: '#87cefa', color2: '#6495ed', width: 140, height: 70},
+      { name: 'GLUCOSE', link: require('../assets/images/1.png'), color1: '#f08080', color2: '#cd5c5c', width: 120, height: 70},
+      { name: 'INSULIN', link: require('../assets/images/3.png'), color1: '#20b2aa', color2: '#48d1cc', width: 140, height: 70},
+      { name: 'BLOOD PRESSURE', link: require('../assets/images/6.png'), color1: '#4682b4', color2: '#1e90ff', width: 140, height: 70},
+      { name: 'NUTRITION', link: require('../assets/images/7.png'), color1: '#daa520', color2: '#ffd700', width: 150, height: 70}, 
+      { name: 'EXERCISE', link: require('../assets/images/8.png'), color1: '#b0c4de', color2: '#4682b4', width: 150, height: 70},
     ])
 
     return (
@@ -28,10 +32,19 @@ const HomeScreen = (props) => {
         <StatusBar backgroundColor='#009387' barStyle="light-content"/>
         <LinearGradient colors={['#87cefa', '#4169e1']} style={styles.container} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }}>
         <View style={styles.header}>
-          <Text style={styles.title}>Hi User!
-          <Emoji name="wave" style={{fontSize: 30}} />
-          </Text>
-          <Text style={styles.subText}>Welcome to the Home Screen</Text>
+          <View style={styles.subHeader}>
+              <Text style={styles.title}>Hi User 
+              <Emoji name="wave" style={{fontSize: 30}} />
+              </Text>
+          </View>
+          <View style={styles.searchContainer}>
+            <Searchbar
+              placeholder="Search"
+              onChangeText={onChangeSearch}
+              value={searchQuery}
+              style={styles.search}
+          />
+         </View>
         </View>
 
           <Animatable.View style={[styles.footer, {backgroundColor: "white"}]} animation="fadeInUpBig">
@@ -41,12 +54,16 @@ const HomeScreen = (props) => {
                 spacing={10}
                 style={styles.gridView}
                 renderItem={({ item }) => (
-                  <TouchableOpacity style={[styles.itemContainer, {backgroundColor: item.color}]}>
-                    <Text style={{marginBottom: 5}}>
-                      <Emoji name={item.icon} style={{fontSize: 50}} />
-                    </Text>
-                    <Text style={styles.itemName}>{item.name}</Text>
-                  </TouchableOpacity>
+                  
+                    <TouchableOpacity>
+                      <LinearGradient colors={[item.color1, item.color2]} style={[styles.itemContainer]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }}>
+                      <Text style={{marginBottom: 10}}>
+                        <Image source={(item.link)} style={{width: item.width, height: item.height }}/>
+                      </Text>
+                      <Text style={styles.itemName}>{item.name}</Text>
+                      </LinearGradient>
+                    </TouchableOpacity>
+              
                 )}
               />
           </Animatable.View>
@@ -66,21 +83,26 @@ const styles = StyleSheet.create({
   header: {
       flex: 1,
       justifyContent: 'center',
-      marginLeft: 20,
-      alignItems: 'flex-start'
+      flexDirection: 'column',
+  },
+  subHeader: {
+    marginTop: 40,
+    marginLeft: 20,
+    alignItems: 'flex-start',
   },
   footer: {
-      flex: 3.5,
+      flex: 2.5,
       backgroundColor: '#fff',
       borderTopLeftRadius: 30,
       borderTopRightRadius: 30,
      // paddingVertical: 270,
-     // paddingHorizontal: 30
+      paddingHorizontal: 5
   },
   title: {
     color: 'aliceblue',
     fontSize: 30,
     fontWeight: 'bold',
+    paddingLeft: 5,
     marginTop: 50
   },
   subText: {
@@ -90,20 +112,32 @@ const styles = StyleSheet.create({
   },
   gridView: {
     flex: 1,
-    marginTop: 15
+    marginTop: 20
   },
   itemContainer: {
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 10,
-    padding: 10,
-    height: 170,
+    //padding: 5,
+    height: height * 0.185,
     //borderColor: '#3498db',
     //borderWidth: 2,
   },
   itemName: {
-    fontSize: 16,
+    fontSize: 17,
     color: 'white',
     fontWeight: 'bold',
   },
+  menu: {
+    marginRight: 20,
+  },
+  search: {
+    justifyContent: 'center',
+    width: height*0.42,
+    borderRadius: 10
+  },
+  searchContainer: {
+    alignItems: 'center',
+    marginTop: 20
+  }
 });
