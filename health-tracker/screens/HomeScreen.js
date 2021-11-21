@@ -54,7 +54,6 @@ const HomeScreen = (props) => {
                 spacing={10}
                 style={styles.gridView}
                 renderItem={({ item }) => (
-                  
                     <TouchableOpacity>
                       <LinearGradient colors={[item.color1, item.color2]} style={[styles.itemContainer]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }}>
                       <Text style={{marginBottom: 10}}>
@@ -117,9 +116,10 @@ const styles = StyleSheet.create({
   itemContainer: {
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 10,
+    borderRadius: 15,
     //padding: 5,
-    height: height * 0.185,
+    height: height * 0.19,
+    width: height * 0.21,
     //borderColor: '#3498db',
     //borderWidth: 2,
   },
