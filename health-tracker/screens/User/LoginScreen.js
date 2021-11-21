@@ -85,7 +85,7 @@ const LoginScreen = (props) => {
 
               <View style={styles.button}>
                   <TouchableOpacity 
-                    onPress={() => props.navigation.navigate('Main')} 
+                    onPress={() => props.navigation.navigate('Home')} 
                     style={styles.logIn}>
                     <LinearGradient colors={['#87cefa', '#4169e1']} style={styles.logIn}>
                         <Text style={[styles.textSign, {color:'#fff'}]}>Sign In</Text>

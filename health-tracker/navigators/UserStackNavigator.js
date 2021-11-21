@@ -8,6 +8,8 @@ import SplashScreen from "../screens/User/SplashScreen";
 import SignUpScreen from "../screens/User/SignUpScreen";
 
 import MainTabNavigator from "../navigators/MainTabNavigator";
+import HomeScreen from "../screens/HomeScreen";
+import DrawerNavigator from "./DrawerNavigator";
 
 const Stack = createStackNavigator();
 
@@ -16,7 +18,6 @@ export default function UserStackNavigator() {
         <Stack.Navigator 
             initialRouteName="SplashScreen"
         >
-
             <Stack.Screen 
                 name="Splash"
                 component={SplashScreen}
@@ -45,15 +46,8 @@ export default function UserStackNavigator() {
                     headerShown: false
                 }}
             />
-            
-             <Stack.Screen 
-                name="Main"
-                component={MainTabNavigator}
-                options={{
-                    headerShown: false
-                }}
-            />
-
+             
         </Stack.Navigator>
     )
 }
+
