@@ -1,15 +1,15 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
-const HealthScreen = (props) => {
+const ReportScreen = (props) => {
   return (
     <View style={styles.container}>
-      <Text>Health Screen</Text>
+      <Text>Reports Screen</Text>
     </View>
   );
 }
 
-export default HealthScreen;
+export default ReportScreen;
 
 const styles = StyleSheet.create({
   container: {
