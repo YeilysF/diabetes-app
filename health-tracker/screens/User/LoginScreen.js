@@ -9,7 +9,7 @@ import { useTheme } from 'react-native-paper';
 const LoginScreen = (props) => {
 
     const [data, setData] = React.useState({
-        fullname: '',
+        name: '',
         password: '',
         isValidUser: true,
         isValidPassword: true,

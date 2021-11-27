@@ -4,7 +4,7 @@ const User = require('../models/User');
 const { default: generateToken } = require('../util/generateToken');
 
 const registerUser = asyncHandler(async (req, res) => {
-    const {fullname, email, password, pic} = req.body;
+    const {name, email, password, pic} = req.body;
 
     const userExists = await User.findOne({ email });
 
@@ -14,7 +14,7 @@ const registerUser = asyncHandler(async (req, res) => {
     }
 
     const user = await User.create({
-        fullname,
+        name,
         email,
         password,
         pic,
@@ -23,7 +23,7 @@ const registerUser = asyncHandler(async (req, res) => {
     if(user) {
         response.status(201).json({
             id_:user._id,
-            fullname:user.fullname,
+            name:user.name,
             email:user.email,
             isAdmin:user.isAdmin,
             pic:user.pic,
