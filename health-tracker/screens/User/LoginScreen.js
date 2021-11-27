@@ -9,7 +9,7 @@ import { useTheme } from 'react-native-paper';
 const LoginScreen = (props) => {
 
     const [data, setData] = React.useState({
-        username: '',
+        fullname: '',
         password: '',
         isValidUser: true,
         isValidPassword: true,
@@ -28,11 +28,11 @@ const LoginScreen = (props) => {
             animation="fadeInUpBig" 
             style={[styles.footer, {backgroundColor: colors.background}]}
           >
-              <Text style={[styles.text_footer, {color: colors.text}]}>Username</Text>
+              <Text style={[styles.text_footer, {color: colors.text}]}>Email</Text>
               <View style={styles.action}>
                   <FontAwesome name="user-o" color={colors.text} size={20} />
                   <TextInput 
-                      placeholder="Username" 
+                      placeholder="Email" 
                       style={[styles.textInput, {color: colors.text}]}
                       autoCapitalize="none"
                   />
@@ -51,7 +51,7 @@ const LoginScreen = (props) => {
 
               { data.isValidUser ? null : 
               <Animatable.View animation="fadeInLeft" duration={500}>
-              <Text style={styles.errorMsg}>Username must be 4 characters long.</Text>
+              <Text style={styles.errorMsg}>Invalid email.</Text>
               </Animatable.View>
               }
 
@@ -67,7 +67,7 @@ const LoginScreen = (props) => {
                   />
                   <TextInput 
                       placeholder="Password"
-                      secureTextEntry={data.secureTextEntry ? true : false}
+                      secureTextEntry={data.secureTextEntry ? false : true}
                       style={[styles.textInput, {color: colors.text}]}
                       autoCapitalize="none"
                   />

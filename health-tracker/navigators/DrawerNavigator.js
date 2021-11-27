@@ -12,6 +12,7 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 
 import DrawerComponent from '../components/DrawerComponent';
+import LoginScreen from '../screens/User/LoginScreen';
 
 const Drawer = createDrawerNavigator();
 
@@ -43,6 +44,17 @@ const DrawerNavigator = (props) => {
                 size={20}
                 color='#6495ed'
               />
+              )
+            }}
+        />
+
+        <Drawer.Screen 
+            name="Sign Out" 
+            component={LoginScreen} 
+            options={{
+              headerShown: false,
+              drawerIcon: () => (
+              <Ionicons name="login" size={20} color='#6495ed'/>
               )
             }}
         />
