@@ -12,90 +12,19 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 
 //Screens
 import HealthScreen from '../screens/HealthScreen';
-import HomeScreen from '../screens/HomeScreen';
-import ProfileScreen from '../screens/User/ProfileScreen'
-import SearchScreen from '../screens/SearchScreen'
+import HomeNavigator from '../navigators/HomeNavigator';
+import ProfileNavigator from '../navigators/ProfileNavigator';
 
 import UserStackNavigator from "./UserStackNavigator";
 import ReportScreen from "../screens/ReportScreen";
-import NotificationScreen from "../screens/NotificationScreen";
+import NotificationScreen from "../screens/Home/NotificationScreen";
+import HomeScreen from "../screens/Home/HomeScreen";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator()
 
-const HealthNavigator = () => {
-  return (
-      <Stack.Navigator>
-          <Stack.Screen 
-              name='Health'
-              component={HealthScreen}
-              options={{
-                  headerShown: false,
-              }}
-          />
-      </Stack.Navigator>
-  )
-}
 
-const HomeNavigator = (props) => {
-  return (
-      <Stack.Navigator>
-          <Stack.Screen 
-              name='Home'
-              component={HomeScreen}
-              options={{
-                headerShown: true,
-                headerTransparent: true,
-                headerTintColor: 'white',
-                headerLeft: () => (
-                  <Icon3 name="menu" color='white' size={25} style={{marginLeft: 23}} onPress={() => props.navigation.openDrawer()}></Icon3>
-                ),
-                headerRight: () => (
-                  <Ionicons name="notifications" color='white' size={25} style={{marginRight: 23}} onPress={() => props.navigation.navigate('Notifications')}></Ionicons>
-                ),
-              }}
-              
-          />
-          <Stack.Screen 
-              name="Notifications" 
-              component={NotificationScreen} 
-              options={{
-                headerShown: true,
-              }}
-          />
-      </Stack.Navigator>
-  )
-}
-
-const ProfileNavigator = () => {
-  return (
-      <Stack.Navigator>
-          <Stack.Screen 
-              name='Profile'
-              component={ProfileScreen}
-              options={{
-                  headerShown: false,
-              }}
-          />
-      </Stack.Navigator>
-  )
-}
-
-const ReportNavigator = () => {
-  return (
-      <Stack.Navigator>
-          <Stack.Screen 
-              name='Report'
-              component={ReportScreen}
-              options={{
-                  headerShown: false,
-              }}
-          />
-      </Stack.Navigator>
-  )
-}
-
-const MainTabNavigator = () => {
+const MainTabNavigator = (props) => {
   return (
     <Tab.Navigator
       initialRouteName="Home"
@@ -107,12 +36,19 @@ const MainTabNavigator = () => {
         //activeTintColor: "#e91e63",
       }}
     >
-
       <Tab.Screen
         name="Home"
-        component={HomeNavigator}
+        component={HomeScreen}
         options={{
-          headerShown: false,
+          headerShown: true,
+          headerTransparent: true,
+          headerTintColor: 'white',
+          headerLeft: () => (
+            <Icon3 name="menu" color='white' size={25} style={{marginLeft: 23}} onPress={() => props.navigation.openDrawer()}></Icon3>
+          ),
+          headerRight: () => (
+            <Ionicons name="notifications" color='white' size={25} style={{marginRight: 23}} onPress={() => props.navigation.navigate('Notifications')}></Ionicons>
+          ),
           tabBarIcon: () => (
             <Icon name="home" color='#6495ed' size={30} />
             ),
@@ -121,9 +57,13 @@ const MainTabNavigator = () => {
 
        <Tab.Screen
         name="Health"
-        component={HealthNavigator}
+        component={HealthScreen}
         options={{
           headerShown: true,
+          headerTransparent: true,
+          headerLeft: () => (
+            <Icon3 name="menu" color='white' size={25} style={{marginLeft: 23}} onPress={() => props.navigation.openDrawer()}></Icon3>
+          ),
           tabBarIcon: () => (
             <Icon name="heartbeat" color='#6495ed' size={30} />
           ),
@@ -132,9 +72,13 @@ const MainTabNavigator = () => {
 
        <Tab.Screen
         name="Report"
-        component={ReportNavigator}
+        component={ReportScreen}
         options={{
           headerShown: true,
+          headerTransparent: true,
+          headerLeft: () => (
+            <Icon3 name="menu" color='white' size={25} style={{marginLeft: 23}} onPress={() => props.navigation.openDrawer()}></Icon3>
+          ),
           tabBarIcon: () => (
             <Icon2 name="notes-medical" color='#6495ed' size={30} />
           ),
@@ -146,6 +90,14 @@ const MainTabNavigator = () => {
         component={ProfileNavigator}
         options={{
           headerShown: true,
+          headerTransparent: true,
+          headerTintColor: 'white',  
+          headerLeft: () => (
+            <Icon3 name="menu" color='white' size={25} style={{marginLeft: 23}} onPress={() => props.navigation.openDrawer()}></Icon3>
+          ), 
+          headerRight: () => (
+            <Icon2 name="edit" color='white' size={25} style={{marginRight: 23}} onPress={() => alert('Edit Profile')}></Icon2>
+          ),
           tabBarIcon: () => (
             <Icon name="user" color='#6495ed' size={30} />
           ),

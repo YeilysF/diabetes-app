@@ -40,16 +40,9 @@ const HomeScreen = (props) => {
               <Emoji name="wave" style={{fontSize: 30}} />
               </Text>
           </View> */}
-          <View style={{ alignSelf: "center" }}>
-              <View style={styles.profileImage}>
-                  <Image source={require("../../assets/defaultProfilePic.jpg")} style={styles.image} resizeMode="center"></Image>
-              </View>
-          </View>
-
-          <View style={styles.nameContainer}>
-              <Text style={[styles.title, { fontWeight: "200", fontSize: 36 }]}>First and Last Name</Text>
-              <Text style={[styles.title, styles.subText]}>useremail@mail.com</Text>
-          </View>
+              <Image source={require("../../assets/defaultProfilePic.jpg")} style={styles.profileImage} resizeMode="center"></Image>
+              <Text style={[styles.title, { fontWeight: "bold", fontSize: 24, marginTop: 5 }]}>First and Last Name</Text>
+              <Text style={[styles.subText]}>useremail@mail.com</Text>
         </View>
 
           <Animatable.View style={[styles.footer, {backgroundColor: "white"}]} animation="fadeInUpBig">
@@ -57,16 +50,6 @@ const HomeScreen = (props) => {
               Weight
               edit profile */}
           </Animatable.View>
-          <View style={styles.button}>   
-                  <TouchableOpacity 
-                    //onPress={() => props.navigation.navigate('Sign Up')}
-                    style={[styles.editprofile]}
-                  >
-                    <LinearGradient colors={['#87cefa', '#4169e1']} style={styles.editprofile}>
-                        <Text style={[styles.textSign, {color:'#fff'}]}>Edit Profile</Text>
-                    </LinearGradient>
-                  </TouchableOpacity>                  
-              </View>
         </LinearGradient>
       </View>
     );
@@ -83,6 +66,7 @@ const styles = StyleSheet.create({
   header: {
       flex: 1,
       justifyContent: 'center',
+      alignItems: 'center',
       flexDirection: 'column',
   },
   subHeader: {
@@ -91,7 +75,8 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
   },
   footer: {
-      flex: 2.5,
+      flex: 2.1,
+      marginTop: 15,
       backgroundColor: '#fff',
       borderTopLeftRadius: 30,
       borderTopRightRadius: 30,
@@ -118,26 +103,20 @@ const styles = StyleSheet.create({
     marginTop: -50
   
   },
-  image: {
-    flex: 1,
-    height: undefined,
-    width: undefined
-  },
   profileImage: {
-        top: 0,
-        width: 120,
-        height: 120,
-        borderRadius: 20,
-        overflow: "hidden"
+        width: 110,
+        height: 110,
+        borderRadius: 60,
+        marginTop: '23%'
   },
   textSign: {
     fontSize: 18,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
   },
   subText: {
     color: 'aliceblue',
-    fontSize: 20,
-    marginTop: -5
+    fontSize: 17,
+    marginTop: 5,
   },
   gridView: {
     flex: 1,

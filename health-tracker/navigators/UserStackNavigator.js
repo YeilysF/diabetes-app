@@ -7,7 +7,7 @@ import SplashScreen from "../screens/User/SplashScreen";
 import SignUpScreen from "../screens/User/SignUpScreen";
 
 import MainTabNavigator from "../navigators/MainTabNavigator";
-import HomeScreen from "../screens/HomeScreen";
+import HomeScreen from "../screens/Home/HomeScreen";
 import DrawerNavigator from "./DrawerNavigator";
 
 const Stack = createStackNavigator();
