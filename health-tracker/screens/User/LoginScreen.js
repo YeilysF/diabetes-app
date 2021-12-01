@@ -34,7 +34,7 @@ const LoginScreen = (props) => {
         }
     }
     const [data, setData] = React.useState({
-        username: '',
+        name: '',
         password: '',
         isValidUser: true,
         isValidPassword: true,
@@ -53,7 +53,7 @@ const LoginScreen = (props) => {
             animation="fadeInUpBig" 
             style={[styles.footer, {backgroundColor: colors.background}]}
           >
-              <Text style={[styles.text_footer, {color: colors.text}]}>Username</Text>
+              <Text style={[styles.text_footer, {color: colors.text}]}>Email</Text>
               <View style={styles.action}>
                   <FontAwesome name="user-o" color={colors.text} size={20} />
                   <TextInput 
@@ -78,7 +78,7 @@ const LoginScreen = (props) => {
 
               { data.isValidUser ? null : 
               <Animatable.View animation="fadeInLeft" duration={500}>
-              <Text style={styles.errorMsg}>Username must be 4 characters long.</Text>
+              <Text style={styles.errorMsg}>Invalid email.</Text>
               </Animatable.View>
               }
 

@@ -76,8 +76,7 @@ router.put('/:id',async (req, res)=> {
     const user = await User.findByIdAndUpdate(
         req.params.id,
         {
-            fullname: req.body.fullname,
-            username: req.body.username,
+            name: req.body.name,
             email: req.body.email,
             password: req.body.password,
             diabetesType: req.body.diabetesType,
