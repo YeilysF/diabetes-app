@@ -5,11 +5,36 @@ import { LinearGradient } from 'expo-linear-gradient'
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
 import { useTheme } from 'react-native-paper';
+import axios from 'axios';
 
 const LoginScreen = (props) => {
+    const [username, setUsername] = React.useState("")
+    const [password, setPassword] = React.useState("")
+    const [error, setError] = React.useState(false)
+    const [loading, setLoading] = React.useState(false)
+    axios.defaults.baseURL = "http://localhost:3000"
+    const signInHandler = async (e) => {
+        e.preventDefault()
+        
+        try{
+            const config = {
+                headers: {
+                    "Content-type":"application/json"
+                }
+            }
 
+            setLoading(true)
+            setError(false);
+            const { data } = await axios.post('api/v1/Users/login',{username,password},config)
+            setLoading(false)
+            console.log(data)
+
+        }catch(error){
+            setError(true);
+        }
+    }
     const [data, setData] = React.useState({
-        username: '',
+        name: '',
         password: '',
         isValidUser: true,
         isValidPassword: true,
@@ -28,10 +53,12 @@ const LoginScreen = (props) => {
             animation="fadeInUpBig" 
             style={[styles.footer, {backgroundColor: colors.background}]}
           >
-              <Text style={[styles.text_footer, {color: colors.text}]}>Username</Text>
+              <Text style={[styles.text_footer, {color: colors.text}]}>Email</Text>
               <View style={styles.action}>
                   <FontAwesome name="user-o" color={colors.text} size={20} />
                   <TextInput 
+                      onChange={(e)=> setUsername(e.target.value)}
+                      value = {username}
                       placeholder="Username" 
                       style={[styles.textInput, {color: colors.text}]}
                       autoCapitalize="none"
@@ -51,7 +78,7 @@ const LoginScreen = (props) => {
 
               { data.isValidUser ? null : 
               <Animatable.View animation="fadeInLeft" duration={500}>
-              <Text style={styles.errorMsg}>Username must be 4 characters long.</Text>
+              <Text style={styles.errorMsg}>Invalid email.</Text>
               </Animatable.View>
               }
 
@@ -66,8 +93,10 @@ const LoginScreen = (props) => {
                       size={20}
                   />
                   <TextInput 
+                      onChange={(e)=> setPassword(e.target.value)}
+                      value = {password}
                       placeholder="Password"
-                      secureTextEntry={data.secureTextEntry ? true : false}
+                      secureTextEntry={true}
                       style={[styles.textInput, {color: colors.text}]}
                       autoCapitalize="none"
                   />
@@ -82,10 +111,11 @@ const LoginScreen = (props) => {
               <TouchableOpacity>
                   <Text style={{color: '#4169e1', marginTop:15}}>Forgot password?</Text>
               </TouchableOpacity>
+              {error && <Text style={{color: '#FF0000', marginTop:15}}>Invalid Username or Password</Text> }
 
               <View style={styles.button}>
                   <TouchableOpacity 
-                    onPress={() => props.navigation.navigate('Home')} 
+                    onPress={signInHandler}
                     style={styles.logIn}>
                     <LinearGradient colors={['#87cefa', '#4169e1']} style={styles.logIn}>
                         <Text style={[styles.textSign, {color:'#fff'}]}>Sign In</Text>

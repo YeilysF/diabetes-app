@@ -2,7 +2,6 @@ import React from "react";
 import { createStackNavigator } from '@react-navigation/stack';
 
 import LoginScreen from '../screens/User/LoginScreen';
-import RegistrationScreen from '../screens/User/RegistrationScreen';
 //import ProfileScreen from '../screens/User/ProfileScreen';
 import SplashScreen from "../screens/User/SplashScreen";
 import SignUpScreen from "../screens/User/SignUpScreen";
@@ -38,15 +37,7 @@ export default function UserStackNavigator() {
                 options={{
                     headerShown: false,
                 }}
-            />
-             <Stack.Screen 
-                name="Registration"
-                component={RegistrationScreen}
-                options={{
-                    headerShown: false
-                }}
-            />
-             
+            />             
         </Stack.Navigator>
     )
 }
