@@ -63,7 +63,7 @@ function DrawerComponent(props) {
                         <Icon name="exit-to-app" size={20} color='#6495ed'/>
                     )}
                     label="Sign Out"
-                    onPress={() => alert('Sign Out')}
+                    onPress={() => props.navigation.navigate('Login')}
                 />
             </Drawer.Section>
         </View>

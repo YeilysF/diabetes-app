@@ -24,8 +24,7 @@ router.get('/:id', async(req,res)=>{
 //create a new user
 router.post(`/`, async (req, res) => {
     const user = new User({
-        fullname: req.body.fullname,
-        username: req.body.username,
+        name: req.body.name,
         email: req.body.email,
         password: req.body.password,
         diabetesType: req.body.diabetesType,
@@ -46,8 +45,7 @@ router.put('/:id',async (req, res)=> {
     const user = await User.findByIdAndUpdate(
         req.params.id,
         {
-            fullname: req.body.fullname,
-            username: req.body.username,
+            name: req.body.name,
             email: req.body.email,
             password: req.body.password,
             diabetesType: req.body.diabetesType,
