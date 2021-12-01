@@ -11,4 +11,15 @@ const UserSchema = mongoose.Schema({
     isAdmin: {type: Boolean, default: false},
 });
 
+/*const registerUser = async (req, res) =>{
+    const{fullname, username, email,password,diabetesType,weight,country,isAdmin} = req.body;
+    res.json(
+        {
+            fullname,email,
+        }
+    );
+    res.status(4500);
+};
+module.exports = {registerUser};*/
+
 exports.User = mongoose.model('User', UserSchema);

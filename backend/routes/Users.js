@@ -1,6 +1,9 @@
 const { User } = require('../models/User');
+const { registerUser } = require('../models/User');
 const express = require('express');
 const router = express.Router();
+
+//router.route("/").post(registerUser);
 
 //get users list
 router.get(`/`, async (req, res) => {
@@ -23,22 +26,49 @@ router.get('/:id', async(req,res)=>{
 
 //create a new user
 router.post(`/`, async (req, res) => {
-    const user = new User({
+    let user = new User({
         fullname: req.body.fullname,
         username: req.body.username,
         email: req.body.email,
         password: req.body.password,
         diabetesType: req.body.diabetesType,
         weight: req.body.weight,
-        isAdmin: req.body.isAdmin,
-        country: req.body.country
+        country: req.body.country,
+        isAdmin: req.body.isAdmin
     })
-    user = await user.save();
+    const userExists = await User.findOne({username:req.body.username}); 
 
+    if(userExists){
+        return res.status(404).send('user Already Exists');
+    }else{
+        user = await user.save();
+    }
+     
     if(!user)
     return res.status(404).send('the user cannot be created');
 
     res.send(user);
+});
+
+//login a user
+router.post(`/login`, async (req, res) => {
+    const {username, password} = req.body;
+    const user = await User.findOne({username:username});
+
+    if(user && (await user.password == password)){
+        res.json({
+        fullname: user.fullname,
+        username: user.username,
+        email: user.email,
+        password: user.password,
+        diabetesType: user.diabetesType,
+        weight: user.weight,
+        country: user.country,
+        isAdmin: user.isAdmin
+        })
+    }else{
+        return res.status(404).send('Invalid username or password');
+    }
 });
 
 //update user info
