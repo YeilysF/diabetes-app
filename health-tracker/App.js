@@ -16,14 +16,14 @@ LogBox.ignoreAllLogs(true);
 
 export default function App() {
 
-  const [userToken, setUserToken] = React.useState(true);
+  const [userToken, setUserToken] = React.useState(false);
 
   const Root = createStackNavigator();
   
   return (
     //Use this to change between the Login Screens and the Home Screens
     //Only need to change userToken to "false"
-    <NavigationContainer>
+    <NavigationContainer >
       {userToken ? 
       (
         <DrawerNavigator/>
