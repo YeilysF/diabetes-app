@@ -19,12 +19,12 @@ const HomeScreen = (props) => {
     const onChangeSearch = query => setSearchQuery(query);
 
     const [items, setItems] = React.useState([
-      { name: 'MEDICATIONS', link: require('../assets/images/2.png'), color1: '#87cefa', color2: '#6495ed', width: 140, height: 70},
-      { name: 'GLUCOSE', link: require('../assets/images/1.png'), color1: '#f08080', color2: '#cd5c5c', width: 120, height: 70},
-      { name: 'INSULIN', link: require('../assets/images/3.png'), color1: '#20b2aa', color2: '#48d1cc', width: 140, height: 70},
-      { name: 'BLOOD PRESSURE', link: require('../assets/images/6.png'), color1: '#4682b4', color2: '#1e90ff', width: 140, height: 70},
-      { name: 'NUTRITION', link: require('../assets/images/7.png'), color1: '#daa520', color2: '#ffd700', width: 150, height: 70}, 
-      { name: 'EXERCISE', link: require('../assets/images/8.png'), color1: '#b0c4de', color2: '#4682b4', width: 150, height: 70},
+      { name: 'MEDICATIONS', link: require('../../assets/images/2.png'), color1: '#87cefa', color2: '#6495ed', width: 140, height: 70, screen: "Medications"},
+      { name: 'GLUCOSE', link: require('../../assets/images/1.png'), color1: '#f08080', color2: '#cd5c5c', width: 120, height: 70, screen: "Glucose"},
+      { name: 'INSULIN', link: require('../../assets/images/3.png'), color1: '#20b2aa', color2: '#48d1cc', width: 140, height: 70, screen: "Insulin"},
+      { name: 'BLOOD PRESSURE', link: require('../../assets/images/6.png'), color1: '#4682b4', color2: '#1e90ff', width: 140, height: 70, screen: "Blood Pressure"},
+      { name: 'NUTRITION', link: require('../../assets/images/7.png'), color1: '#daa520', color2: '#ffd700', width: 150, height: 70, screen: "Nutrition"}, 
+      { name: 'EXERCISE', link: require('../../assets/images/8.png'), color1: '#b0c4de', color2: '#4682b4', width: 150, height: 70, screen: "Exercise"},
     ])
 
     return (
@@ -54,7 +54,9 @@ const HomeScreen = (props) => {
                 spacing={10}
                 style={styles.gridView}
                 renderItem={({ item }) => (
-                    <TouchableOpacity>
+                    <TouchableOpacity
+                    onPress={()=>props.navigation.navigate(item.screen)}
+                    >
                       <LinearGradient colors={[item.color1, item.color2]} style={[styles.itemContainer]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }}>
                       <Text style={{marginBottom: 10}}>
                         <Image source={(item.link)} style={{width: item.width, height: item.height }}/>

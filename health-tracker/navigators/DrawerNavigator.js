@@ -5,7 +5,7 @@ import { NavigationContainer } from '@react-navigation/native';
 
 //screens
 import AdminScreen from "../screens/Admin/AdminScreen";
-import NotificationScreen from '../screens/NotificationScreen';
+import NotificationScreen from '../screens/Home/NotificationScreen';
 import MainTabNavigator from "../navigators/MainTabNavigator";
 
 import Ionicons from "react-native-vector-icons/Ionicons";
@@ -13,6 +13,7 @@ import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 
 import DrawerComponent from '../components/DrawerComponent';
 import LoginScreen from '../screens/User/LoginScreen';
+import HomeNavigator from './HomeNavigator';
 
 const Drawer = createDrawerNavigator();
 
@@ -24,9 +25,9 @@ const DrawerNavigator = (props) => {
         >
         <Drawer.Screen 
             name="Home" 
-            component={MainTabNavigator} 
+            component={HomeNavigator} 
             options={{
-              headerShown: false,
+             headerShown: false,
               drawerIcon: () => (
               <Ionicons name="home" size={20} color='#6495ed'/>
               )
@@ -44,17 +45,6 @@ const DrawerNavigator = (props) => {
                 size={20}
                 color='#6495ed'
               />
-              )
-            }}
-        />
-
-        <Drawer.Screen 
-            name="Sign Out" 
-            component={LoginScreen} 
-            options={{
-              headerShown: false,
-              drawerIcon: () => (
-              <Ionicons name="login" size={20} color='#6495ed'/>
               )
             }}
         />

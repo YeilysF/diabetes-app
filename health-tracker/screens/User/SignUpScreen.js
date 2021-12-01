@@ -9,10 +9,11 @@ import { useTheme } from 'react-native-paper';
 const LoginScreen = (props) => {
 
     const [data, setData] = React.useState({
-        name: '',
+        firstname: '',
         lastName:  '',
+        email: '',
         password: '',
-        verifyPassword: '',
+        confirm_password: '',
         isValidEmail: true,
         isValidPassword: true,      
     });
@@ -30,7 +31,7 @@ const LoginScreen = (props) => {
             animation="fadeInUpBig" 
             style={[styles.footer, {backgroundColor: colors.background}]}
           >
-                <Text style={[styles.text_footer, {color: colors.text, marginTop: 2}]}>Name</Text>
+                <Text style={[styles.text_footer, {color: colors.text, marginTop: 2}]}>First Name</Text>
                 <View style={styles.action}>
                     <FontAwesome name="user-o" color={colors.text} size={20} />
                     <TextInput 
@@ -109,7 +110,7 @@ const LoginScreen = (props) => {
 
                 <Text style={[styles.text_footer, {
                     color: colors.text,
-                }]}>Verify Password</Text>
+                }]}>Confirm Password</Text>
                 <View style={styles.action}>
                     <Feather 
                         name="lock"
@@ -127,7 +128,7 @@ const LoginScreen = (props) => {
                 <View style={styles.button}>
                     
                     <TouchableOpacity 
-                        onPress={() => props.navigation.navigate('Sign Up')}
+                        onPress={() => signUp()}
                         style={[styles.logIn, {borderColor: '#4169e1',borderWidth: 1,marginTop: 15}]}
                     >
                         <LinearGradient colors={['#87cefa', '#4169e1']} style={styles.logIn}>

@@ -4,7 +4,7 @@ import { StyleSheet, Text, View } from 'react-native';
 const NotificationScreen = (props) => {
   return (
     <View style={styles.container}>
-      <Text>Notifications Screen</Text>
+      <Text>No New Notifications!</Text>
     </View>
   );
 }
