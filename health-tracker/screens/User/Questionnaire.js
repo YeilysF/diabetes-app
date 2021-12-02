@@ -5,16 +5,22 @@ import { LinearGradient } from 'expo-linear-gradient'
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
 import { useTheme } from 'react-native-paper';
+import axios from 'axios';
 
-const LoginScreen = (props) => {
+const Questionnaire = (props) => {
 
-    //Hooks for user input 
-    const [fullname, setFullname] = React.useState("")
-    const [username, setUsername] = React.useState("")
-    const [email, setEmail] = React.useState("")
-    const [password, setPassword] = React.useState("")
-    const [password2, setPassword2] = React.useState("")
+    //hooks for user input
+    const username = props.route.params.username 
+    const fullname = props.route.params.fullname
+    const email = props.route.params.email 
+    const password = props.route.params.password
+    const isAdmin = false
+    const [diabetesType, setDiabetesType] = React.useState("")
+    const [weight, setWeight] = React.useState("")
+    const [country, setCountry] = React.useState("")
 
+    //axios.defaults.baseURL = "http://10.0.2.2:3000"   //android emulator 
+    axios.defaults.baseURL = "http://localhost:3000"  //IOS and Web 
 
     const [data, setData] = React.useState({
         name: '',
@@ -24,39 +30,44 @@ const LoginScreen = (props) => {
         isValidEmail: true,
         isValidPassword: true,      
     });
-
+    
     const { colors } = useTheme();
 
-    const nextHandler = async (e) => {
-
-        // once the passwords have been verified go to the next page passing it all the variables
-        if(password == password2){
-            props.navigation.navigate('Questionnaire',{
-                fullname : fullname,
-                username : username,
-                email : email,
-                password : password
-            })
-        }
+    const registerHandler = async (e) => {
+        e.preventDefault()
+        try{
+            const config = {
+                headers: {
+                    "Content-type":"application/json"
+                }
+            }
+            //console.log("::"+username+password+"::" )
+            const { data } = await axios.post('api/v1/Users/',{fullname,username,email,password,diabetesType,weight,country,isAdmin},config)
+            props.navigation.navigate('Login')
         
+        }catch(error){
+            console.log("there has been an error creating the user")
+        }
     }
+
     return (
       <View style={styles.container}>
           <StatusBar backgroundColor='#009387' barStyle="light-content"/>
           <LinearGradient colors={['#87cefa', '#4169e1']} style={styles.container} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }}>
           <View style={styles.header}>
-              <Text style={styles.text_header}>Create Account</Text>
+              <Text style={styles.text_header}>Questionnaire</Text>
           </View>
           <Animatable.View 
             animation="fadeInUpBig" 
             style={[styles.footer, {backgroundColor: colors.background}]}
           >
-              <Text style={[styles.text_footer, {color: colors.text}]}>Full Name</Text>
+              <Text style={[styles.text_footer, {color: colors.text}]}>Diabetes type</Text>
+              
               <View style={styles.action}>
-                  <FontAwesome name="user-o" color={colors.text} size={20} />
+                  <FontAwesome name="medkit" color={colors.text} size={20} />
                   <TextInput 
-                      onChangeText={(e)=> setFullname(e)}
-                      placeholder="Full Name" 
+                      onChangeText={(e)=> setDiabetesType(e)}
+                      placeholder="Diabetes Type" 
                       secureTextEntry={data.secureTextEntry ? true : false}
                       style={[styles.textInput, {color: colors.text}]}
                       autoCapitalize="none"
@@ -77,12 +88,12 @@ const LoginScreen = (props) => {
               <Text style={[styles.text_footer, {
                   color: colors.text,
                   marginTop: 35
-              }]}>Username</Text>
+              }]}>Weight</Text>
               <View style={styles.action}>
-                <FontAwesome name="user-o" color={colors.text} size={20} />
+                <FontAwesome name="dashboard" color={colors.text} size={20} />
                   <TextInput 
-                      onChangeText={(e)=> setUsername(e)}
-                      placeholder="Username"
+                      onChangeText={(e)=> setWeight(e)}
+                      placeholder="Weight"
                       secureTextEntry={data.secureTextEntry ? true : false}
                       style={[styles.textInput, {color: colors.text}]}
                       autoCapitalize="none"
@@ -92,82 +103,30 @@ const LoginScreen = (props) => {
               <Text style={[styles.text_footer, {
                   color: colors.text,
                   marginTop: 35
-              }]}>Email</Text>
+              }]}>Country</Text>
               <View style={styles.action}>
-                <FontAwesome name="envelope-open-o" color={colors.text} size={20} /> 
+                <FontAwesome name="globe" color={colors.text} size={20} /> 
                   <TextInput 
-                      onChangeText={(e)=> setEmail(e)}
-                      placeholder="Email"
+                      onChangeText={(e)=> setCountry(e)}
+                      placeholder="Country"
                       secureTextEntry={data.secureTextEntry ? true : false}
                       style={[styles.textInput, {color: colors.text}]}
                       autoCapitalize="none"
                   />
               </View>
-
-              { data.isValidEmail ? null : 
-              <Animatable.View animation="fadeInLeft" duration={500}>
-              <Text style={styles.errorMsg}>Invalid email.</Text>
-              </Animatable.View>
-              }
-
-              <Text style={[styles.text_footer, {
-                  color: colors.text,
-                  marginTop: 35
-              }]}>Password</Text>
-              <View style={styles.action}>
-                  <Feather 
-                      name="lock"
-                      color={colors.text}
-                      size={20}
-                  />
-                  <TextInput 
-                      onChangeText={(e)=> setPassword(e)}
-                      placeholder="Password"
-                      secureTextEntry={data.secureTextEntry ? false : true}
-                      style={[styles.textInput, {color: colors.text}]}
-                      autoCapitalize="none"
-                  />
-              </View>
-
-              { data.isValidPassword ? null : 
-              <Animatable.View animation="fadeInLeft" duration={500}>
-              <Text style={styles.errorMsg}>Password must be 8 characters long.</Text>
-              </Animatable.View>
-              }
-
-              <Text style={[styles.text_footer, {
-                  color: colors.text,
-                  marginTop: 35
-              }]}>Verify Password</Text>
-              <View style={styles.action}>
-                  <Feather 
-                      name="lock"
-                      color={colors.text}
-                      size={20}
-                  />
-                  <TextInput 
-                  onChangeText={(e)=> setPassword2(e)}
-                      placeholder="Verify Password"
-                      secureTextEntry={data.secureTextEntry ? false : true}
-                      style={[styles.textInput, {color: colors.text}]}
-                      autoCapitalize="none"
-                  />
-              </View>
-
               <View style={styles.button}>
                   
                   <TouchableOpacity 
-                    //onPress={() => props.navigation.navigate('Questionnaire')}
-                    onPress={nextHandler}
+                    onPress={registerHandler}
                     style={[styles.logIn, {borderColor: '#4169e1',borderWidth: 1,marginTop: 15}]}
                   >
                     <LinearGradient colors={['#87cefa', '#4169e1']} style={styles.logIn}>
-                        <Text style={[styles.textSign, {color:'#fff'}]}>Next</Text>
+                        <Text style={[styles.textSign, {color:'#fff'}]}>Sign Up</Text>
                     </LinearGradient>
                   </TouchableOpacity>
 
                   <TouchableOpacity 
-                    onPress={() => props.navigation.navigate('Login')}
+                    onPress={() => props.navigation.navigate('Sign Up')}
                     style={[styles.logIn, {borderColor: '#4169e1',borderWidth: 1,marginTop: 15}]}
                   >
                       <Text style={[styles.textSign, {color: '#4169e1'}]}>Back</Text>
@@ -180,7 +139,7 @@ const LoginScreen = (props) => {
     );
 };
 
-export default LoginScreen;
+export default Questionnaire;
 
 const styles = StyleSheet.create({
   container: {
