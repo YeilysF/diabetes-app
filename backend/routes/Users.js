@@ -52,9 +52,10 @@ router.post(`/`, async (req, res) => {
 
 //login a user
 router.post(`/login`, async (req, res) => {
+
     const {username, password} = req.body;
     const user = await User.findOne({username:username});
-
+    console.log(username)
     if(user && (await user.password == password)){
         res.json({
         fullname: user.fullname,
@@ -67,6 +68,9 @@ router.post(`/login`, async (req, res) => {
         isAdmin: user.isAdmin
         })
     }else{
+        //console.log(user.password)
+        //console.log(password)
+        //console.log(username)
         return res.status(404).send('Invalid username or password');
     }
 });
@@ -84,11 +88,31 @@ router.put('/:id',async (req, res)=> {
             weight: req.body.weight,
             isAdmin: req.body.isAdmin
         },
-        { new: true}
+        {returnOriginal:false}
     )
 
     if(!user)
     return res.status(400).send('the user cannot be created')
+
+    res.send(user);
+})
+
+//update user password
+router.post('/UpdatePassword',async (req, res)=> {
+
+    const {username, newPassword} = req.body;
+    console.log(username,newPassword+"!!!!!!")
+    const user = await User.findOneAndUpdate(
+        {
+            username:username
+        },
+        { 
+             password: newPassword
+        }
+    )
+
+    if(!user)
+    return res.status(400).send('The user was not found')
 
     res.send(user);
 })

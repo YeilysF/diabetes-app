@@ -12,10 +12,12 @@ const LoginScreen = (props) => {
     const [password, setPassword] = React.useState("")
     const [error, setError] = React.useState(false)
     const [loading, setLoading] = React.useState(false)
-    axios.defaults.baseURL = "http://localhost:3000"
+
+    //axios.defaults.baseURL = "http://10.0.2.2:3000"   //android emulator 
+    axios.defaults.baseURL = "http://localhost:3000"  //IOS and Web 
+
     const signInHandler = async (e) => {
         e.preventDefault()
-        
         try{
             const config = {
                 headers: {
@@ -25,10 +27,13 @@ const LoginScreen = (props) => {
 
             setLoading(true)
             setError(false);
+            console.log("::"+username+password+"::" )
+            
             const { data } = await axios.post('api/v1/Users/login',{username,password},config)
+            
             setLoading(false)
             console.log(data)
-
+        
         }catch(error){
             setError(true);
         }
@@ -57,7 +62,7 @@ const LoginScreen = (props) => {
               <View style={styles.action}>
                   <FontAwesome name="user-o" color={colors.text} size={20} />
                   <TextInput 
-                      onChange={(e)=> setUsername(e.target.value)}
+                      onChangeText={(e)=> setUsername(e)}
                       value = {username}
                       placeholder="Username" 
                       style={[styles.textInput, {color: colors.text}]}
@@ -93,7 +98,7 @@ const LoginScreen = (props) => {
                       size={20}
                   />
                   <TextInput 
-                      onChange={(e)=> setPassword(e.target.value)}
+                      onChangeText={(e)=> setPassword(e)}
                       value = {password}
                       placeholder="Password"
                       secureTextEntry={true}
@@ -108,7 +113,8 @@ const LoginScreen = (props) => {
               </Animatable.View>
               }
         
-              <TouchableOpacity>
+              <TouchableOpacity
+              onPress={() => props.navigation.navigate('Forgot Password')}>
                   <Text style={{color: '#4169e1', marginTop:15}}>Forgot password?</Text>
               </TouchableOpacity>
               {error && <Text style={{color: '#FF0000', marginTop:15}}>Invalid Username or Password</Text> }

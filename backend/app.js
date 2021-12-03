@@ -1,4 +1,5 @@
 const express = require("express");
+const bodyParser = require('body-parser')
 const app = express();
 const cors = require("cors");
 const morgan = require('morgan');
@@ -20,11 +21,14 @@ const UserRoutes = require('./routes/Users');
 const FoodRoutes = require('./routes/Foods');
 const MealRoutes = require('./routes/Meals');
 const NutritionRoutes = require('./routes/Nutritions');
+const GlucoseRoutes = require('./routes/Glucose');
+
 
 app.use(`${api}/Users`, UserRoutes);
 app.use(`${api}/Foods`, FoodRoutes);
 app.use(`${api}/Meals`, MealRoutes);
 app.use(`${api}/Nutritions`, NutritionRoutes);
+app.use(`${api}/Glucose`, GlucoseRoutes);
 
 //Database connection
 mongoose.connect(process.env.CONNECTION_DB, {
