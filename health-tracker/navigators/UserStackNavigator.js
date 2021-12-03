@@ -8,7 +8,7 @@ import SignUpScreen from "../screens/User/SignUpScreen";
 import Questionnaire from "../screens/User/Questionnaire";
 
 import MainTabNavigator from "../navigators/MainTabNavigator";
-import HomeScreen from "../screens/HomeScreen";
+import HomeScreen from "../screens/Home/HomeScreen";
 import DrawerNavigator from "./DrawerNavigator";
 import ForgotPassword from "../screens/User/ForgotPassword";
 

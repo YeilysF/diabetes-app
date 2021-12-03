@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, TextInput, Platform, StyleSheet, StatusBar, Alert } from 'react-native';
+import { View, Text, TouchableOpacity, TextInput, Platform, StyleSheet, StatusBar, Alert, Dimensions } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import { LinearGradient } from 'expo-linear-gradient'
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -17,10 +17,11 @@ const LoginScreen = (props) => {
 
 
     const [data, setData] = React.useState({
-        name: '',
+        firstname: '',
         lastName:  '',
+        email: '',
         password: '',
-        verifyPassword: '',
+        confirm_password: '',
         isValidEmail: true,
         isValidPassword: true,      
     });
@@ -45,7 +46,7 @@ const LoginScreen = (props) => {
           <StatusBar backgroundColor='#009387' barStyle="light-content"/>
           <LinearGradient colors={['#87cefa', '#4169e1']} style={styles.container} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }}>
           <View style={styles.header}>
-              <Text style={styles.text_header}>Create Account</Text>
+              <Text style={styles.text_header}>Create an Account</Text>
           </View>
           <Animatable.View 
             animation="fadeInUpBig" 
@@ -104,11 +105,11 @@ const LoginScreen = (props) => {
                   />
               </View>
 
-              { data.isValidEmail ? null : 
-              <Animatable.View animation="fadeInLeft" duration={500}>
-              <Text style={styles.errorMsg}>Invalid email.</Text>
-              </Animatable.View>
-              }
+                { data.isValidEmail ? null : 
+                <Animatable.View animation="fadeInLeft" duration={500}>
+                <Text style={styles.errorMsg}>Invalid email.</Text>
+                </Animatable.View>
+                }
 
               <Text style={[styles.text_footer, {
                   color: colors.text,
@@ -129,11 +130,11 @@ const LoginScreen = (props) => {
                   />
               </View>
 
-              { data.isValidPassword ? null : 
-              <Animatable.View animation="fadeInLeft" duration={500}>
-              <Text style={styles.errorMsg}>Password must be 8 characters long.</Text>
-              </Animatable.View>
-              }
+                { data.isValidPassword ? null : 
+                <Animatable.View animation="fadeInLeft" duration={500}>
+                <Text style={styles.errorMsg}>Password must be 8 characters long.</Text>
+                </Animatable.View>
+                }
 
               <Text style={[styles.text_footer, {
                   color: colors.text,
@@ -182,10 +183,13 @@ const LoginScreen = (props) => {
 
 export default LoginScreen;
 
+const {height} = Dimensions.get('screen');
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#009387'
+    backgroundColor: '#009387',
+    height: "100%"
 },
 text: {
     fontFamily: "HelveticaNeue",
@@ -248,12 +252,10 @@ add: {
 infoContainer: {
     alignSelf: "center",
     alignItems: "center",
-    marginTop: 16
 },
 statsContainer: {
     flexDirection: "row",
     alignSelf: "center",
-    marginTop: 32
 },
 statsBox: {
     alignItems: "center",
@@ -307,19 +309,20 @@ activityIndicator: {
     marginRight: 20
 },
   header: {
-      flex: 1,
-      justifyContent: 'flex-end',
-      paddingHorizontal: 20,
-      paddingBottom: 10
+    flex: 1,
+    justifyContent: 'flex-end',
+    paddingHorizontal: 20,
+    paddingBottom: 40,
   },
   footer: {
-      flex: 3,
+      flex: 4,
       backgroundColor: '#fff',
       borderTopLeftRadius: 30,
       borderTopRightRadius: 30,
       paddingHorizontal: 20,
-      paddingVertical: 20
+      paddingVertical: '5%',
   },
+
   text_header: {
       color: '#fff',
       fontWeight: 'bold',
@@ -327,14 +330,15 @@ activityIndicator: {
   },
   text_footer: {
       color: '#05375a',
-      fontSize: 18
+      fontSize: 18,
+      marginTop: height * 0.025
   },
   action: {
       flexDirection: 'row',
-      marginTop: 10,
+      marginTop: 4,
       borderBottomWidth: 1,
       borderBottomColor: '#f2f2f2',
-      paddingBottom: 5
+      paddingBottom: height * 0.01
   },
   textInput: {
       flex: 1,
@@ -348,7 +352,7 @@ activityIndicator: {
   },
   button: {
       alignItems: 'center',
-      marginTop: 50
+      marginTop: height * 0.01,
   },
   logIn: {
       width: '100%',

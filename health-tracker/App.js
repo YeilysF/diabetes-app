@@ -16,7 +16,7 @@ LogBox.ignoreAllLogs(true);
 
 export default function App() {
 
-  const [userToken, setUserToken] = React.useState(false);
+  const [userToken, setUserToken] = React.useState(true);
 
   const Root = createStackNavigator();
   
