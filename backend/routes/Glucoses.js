@@ -2,28 +2,29 @@ const { Glucose } = require('../models/Glucose');
 const express = require('express');
 const router = express.Router();
 
-
-//add a new glucose level 
 router.post(`/`, async (req, res) => {
     let glucose = new Glucose({
         username: req.body.username,
-        level: req.body.level,
-        time: Date.now(), 
+        glucoseLevel: req.body.glucoseLevel,
+        timeOfDay: req.body.timeOfDay,
+        dateCreated: Date.now(), 
+        description: req.body.description
     })
     glucose = await glucose.save();
+
+    if(!glucose)
+    return res.status(404).send('the glucose cannot be added');
+
     res.send(glucose);
 });
 
-//get list of glucose by username
 router.get(`/`, async (req, res) => {
-    const {username} = req.body;
-    const glucoseList = await Glucose.find({username:username});
+    const glucoseList = await Glucose.find();
     if(!glucoseList){
         res.status(500).json({success: false})
     }
     res.status(200).send(glucoseList);
-});
-
+})
 
 
 module.exports = router;

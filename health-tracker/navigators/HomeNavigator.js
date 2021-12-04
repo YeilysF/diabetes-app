@@ -27,7 +27,7 @@ const HomeNavigator = (props) => {
         >
             <Stack.Screen 
                 name='Home'
-                component={MainTabNavigator}
+                component={HomeScreen}
                 options={{
                   headerShown: false,
                 }}
@@ -37,62 +37,49 @@ const HomeNavigator = (props) => {
                 name="Notifications" 
                 component={NotificationScreen} 
                 options={{
-                  headerShown: true,
-                  headerTransparent: true,
+                  headerShown: false,
                 }}
             />
              <Stack.Screen 
                 name="Medications" 
                 component={MedicationScreen} 
                 options={{
-                  headerShown: true,
-                  headerTransparent: true,
-                  headerTintColor: 'white',
+                  headerShown: false,
                 }}
             />
             <Stack.Screen 
                 name="Insulin" 
                 component={InsulinScreen} 
                 options={{
-                  headerShown: true,
-                  headerTransparent: true,
-                  headerTintColor: 'white',
+                  headerShown: false,
                 }}
             />
              <Stack.Screen 
                 name="Glucose" 
                 component={GlucoseScreen} 
                 options={{
-                  headerShown: true,
-                  headerTransparent: true,
-                  headerTintColor: 'white',
+                  headerShown: false,
                 }}
             />
              <Stack.Screen 
                 name="Blood Pressure" 
                 component={BPScreen} 
                 options={{
-                  headerShown: true,
-                  headerTransparent: true,
-                  headerTintColor: 'white',
+                  headerShown: false,
                 }}
             />
             <Stack.Screen 
                 name="Nutrition" 
                 component={NutritionScreen} 
                 options={{
-                  headerShown: true,
-                  headerTransparent: true,
-                  headerTintColor: 'white',
+                  headerShown: false,
                 }}
             />
             <Stack.Screen 
                 name="Exercise" 
                 component={ExerciseScreen} 
                 options={{
-                  headerShown: true,
-                  headerTransparent: true,
-                  headerTintColor: 'white',
+                  headerShown: false,
                 }}
             />
         </Stack.Navigator>

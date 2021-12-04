@@ -30,7 +30,7 @@ function DrawerComponent(props) {
                 <View style={styles.drawerContent}>
                     <View style={styles.userInfo}>
                         <View style={{flexDirection:'row',marginTop: 15}}>
-                            <Avatar.Image source={require('../assets/default-avatar.png')} size={50}/>
+                            <Avatar.Image source={require('../assets/app_images/default-avatar.png')} size={50}/>
                             <View style={{marginLeft:15, flexDirection:'column'}}>
                                 <Title style={styles.title}>User</Title>
                                 <Caption style={styles.caption}>user@gmail.com</Caption>

@@ -16,9 +16,6 @@ const ForgotPassword = (props) => {
     const [errorUsername, setErrorUsername] = React.useState(false)
     const [errorPassword, setErrorPassword] = React.useState(false)
 
-    //axios.defaults.baseURL = "http://10.0.2.2:3000"   //android emulator 
-    axios.defaults.baseURL = "http://localhost:3000"  //IOS and Web 
-
     const [data, setData] = React.useState({
         name: '',
         lastName:  '',
@@ -44,7 +41,7 @@ const ForgotPassword = (props) => {
 
                 
                 console.log("::"+username+newPassword+"::" )
-                const { data } = await axios.post('api/v1/Users/UpdatePassword',{username,newPassword},config)
+                const { data } = await axios.post(`${baseURL}Users/register`,{username,newPassword},config)
                 props.navigation.navigate('Login')
                 console.log(data)
             

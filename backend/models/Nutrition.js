@@ -5,6 +5,7 @@ const NutritionSchema = mongoose.Schema({
     protein: {type: Number, required: true},
     carbs: {type: Number, required: true},
     fat: {type: Number, required: true},
+   // foodName: {type: String, required: true},  //link
     sugar: {type: Number, required: true},
 });
 

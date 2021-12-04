@@ -25,7 +25,7 @@ const DrawerNavigator = (props) => {
         >
         <Drawer.Screen 
             name="Home" 
-            component={HomeNavigator} 
+            component={MainTabNavigator} 
             options={{
              headerShown: false,
               drawerIcon: () => (

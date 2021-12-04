@@ -33,12 +33,12 @@ const MainTabNavigator = (props) => {
         tabBarActiveTintColor: "#6495ed",
         //keyboardHidesTabBar: true,
        // showLabel: false,
-        //activeTintColor: "#e91e63",
+         activeTintColor: "#e91e63",
       }}
     >
       <Tab.Screen
         name="Home"
-        component={HomeScreen}
+        component={HomeNavigator}
         options={{
           headerShown: true,
           headerTransparent: true,
@@ -87,7 +87,7 @@ const MainTabNavigator = (props) => {
 
       <Tab.Screen
         name="Profile"
-        component={ProfileNavigator}
+        component={UserStackNavigator}
         options={{
           headerShown: true,
           headerTransparent: true,

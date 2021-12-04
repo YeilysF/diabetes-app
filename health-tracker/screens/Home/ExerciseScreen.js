@@ -14,7 +14,7 @@ const ExerciseScreen = (props) => {
 
         <Animatable.View style={[styles.footer, {backgroundColor: "white"}]} animation="fadeInUpBig">
 
-            <Image source={(require('../../assets/images/13.png'))} style={{width: '70%', height: '30%', marginTop: '60%', marginBottom: -20}}/>
+            <Image source={(require('../../assets/home_images/13.png'))} style={{width: '70%', height: '30%', marginTop: '60%', marginBottom: -20}}/>
             <Text style={styles.subText}>No records</Text>
 
             <TouchableOpacity style={{flexDirection: 'row', alignItems: 'center'}}>
@@ -51,7 +51,7 @@ footer: {
   borderTopLeftRadius: 30,
   borderTopRightRadius: 30,
    //paddingVertical: 270,
-  paddingHorizontal: 70,
+  paddingHorizontal: 60,
   alignItems: 'center',
 
   },
@@ -62,7 +62,7 @@ footer: {
   },
   medText:{
     fontWeight: 'bold',
-    fontSize: 25,
+    fontSize: 22,
     color: '#4169e1'
   }
 });

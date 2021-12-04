@@ -1,11 +1,12 @@
 const mongoose = require("mongoose");
+//const { Meal } = require("./Meal");
 
-const GlucoseSchema = mongoose.Schema({
+const BloodPressureSchema = mongoose.Schema({
     user: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
-    glucoseLevel: {type: Number, required: true},
+    heartRate: {type: Number},
     timeOfDay: {type: String},
     dateCreated: {type: Date, default: Date.now, required: true},
     description: {type: String}
 });
 
-exports.Glucose = mongoose.model('Glucose', GlucoseSchema);
+exports.BloodPressure = mongoose.model('Blood Pressure', BloodPressureSchema);
