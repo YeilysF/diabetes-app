@@ -16,6 +16,7 @@ function authJwt() {
             {url: /\/api\/v1\/Insulins(.*)/ , methods: ['GET', 'PUT', 'POST', 'DELETE'] },
             `${api}/Users/login`,
             `${api}/Users/register`,
+            `${api}/Users/update`,
         ]
     })
 }
