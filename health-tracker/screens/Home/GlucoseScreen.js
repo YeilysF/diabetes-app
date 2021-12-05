@@ -1,10 +1,43 @@
-import React from 'react';
-import { StyleSheet, Text, TouchableOpacity, View, Image, StatusBar,} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import { StyleSheet, Text, TouchableOpacity, View, Image, StatusBar, FlatList, Dimensions, ActivityIndicator} from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import * as Animatable from 'react-native-animatable';
 import AntDesign from "react-native-vector-icons/AntDesign";
+import Icon from "react-native-vector-icons/AntDesign";
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+
+import axios from 'axios';
+import baseURL from "../../assets/common/baseURL";
 
 const GlucoseScreen = (props) => {
+
+  const [error, setError] = useState(false);
+  const [glucoses, setGlucoses] = useState([]);
+  const [token, setToken] = useState();
+  const [loading, setLoading] = useState(true);
+  
+    const deleteGlucose = (glucose) => {
+       axios.delete(`${baseURL}Glucoses/${glucose}`)
+      .then((res) => {
+          console.log(res);  
+          console.log(res.data);  
+      }), [glucose]
+    };
+
+    
+    useEffect(() => {
+      const getGlucose = async () => {
+        try {
+          const res = await axios.get(`${baseURL}Glucoses`);
+          setGlucoses(res.data);
+          setLoading(false);
+        } catch (e) {
+          console.log(e);
+        }
+      }
+      getGlucose(); 
+    }, [glucoses])
+
   return (
     <View style={styles.mainContainer}>
       
@@ -13,15 +46,101 @@ const GlucoseScreen = (props) => {
         <View style={styles.header}></View>
 
         <Animatable.View style={[styles.footer, {backgroundColor: "white"}]} animation="fadeInUpBig">
+        {loading ? (
+          <View style={styles.spinner}> 
+              <ActivityIndicator size="large" color="red" />
+          </View>
+           ) : (
+             <>
+            {glucoses ? 
+            <>
+            <View >
+              <FlatList
+              contentContainerStyle={styles.listContainer}
+              data={glucoses}
+              keyExtractor={(item, index) => {
+                // console.log("index", index)
+                return index.toString();
+              }}
+              renderItem={({ item }) => {
+                //console.log("item", item)
+                return (
+                  <>
+                  <View style={styles.itemContainer}>
+                    <View style={styles.itemContainer1}>
+                    <FontAwesome5 name="syringe" color="white" size={22} 
+                      style={{marginLeft: 10, marginTop: 5, marginRight: 10}}/>
 
-            <Image source={(require('../../assets/home_images/10.png'))} style={{width: '70%', height: '30%', marginTop: '60%', marginBottom: -20}}/>
+                      <Text style={styles.item}>{item.glucoseLevel} mg/dL</Text>
+                      <Text style={styles.item}>{item.timeOfDay}</Text>
+                   
+                      <TouchableOpacity
+                        style={{
+                          borderWidth: 1,
+                          borderColor: '#4169e1',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          width: 25,
+                          top: 10,
+                          right: 5,
+                          position: "absolute",
+                          //bottom: 10,
+                          //right: 50,
+                          height: 25,
+                          backgroundColor: '#fff',
+                          borderRadius: 90,
+                        }}
+                        onPress={() => deleteGlucose(item._id)}
+                       
+                >
+                  <Icon name='minus' size={20} color='#4169e1' />
+                </TouchableOpacity>
+                    
+                  </View>
+                  <Text style={styles.item1}>{item.description}</Text>
+                  </View>
+                  
+                  </>
+                )
+              }}
+            />
+            </View>
+
+            <TouchableOpacity
+                style={{
+                  borderWidth: 1,
+                  borderColor: '#4169e1',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  width: 60,
+                  top: -32,
+                  position: "absolute",
+                  //bottom: 10,
+                  //right: 50,
+                  height: 60,
+                  backgroundColor: '#fff',
+                  borderRadius: 90,
+                }}
+                onPress={() => props.navigation.navigate('Glucose Form')}
+              >
+                <Icon name='plus' size={30} color='#4169e1' />
+              </TouchableOpacity>
+            </>
+            : 
+            <>
+
+            <Image source={(require('../../assets/home_images/10.png'))} style={{width: '70%', height: '30%', marginTop: '40%'}}/>
             <Text style={styles.subText}>No records</Text>
 
-            <TouchableOpacity style={{flexDirection: 'row', alignItems: 'center'}}>
-              <Text style={styles.medText}> Add Glucose Reading</Text>
-              <AntDesign name="right" color='#4169e1' size={20}></AntDesign>
+            <TouchableOpacity style={{flexDirection: 'row', alignItems: 'center'}} 
+              onPress={() => props.navigation.navigate('Glucose Form')}>
+              <Text style={styles.medText}> Add Glucose Now</Text>
+              <Icon name="right" color='#4169e1' size={20}></Icon>
             </TouchableOpacity>
-
+            </>
+            }
+            </>
+            )}
           </Animatable.View>
 
         </LinearGradient>
@@ -30,6 +149,8 @@ const GlucoseScreen = (props) => {
 }
 
 export default GlucoseScreen;
+
+const {width} = Dimensions.get('screen');
 
 const styles = StyleSheet.create({
   mainContainer: {
@@ -46,12 +167,12 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
 },
 footer: {
-  flex: 6,
+  flex: 5,
   backgroundColor: '#fff',
   borderTopLeftRadius: 30,
   borderTopRightRadius: 30,
    //paddingVertical: 270,
-  paddingHorizontal: 60,
+  //paddingHorizontal: 60,
   alignItems: 'center',
 
   },
@@ -64,5 +185,58 @@ footer: {
     fontWeight: 'bold',
     fontSize: 22,
     color: '#4169e1'
-  }
+  },
+  item: {
+    //flexWrap: "wrap",
+    flex: 1,
+    marginTop: 5,
+    height: 40,
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "white",
+   // justifyContent: "flex-start", 
+    //alignItems: "flex-start",
+    textAlign: 'left', // <-- the magic
+    textAlignVertical: "center"
+   
+  },
+
+  item1: {
+    //flexWrap: "wrap",
+    //flex: 1,
+   marginTop: -10,
+    //height: 40,
+    fontSize: 16,
+   // fontWeight: "bold",
+    color: "white",
+    justifyContent: "flex-start", 
+    //alignItems: "flex-start",
+    textAlign: 'center', // <-- the magic
+    //textAlignVertical: "center"
+   
+  },
+  listContainer: {
+    marginTop: 30,
+  //  height: 10,
+   // flex: 1,
+    //width: 100,
+  },
+
+  itemContainer: {
+   borderRadius: 20,
+   width: 400,
+  // height: 40,
+    flexDirection: "column",
+   marginTop: 15,
+    backgroundColor: '#4169e1',
+  },
+
+  itemContainer1: {
+    //borderRadius: 20,
+    //width: 400,
+   // height: 40,
+     flexDirection: "row",
+     //marginTop: 30,
+    // backgroundColor: '#4169e1',
+   }
 });
