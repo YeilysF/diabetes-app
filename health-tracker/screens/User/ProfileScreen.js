@@ -57,6 +57,18 @@ const HomeScreen = (props) => {
                 </View>
             </View>
           </Animatable.View>
+
+          <View style={styles.button}>   
+                  <TouchableOpacity 
+                    //onPress={() => props.navigation.navigate('Sign Up')}
+                    style={[styles.editprofile]}
+                  >
+                    <LinearGradient colors={['#87cefa', '#4169e1']} style={styles.editprofile}>
+                        <Text style={[styles.textSign, {color:'#fff'}]}>Edit Profile</Text>
+                    </LinearGradient>
+                  </TouchableOpacity>                  
+          </View>
+
         </LinearGradient>
       </View>
     );
