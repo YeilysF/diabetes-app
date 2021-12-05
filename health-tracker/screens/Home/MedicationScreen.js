@@ -35,6 +35,7 @@ const MedicationScreen = (props) => {
         }
       }
       getMeds(); 
+      
     }, [medications])
     
 
@@ -49,7 +50,7 @@ const MedicationScreen = (props) => {
         <Animatable.View style={[styles.footer, {backgroundColor: "white"}]} animation="fadeInUpBig">
         {loading ? (
           <View style={styles.spinner}> 
-              <ActivityIndicator size="large" color="red" />
+              <ActivityIndicator size="large" color="blue" />
           </View>
            ) : (
              <>

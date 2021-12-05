@@ -37,6 +37,7 @@ const GlucoseScreen = (props) => {
         }
       }
       getGlucose(); 
+
     }, [glucoses])
 
     //color1: '#f08080', color2: '#cd5c5c',
@@ -50,7 +51,7 @@ const GlucoseScreen = (props) => {
         <Animatable.View style={[styles.footer, {backgroundColor: "white"}]} animation="fadeInUpBig">
         {loading ? (
           <View style={styles.spinner}> 
-              <ActivityIndicator size="large" color="red" />
+              <ActivityIndicator size="large" color="blue" />
           </View>
            ) : (
              <>

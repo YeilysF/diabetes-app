@@ -1,56 +1,52 @@
 import moment from 'moment';
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, TextInput, Platform, StyleSheet, StatusBar, Alert, Button } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import { LinearGradient } from 'expo-linear-gradient'
 import Fontisto from 'react-native-vector-icons/Fontisto';
-import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
-import { useTheme } from 'react-native-paper';
-
-//icons
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Feather from 'react-native-vector-icons/Feather';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
+import { useTheme } from 'react-native-paper';
 
 import DatePicker from 'react-native-datepicker';
 import { Picker } from "@react-native-picker/picker";
 import { Dropdown } from 'react-native-element-dropdown';
 
-//import {AuthContext}  from '../../context/store/Auth';
-
-
 import axios from 'axios';
 import baseURL from "../../assets/common/baseURL";
 
-const GlucoseForm = (props) => {
+const BPForm = (props) => {
   const { colors } = useTheme();
 
-  const [glucoseLevel, setGlucose] = useState(0)
+  const [heartRate, setHeartRate] = useState("")
+  const [diastolic, setDiastolic] = useState("")
+  const [systolic, setSystolic] = useState("")
   const [timeOfDay, setTimeOfDay] = useState("")
   const [date, setDate] = useState(new Date())
   const [description, setDescription] = useState("")
   const [error, setError] = useState(false);
 
-  //const context = useContext(AuthContext);
-
-  const addGlucose = (user) => {
-    if (glucoseLevel === "" || timeOfDay === "") {
+  const addBP = () => {
+    if (heartRate === "" || diastolic === "" || systolic === "" || timeOfDay === "") {
       setError("These fields cannot be left blank");
     }
 
-    let glucose = {
-        glucoseLevel: glucoseLevel,
+    let bloodPressure = {
+        diastolic: diastolic,
+        systolic: systolic,
+        heartRate: heartRate,
         timeOfDay: timeOfDay,
         dateTime: date,
         description: description,
     };
     
     axios
-      .post(`${baseURL}Glucoses/add`, glucose)
+      .post(`${baseURL}BloodPressures/add`, bloodPressure)
       .then((res) => {
         if (res.status == 200) {
           console.log("Success")
-            props.navigation.navigate("Glucose");
+            props.navigation.navigate("Blood Pressure");
         }
       })
       .catch((error) => {
@@ -68,16 +64,46 @@ const GlucoseForm = (props) => {
           animation="fadeInUpBig" 
           style={[styles.footer, {backgroundColor: colors.background}]}
         >
-            <Text style={[styles.text_footer, {color: colors.text}]}>Glucose</Text>
+            <Text style={[styles.text_footer, {color: colors.text}]}>Diastolic</Text>
             <View style={styles.action}>
-                <MaterialCommunityIcons
-                    name="spoon-sugar"
+                <Fontisto
+                    name="heartbeat-alt"
                     color={colors.text}
-                    size={25}
+                    size={23}
                 />
                 <TextInput
-                    onChangeText={(text)=> setGlucose(text)}
-                    placeholder="mg/dL" 
+                    onChangeText={(text)=> setDiastolic(text)}
+                    placeholder="mmHg" 
+                    style={[styles.textInput, {color: colors.text}]}
+                    autoCapitalize="none"
+                />
+            </View>
+
+            <Text style={[styles.text_footer, {color: colors.text, marginTop: 20}]}>Systolic</Text>
+            <View style={styles.action}>
+                <Fontisto
+                    name="heartbeat-alt"
+                    color={colors.text}
+                    size={23}
+                />
+                <TextInput
+                    onChangeText={(text)=> setSystolic(text)}
+                    placeholder="mmHg" 
+                    style={[styles.textInput, {color: colors.text}]}
+                    autoCapitalize="none"
+                />
+            </View>
+
+            <Text style={[styles.text_footer, {color: colors.text, marginTop: 20}]}>Heart Rate</Text>
+            <View style={styles.action}>
+                <Fontisto
+                    name="heartbeat"
+                    color={colors.text}
+                    size={23}
+                />
+                <TextInput
+                    onChangeText={(text)=> setHeartRate(text)}
+                    placeholder="bmp" 
                     style={[styles.textInput, {color: colors.text}]}
                     autoCapitalize="none"
                 />
@@ -86,7 +112,7 @@ const GlucoseForm = (props) => {
 
             <Text style={[styles.text_footer, {
                 color: colors.text,
-                marginTop: 25
+                marginTop: 20
             }]}>Time of Day</Text>
             
             <View style={styles.action}>
@@ -106,9 +132,17 @@ const GlucoseForm = (props) => {
 
             <Text style={[styles.text_footer, {
                 color: colors.text,
-                marginTop: 25
+                marginTop: 20
             }]}>Date and Time</Text>
+
             <View style={styles.action}>
+
+            <TouchableOpacity style={{marginTop: 50}} 
+                onPress={() => setOpen(true)}
+            >
+               
+            </TouchableOpacity>
+                
 
                 <DatePicker
                 style={{width: 300}}
@@ -138,7 +172,7 @@ const GlucoseForm = (props) => {
 
             <Text style={[styles.text_footer, {
                 color: colors.text,
-                marginTop: 25
+                marginTop: 20
             }]}>Notes (Optional) </Text>
             <View style={styles.action}>
                 <SimpleLineIcons
@@ -156,8 +190,8 @@ const GlucoseForm = (props) => {
             </View>
             {error ? <Text style={{color: '#FF0000', marginTop:15}}>{error}</Text> : null}
 
-            <TouchableOpacity style={{marginTop: 50}} 
-                onPress={(() => addGlucose())}
+            <TouchableOpacity style={{marginTop: 25}} 
+                onPress={(() => addBP())}
             >
                 <LinearGradient colors={['#87cefa', '#4169e1']} style={styles.logIn}>
                             <Text style={[styles.textSign, {color:'#fff'}]}>Save</Text>
@@ -176,100 +210,83 @@ const GlucoseForm = (props) => {
   );
 };
 
-export default GlucoseForm;
+export default BPForm;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1, 
-    backgroundColor: '#009387'
-  },
-  header: {
-      flex: 1,
-      justifyContent: 'flex-end',
-      paddingHorizontal: 20,
-  },
-  footer: {
-      flex: 6,
-      backgroundColor: '#fff',
-      borderTopLeftRadius: 30,
-      borderTopRightRadius: 30,
-      paddingHorizontal: 30,
-      paddingVertical: 30,
-      
-  },
-  text_header: {
-      color: '#fff',
-      fontWeight: 'bold',
-      fontSize: 30
-  },
-  text_footer: {
-      //color: 'blue',
-      fontSize: 20,
-  },
-  action: {
-      flexDirection: 'row',
-      marginTop: 10,
-      borderBottomWidth: 1,
-      borderBottomColor: '#f2f2f2',
-      paddingBottom: 5,
-      width: 350
-  },
-  textInput: {
-      flex: 1,
-      marginTop: Platform.OS === 'ios' ? 0 : -12,
-      paddingLeft: 8,
-      color: '#05375a',
-      fontSize: 20,
-     // borderBottomColor: "black",
-     // borderBottomWidth: 0.2
-  },
-  errorMsg: {
-      color: '#FF0000',
-      fontSize: 14,
-  },
-  button: {
-      alignItems: 'center',
-      marginTop: 50
-  },
-  logIn: {
-      width: '100%',
-      height: 50,
-      justifyContent: 'center',
-      alignItems: 'center',
-      borderRadius: 10
-  },
-  textSign: {
-      fontSize: 18,
-      fontWeight: 'bold'
-  },
-  picker: {
-    paddingHorizontal: 120,
-    borderWidth: 1,
-    height: 38,
-    borderColor: "#666",
-  },
-  dropdown: {
-    height: 38,
-    borderColor: 'gray',
-    borderWidth: 0.5,
-    paddingHorizontal: 121,
-    marginLeft: 9
-  },
-});
-
-/*
-
-    <Dropdown
-                    style={[styles.dropdown]}
-                    data={dataTime}
-                    maxHeight={200}
-                    labelField="label"
-                    valueField="value"
-                    placeholder="Select time of day"
-                    value={timeOfDay}
-                    onChange={item => {
-                        setTimeOfDay(item.value);
-                    }}
-                />
-
-*/ 
+    container: {
+      flex: 1, 
+      backgroundColor: '#009387'
+    },
+    header: {
+        flex: 1,
+        justifyContent: 'flex-end',
+        paddingHorizontal: 20,
+    },
+    footer: {
+        flex: 6,
+        backgroundColor: '#fff',
+        borderTopLeftRadius: 30,
+        borderTopRightRadius: 30,
+        paddingHorizontal: 30,
+        paddingVertical: 30,
+        
+    },
+    text_header: {
+        color: '#fff',
+        fontWeight: 'bold',
+        fontSize: 30
+    },
+    text_footer: {
+        //color: 'blue',
+        fontSize: 20,
+    },
+    action: {
+        flexDirection: 'row',
+        marginTop: 10,
+        borderBottomWidth: 1,
+        borderBottomColor: '#f2f2f2',
+        paddingBottom: 5,
+        width: 350
+    },
+    textInput: {
+        flex: 1,
+        marginTop: Platform.OS === 'ios' ? 0 : -12,
+        paddingLeft: 8,
+        color: '#05375a',
+        fontSize: 20,
+       // borderBottomColor: "black",
+       // borderBottomWidth: 0.2
+    },
+    errorMsg: {
+        color: '#FF0000',
+        fontSize: 14,
+    },
+    button: {
+        alignItems: 'center',
+        marginTop: 50
+    },
+    logIn: {
+        width: '100%',
+        height: 50,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 10
+    },
+    textSign: {
+        fontSize: 18,
+        fontWeight: 'bold'
+    },
+    picker: {
+      paddingHorizontal: 120,
+      borderWidth: 1,
+      height: 38,
+      borderColor: "#666",
+    },
+    dropdown: {
+      height: 38,
+      borderColor: 'gray',
+      borderWidth: 0.5,
+      paddingHorizontal: 121,
+      marginLeft: 9
+    },
+  });

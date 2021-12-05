@@ -4,7 +4,7 @@ const router = express.Router();
 
 router.post(`/add`, async (req, res) => {
     let glucose = new Glucose({
-       // username: req.body.username,
+        user: req.body.user,
         glucoseLevel: req.body.glucoseLevel,
         timeOfDay: req.body.timeOfDay,
         dateTime: req.body.dateTime,
@@ -39,7 +39,5 @@ router.delete('/:id', (req, res)=>{
        return res.status(500).json({success: false, error: err}) 
     })
 })
-
-
 
 module.exports = router;
