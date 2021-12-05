@@ -78,7 +78,7 @@ const InsulinScreen = (props) => {
                       <TouchableOpacity
                         style={{
                           borderWidth: 1,
-                          borderColor: '#4169e1',
+                          borderColor: '#20b2aa',
                           alignItems: 'center',
                           justifyContent: 'center',
                           width: 25,
@@ -94,7 +94,7 @@ const InsulinScreen = (props) => {
                         onPress={() => deleteInsulin(item._id)}
                        
                 >
-                  <Icon name='minus' size={20} color='#4169e1' />
+                  <Icon name='minus' size={20} color='#20b2aa' />
                 </TouchableOpacity>
                     
                   </View>
@@ -110,7 +110,7 @@ const InsulinScreen = (props) => {
             <TouchableOpacity
                 style={{
                   borderWidth: 1,
-                  borderColor: '#4169e1',
+                  borderColor: '#20b2aa',
                   alignItems: 'center',
                   justifyContent: 'center',
                   width: 60,
@@ -124,18 +124,18 @@ const InsulinScreen = (props) => {
                 }}
                 onPress={() => props.navigation.navigate('Insulin Form')}
               >
-                <Icon name='plus' size={30} color='#4169e1' />
+                <Icon name='plus' size={30} color='#20b2aa' />
               </TouchableOpacity>
             </>
             : 
             <>
-            <Image source={(require('../../assets/home_images/11.png'))} style={{width: '70%', height: '30%', marginTop: '40%'}}/>
+            <Image source={(require('../../assets/home_images/11.png'))} style={{width: '60%', height: '30%', marginTop: '40%'}}/>
             <Text style={styles.subText}>No records</Text>
 
             <TouchableOpacity style={{flexDirection: 'row', alignItems: 'center'}} 
               onPress={() => props.navigation.navigate('Insulin Form')}>
               <Text style={styles.medText}> Add Insulin Now</Text>
-              <Icon name="right" color='#4169e1' size={20}></Icon>
+              <Icon name="right" color='#87cefa' size={20}></Icon>
             </TouchableOpacity>
             </>
             }
@@ -228,7 +228,7 @@ footer: {
   // height: 40,
     flexDirection: "column",
    marginTop: 15,
-    backgroundColor: '#4169e1',
+    backgroundColor: '#20b2aa',
   },
 
   itemContainer1: {

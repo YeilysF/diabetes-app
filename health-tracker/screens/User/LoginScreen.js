@@ -89,7 +89,7 @@ const LoginScreen = (props) => {
 
               <TouchableOpacity
               onPress={() => props.navigation.navigate('Forgot Password')}>
-                  <Text style={{color: '#4169e1', marginTop:15}}>Forgot password?</Text>
+                  <Text style={{color: '#4169e1', marginTop:15, fontSize: 17}}>Forgot password?</Text>
               </TouchableOpacity>
               {error ? <Text style={{color: '#FF0000', marginTop:15}}>Invalid username and/or password</Text> : null} 
               {success ? <Text style={{color: 'green', marginTop:15}}>Success</Text> : null} 
@@ -144,7 +144,7 @@ const styles = StyleSheet.create({
     },
     text_footer: {
         color: '#05375a',
-        fontSize: 18
+        fontSize: 20,
     },
     action: {
         flexDirection: 'row',
@@ -158,6 +158,7 @@ const styles = StyleSheet.create({
         marginTop: Platform.OS === 'ios' ? 0 : -12,
         paddingLeft: 10,
         color: '#05375a',
+        fontSize: 18
     },
     errorMsg: {
         color: '#FF0000',
@@ -176,6 +177,6 @@ const styles = StyleSheet.create({
     },
     textSign: {
         fontSize: 18,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
     }
   });

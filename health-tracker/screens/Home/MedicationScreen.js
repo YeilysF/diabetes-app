@@ -82,7 +82,7 @@ const MedicationScreen = (props) => {
                       <TouchableOpacity
                         style={{
                           borderWidth: 1,
-                          borderColor: '#4169e1',
+                          borderColor: '#6495ed',
                           alignItems: 'center',
                           justifyContent: 'center',
                           width: 25,
@@ -98,7 +98,7 @@ const MedicationScreen = (props) => {
                         onPress={() => deleteMeds(item._id)}
                        
                 >
-                  <Icon name='minus' size={20} color='#4169e1' />
+                  <Icon name='minus' size={20} color='#6495ed' />
                 </TouchableOpacity>
                     
                   </View>
@@ -115,7 +115,7 @@ const MedicationScreen = (props) => {
             <TouchableOpacity
                 style={{
                   borderWidth: 1,
-                  borderColor: '#4169e1',
+                  borderColor: '#6495ed',
                   alignItems: 'center',
                   justifyContent: 'center',
                   width: 60,
@@ -129,18 +129,18 @@ const MedicationScreen = (props) => {
                 }}
                 onPress={() => props.navigation.navigate('Medication Form')}
               >
-                <Icon name='plus' size={30} color='#4169e1' />
+                <Icon name='plus' size={30} color='#6495ed' />
               </TouchableOpacity>
             </>
             : 
             <>
-            <Image source={(require('../../assets/home_images/5.png'))} style={{width: '70%', height: '30%', marginTop: '40%'}}/>
+            <Image source={(require('../../assets/home_images/5.png'))} style={{width: '60%', height: '30%', marginTop: '40%'}}/>
             <Text style={styles.subText}>No medications</Text>
 
             <TouchableOpacity style={{flexDirection: 'row', alignItems: 'center'}} 
               onPress={() => props.navigation.navigate('Medication Form')}>
               <Text style={styles.medText}> Add Medications Now</Text>
-              <Icon name="right" color='#4169e1' size={20}></Icon>
+              <Icon name="right" color='#87cefa' size={20}></Icon>
             </TouchableOpacity>
 
             </>
@@ -234,7 +234,7 @@ footer: {
   // height: 40,
     flexDirection: "column",
    marginTop: 15,
-    backgroundColor: '#4169e1',
+    backgroundColor: '#6495ed',
   },
 
   itemContainer1: {

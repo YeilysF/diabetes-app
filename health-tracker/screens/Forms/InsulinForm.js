@@ -252,7 +252,7 @@ const styles = StyleSheet.create({
       borderRadius: 10
   },
   textSign: {
-      fontSize: 25,
+      fontSize: 18,
       fontWeight: 'bold'
   },
   picker: {

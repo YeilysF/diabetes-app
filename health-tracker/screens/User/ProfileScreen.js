@@ -36,6 +36,7 @@ const ProfileScreen = (props) => {
                       headers: { Authorization: `Bearer ${res}` },
                   })
                   .then((user) => setUserProfile(user.data))
+                  console.log(userProfile)
           })
           .catch((error) => console.log(error))
 
@@ -53,7 +54,6 @@ const ProfileScreen = (props) => {
         </View>
 
           <Animatable.View style={[styles.footer, {backgroundColor: "white"}]} animation="fadeInUpBig">
-            <Button title={"Sign Out"} onPress={() => [AsyncStorage.removeItem("jwt"), logoutUser(context.dispatch)]}/> 
               {/* diabetis Type
               Weightz
               */}

@@ -5,6 +5,7 @@ import * as Animatable from 'react-native-animatable';
 import AntDesign from "react-native-vector-icons/AntDesign";
 import Icon from "react-native-vector-icons/AntDesign";
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import axios from 'axios';
 import baseURL from "../../assets/common/baseURL";
@@ -38,6 +39,7 @@ const GlucoseScreen = (props) => {
       getGlucose(); 
     }, [glucoses])
 
+    //color1: '#f08080', color2: '#cd5c5c',
   return (
     <View style={styles.mainContainer}>
       
@@ -68,8 +70,11 @@ const GlucoseScreen = (props) => {
                   <>
                   <View style={styles.itemContainer}>
                     <View style={styles.itemContainer1}>
-                    <FontAwesome5 name="syringe" color="white" size={22} 
-                      style={{marginLeft: 10, marginTop: 5, marginRight: 10}}/>
+                     <MaterialCommunityIcons
+                     name="spoon-sugar"
+                     color="white"
+                     size={25}
+                     style={{marginLeft: 10, marginTop: 5, marginRight: 10}}/>
 
                       <Text style={styles.item}>{item.glucoseLevel} mg/dL</Text>
                       <Text style={styles.item}>{item.timeOfDay}</Text>
@@ -77,7 +82,7 @@ const GlucoseScreen = (props) => {
                       <TouchableOpacity
                         style={{
                           borderWidth: 1,
-                          borderColor: '#4169e1',
+                          borderColor: '#cd5c5c',
                           alignItems: 'center',
                           justifyContent: 'center',
                           width: 25,
@@ -93,7 +98,7 @@ const GlucoseScreen = (props) => {
                         onPress={() => deleteGlucose(item._id)}
                        
                 >
-                  <Icon name='minus' size={20} color='#4169e1' />
+                  <Icon name='minus' size={20} color='#cd5c5c' />
                 </TouchableOpacity>
                     
                   </View>
@@ -109,7 +114,7 @@ const GlucoseScreen = (props) => {
             <TouchableOpacity
                 style={{
                   borderWidth: 1,
-                  borderColor: '#4169e1',
+                  borderColor: '#cd5c5c',
                   alignItems: 'center',
                   justifyContent: 'center',
                   width: 60,
@@ -123,19 +128,19 @@ const GlucoseScreen = (props) => {
                 }}
                 onPress={() => props.navigation.navigate('Glucose Form')}
               >
-                <Icon name='plus' size={30} color='#4169e1' />
+                <Icon name='plus' size={30} color='#cd5c5c' />
               </TouchableOpacity>
             </>
             : 
             <>
 
-            <Image source={(require('../../assets/home_images/10.png'))} style={{width: '70%', height: '30%', marginTop: '40%'}}/>
+            <Image source={(require('../../assets/home_images/10.png'))} style={{width: '60%', height: '33%', marginTop: '40%'}}/>
             <Text style={styles.subText}>No records</Text>
 
             <TouchableOpacity style={{flexDirection: 'row', alignItems: 'center'}} 
               onPress={() => props.navigation.navigate('Glucose Form')}>
               <Text style={styles.medText}> Add Glucose Now</Text>
-              <Icon name="right" color='#4169e1' size={20}></Icon>
+              <Icon name="right" color='#87cefa' size={20}></Icon>
             </TouchableOpacity>
             </>
             }
@@ -228,7 +233,7 @@ footer: {
   // height: 40,
     flexDirection: "column",
    marginTop: 15,
-    backgroundColor: '#4169e1',
+    backgroundColor: '#cd5c5c',
   },
 
   itemContainer1: {
