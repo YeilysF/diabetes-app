@@ -1,13 +1,30 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, Dimensions, StyleSheet, StatusBar, Image, ImageBackground, FlatList } from 'react-native';
 import * as Animatable from 'react-native-animatable';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { useTheme } from '@react-navigation/native';
 import { LinearGradient } from 'expo-linear-gradient'
+import { FlatGrid } from 'react-native-super-grid';
+import Emoji from 'react-native-emoji';
+import Ionicons from "react-native-vector-icons/Ionicons";
+import { Searchbar } from 'react-native-paper';
+
+//vector icons
+import Icon from "react-native-vector-icons/FontAwesome";
 
 const HomeScreen = (props) => {
     const { colors } = useTheme();
 
-//        const[name, setName] = useState();
+    const [searchQuery, setSearchQuery] = React.useState('');
+    const onChangeSearch = query => setSearchQuery(query);
+
+    const [items, setItems] = React.useState([
+      { name: 'MEDICATIONS', color1: '#87cefa', color2: '#6495ed', width: 140, height: 70},
+      { name: 'GLUCOSE', link: require('../../assets/images/1.png'), color1: '#f08080', color2: '#cd5c5c', width: 120, height: 70},
+      { name: 'INSULIN', link: require('../../assets/images/3.png'), color1: '#20b2aa', color2: '#48d1cc', width: 140, height: 70},
+    ])
+
+  // const[name, setName] = useState();
 //         const[lastName, setlastName] = useState();
 //         const[email, setemail] = useState();
 //         const[diabetesType, setdiabetesType] = useState();
@@ -23,20 +40,13 @@ const HomeScreen = (props) => {
               <Emoji name="wave" style={{fontSize: 30}} />
               </Text>
           </View> */}
-          <View style={{ alignSelf: "center" }}>
-              <View style={styles.profileImage}>
-                  <Image source={require("../../assets/defaultProfilePic.jpg")} style={styles.image} resizeMode="center"></Image>
-              </View>
-          </View>
-
-          <View style={styles.nameContainer}>
-              <Text style={[styles.title, { fontWeight: "200", fontSize: 36 }]}>First and Last Name</Text>
-              <Text style={[styles.title, styles.subText]}>useremail@mail.com</Text>
-          </View>
+              <Image source={require("../../assets/defaultProfilePic.jpg")} style={styles.profileImage} resizeMode="center"></Image>
+              <Text style={[styles.title, { fontWeight: "bold", fontSize: 24, marginTop: 5 }]}>First and Last Name</Text>
+              <Text style={[styles.subText]}>useremail@mail.com</Text>
         </View>
 
           <Animatable.View style={[styles.footer, {backgroundColor: "white"}]} animation="fadeInUpBig">
-            <View style={[styles.detailContainer]}>
+          <View style={[styles.detailContainer]}>
                 <View style={styles.detailBox}>
                 <Text style={styles.text}>Diabetes Type:</Text> 
                 </View>
@@ -47,17 +57,6 @@ const HomeScreen = (props) => {
                 </View>
             </View>
           </Animatable.View>
-
-          <View style={styles.button}>   
-                  <TouchableOpacity 
-                    //onPress={() => props.navigation.navigate('EditProfile')}
-                    style={[styles.editprofile]}
-                  >
-                    <LinearGradient colors={['#87cefa', '#4169e1']} style={styles.editprofile}>
-                        <Text style={[styles.textSign, {color:'#fff'}]}>Edit Profile</Text>
-                    </LinearGradient>
-                  </TouchableOpacity>                  
-              </View>
         </LinearGradient>
       </View>
     );
@@ -77,7 +76,88 @@ const styles = StyleSheet.create({
   header: {
       flex: 1,
       justifyContent: 'center',
+      alignItems: 'center',
       flexDirection: 'column',
+  },
+  subHeader: {
+    marginTop: 40,
+    marginLeft: 20,
+    alignItems: 'flex-start',
+  },
+  footer: {
+      flex: 2.1,
+      marginTop: 35,
+      backgroundColor: '#fff',
+      borderTopLeftRadius: 30,
+      borderTopRightRadius: 30,
+     // paddingVertical: 270,
+      paddingHorizontal: 5
+  },
+  title: {
+    color: 'aliceblue',
+    fontSize: 30,
+    fontWeight: 'bold',
+    paddingLeft: 5,
+    marginTop: -20
+  },
+  button: {
+    alignItems: 'center',
+    marginTop: -120
+  },
+  editprofile: {
+    width: '90%',
+    height: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 10,
+    marginTop: -50
+  
+  },
+  profileImage: {
+        width: 110,
+        height: 110,
+        borderRadius: 60,
+        marginTop: '23%'
+  },
+  textSign: {
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  subText: {
+    color: 'aliceblue',
+    fontSize: 17,
+    marginTop: 5,
+  },
+  gridView: {
+    flex: 1,
+    marginTop: 20
+  },
+  itemContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 10,
+    //padding: 5,
+    height: height * 0.185,
+    //borderColor: '#3498db',
+    //borderWidth: 2,
+  },
+  nameContainer: {
+        alignSelf: "center",
+        alignItems: "center",
+        marginTop: 20
+  },
+  itemName: {
+    fontSize: 17,
+    color: 'white',
+    fontWeight: 'bold',
+  },
+  menu: {
+    marginRight: 20,
+  },
+  search: {
+    justifyContent: 'center',
+    width: height*0.42,
+    borderRadius: 10
   },
   detailContainer: {
     flexDirection: "row",
@@ -107,44 +187,6 @@ const styles = StyleSheet.create({
     fontFamily: "open-sans",
     color: "black",
     fontSize: 0.043 * screenWidth,
-  },
-  subHeader: {
-    marginTop: 40,
-    marginLeft: 20,
-    alignItems: 'flex-start',
-  },
-  footer: {
-      flex: 2.5,
-      backgroundColor: '#fff',
-      borderTopLeftRadius: 30,
-      borderTopRightRadius: 30,
-     // paddingVertical: 270,
-      paddingHorizontal: 5
-  },
-  title: {
-    color: 'aliceblue',
-    fontSize: 30,
-    fontWeight: 'bold',
-    paddingLeft: 5,
-    marginTop: -20
-  },
-  button: {
-    alignItems: 'center',
-    marginTop: -120
-  },
-  editprofile: {
-    width: '90%',
-    height: 50,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 10,
-    marginTop: -50
-  },
-  image: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   
 });
