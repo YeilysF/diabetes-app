@@ -9,7 +9,11 @@ function authJwt() {
         isRevoked: isRevoked
     }).unless({
         path: [
-            {url: /\/api\/v1\/Users(.*)/ , methods: ['GET', 'PUT', 'POST', 'DELETE'] },
+            {url: /\/api\/v1\/Medications(.*)/ , methods: ['GET', 'PUT', 'POST', 'DELETE'] },
+            {url: /\/api\/v1\/Glucoses(.*)/ , methods: ['GET', 'PUT', 'POST', 'DELETE'] },
+            {url: /\/api\/v1\/Exercises(.*)/ , methods: ['GET', 'PUT', 'POST', 'DELETE'] },
+            {url: /\/api\/v1\/BloodPressures(.*)/ , methods: ['GET', 'PUT', 'POST', 'DELETE'] },
+            {url: /\/api\/v1\/Insulins(.*)/ , methods: ['GET', 'PUT', 'POST', 'DELETE'] },
             `${api}/Users/login`,
             `${api}/Users/register`,
         ]

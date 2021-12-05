@@ -55,3 +55,4 @@ export const setCurrentUser = (decoded, user) => {
         userProfile: user
     }
 }
+

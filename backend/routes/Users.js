@@ -4,7 +4,7 @@ const router = express.Router();
 jwt = require('jsonwebtoken');
 
 //get users list
-router.get('/', async (req, res) =>{
+router.get(`/`, async (req, res) =>{
     const userList = await User.find();
 
     if(!userList) {
@@ -51,7 +51,7 @@ router.put('/:id',async (req, res)=> {
     if(req.body.password) {
         newPassword = req.body.password;
     } else {
-        newPassword = userExist.passwordHash;
+        newPassword = userExist.password; 
     }
 
     const user = await User.findByIdAndUpdate(
@@ -90,6 +90,7 @@ router.post('/login', async (req,res) => {
                 isAdmin: user.isAdmin
             },
             secret,
+            {expiresIn: '1w'}
         )
         res.status(200).send({user: user.email, token: token}) 
 
@@ -101,6 +102,7 @@ router.post('/login', async (req,res) => {
 })
 
 //update user info
+/*
 router.put('/:id',async (req, res)=> {
     const user = await User.findByIdAndUpdate(
         req.params.id,
@@ -118,7 +120,26 @@ router.put('/:id',async (req, res)=> {
     )
 
     if(!user)
-    return res.status(400).send('The user cannot be created')
+    return res.status(400).send('The user info cannot be updated')
+
+    res.send(user);
+})*/
+
+router.post('/update',async (req, res)=> {
+
+    const {username, newPassword} = req.body;
+    console.log(username,newPassword+"!!!!!!")
+    const user = await User.findOneAndUpdate(
+        {
+            username:username
+        },
+        { 
+             password: newPassword
+        }
+    )
+
+    if(!user)
+    return res.status(400).send('The user was NOT found')
 
     res.send(user);
 })
@@ -163,9 +184,8 @@ router.delete('/:id', (req, res)=>{
     })
 })
 
-/*
 //get count of users in the app
-router.get('/count', async (req, res) =>{
+router.get(`/count`, async (req, res) =>{
     const userCount = await User.countDocuments((count) => count)
 
     if(!userCount) {
@@ -174,6 +194,6 @@ router.get('/count', async (req, res) =>{
     res.send({
         userCount: userCount
     });
-})*/
+})
 
 module.exports = router;

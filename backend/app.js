@@ -43,8 +43,8 @@ app.use(`${api}/Users`, UserRoutes);
 
 //Database connection
 mongoose.connect(process.env.CONNECTION_DB, {
-    //useNewUrlParser: true,
-    //useUnifiedTopology: true,
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
     dbName: "diabetes-app-database"
   })
 .then(() => {
@@ -59,5 +59,4 @@ app.listen(3000, ()=> {
     //console.log(api);
     console.log('server is running http://localhost:3000');
 })
-app.use(express.json());
 

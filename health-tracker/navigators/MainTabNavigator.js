@@ -17,8 +17,6 @@ import ProfileNavigator from '../navigators/ProfileNavigator';
 
 import UserStackNavigator from "./UserStackNavigator";
 import ReportScreen from "../screens/ReportScreen";
-import NotificationScreen from "../screens/Home/NotificationScreen";
-import HomeScreen from "../screens/Home/HomeScreen";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator()
@@ -87,7 +85,7 @@ const MainTabNavigator = (props) => {
 
       <Tab.Screen
         name="Profile"
-        component={UserStackNavigator}
+        component={ProfileNavigator}
         options={{
           headerShown: true,
           headerTransparent: true,

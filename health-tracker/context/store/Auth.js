@@ -1,10 +1,10 @@
-import React, { useEffect, useReducer, useState } from "react";
+import React, { createContext, useEffect, useReducer, useState} from "react";
 import jwt_decode from "jwt-decode";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
 import AuthReducer from "../reducers/AuthReducer";
 import { setCurrentUser } from "../actions/AuthActions";
-import AuthContext from './AuthContext'
+
+export const AuthContext = createContext();
 
 const Auth = (props) => {
     const [stateUser, dispatch] = useReducer(AuthReducer, {

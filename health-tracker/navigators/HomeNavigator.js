@@ -12,11 +12,12 @@ import NotificationScreen from "../screens/Home/NotificationScreen";
 import InsulinScreen from "../screens/Home/InsulinScreen";
 import GlucoseScreen from "../screens/Home/GlucoseScreen";
 import HomeScreen from "../screens/Home/HomeScreen";
-import MedicationScreen from "../screens/Home/MedicationScreen";
+import MedicationNavigator from "./MedicationNavigator";
 import MainTabNavigator from './MainTabNavigator';
 import BPScreen from '../screens/Home/BPScreen';
 import NutritionScreen from '../screens/Home/NutritionScreen';
 import ExerciseScreen from '../screens/Home/ExerciseScreen';
+import InsulinNavigator from './InsulinNavigator';
 
 const Stack = createStackNavigator();
 
@@ -42,14 +43,14 @@ const HomeNavigator = (props) => {
             />
              <Stack.Screen 
                 name="Medications" 
-                component={MedicationScreen} 
+                component={MedicationNavigator} 
                 options={{
                   headerShown: false,
                 }}
             />
             <Stack.Screen 
                 name="Insulin" 
-                component={InsulinScreen} 
+                component={InsulinNavigator} 
                 options={{
                   headerShown: false,
                 }}

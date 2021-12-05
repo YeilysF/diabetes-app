@@ -6,6 +6,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
 import { useTheme } from 'react-native-paper';
 import axios from 'axios';
+import baseURL from "../../assets/common/baseURL";
 
 const ForgotPassword = (props) => {
 
@@ -15,6 +16,9 @@ const ForgotPassword = (props) => {
     const [newPassword1, setNewPassword1] = React.useState("")
     const [errorUsername, setErrorUsername] = React.useState(false)
     const [errorPassword, setErrorPassword] = React.useState(false)
+
+    //axios.defaults.baseURL = "http://10.0.2.2:3000"   //android emulator 
+    axios.defaults.baseURL = "http://localhost:3000"  //IOS and Web 
 
     const [data, setData] = React.useState({
         name: '',
@@ -41,7 +45,7 @@ const ForgotPassword = (props) => {
 
                 
                 console.log("::"+username+newPassword+"::" )
-                const { data } = await axios.post(`${baseURL}Users/register`,{username,newPassword},config)
+                const { data } = await axios.post(`${baseURL}Users/update`,{username,newPassword},config)
                 props.navigation.navigate('Login')
                 console.log(data)
             

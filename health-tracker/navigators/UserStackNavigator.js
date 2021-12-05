@@ -9,17 +9,16 @@ import Questionnaire from "../screens/User/Questionnaire";
 import ForgotPassword from "../screens/User/ForgotPassword";
 import ProfileScreen from "../screens/User/ProfileScreen";
 
-
 import MainTabNavigator from "../navigators/MainTabNavigator";
 import HomeScreen from "../screens/Home/HomeScreen";
 import DrawerNavigator from "./DrawerNavigator";
 
 const Stack = createStackNavigator();
 
-export default function UserStackNavigator() {
+const UserStackNavigator = (props) => {
     return (
         <Stack.Navigator 
-            initialRouteName="SplashScreen"
+            initialRouteName="Splash"
         >
             <Stack.Screen 
                 name="Splash"
@@ -56,9 +55,9 @@ export default function UserStackNavigator() {
                     headerShown: false,
                 }}
             /> 
-             <Stack.Screen 
-                name="Profile"
-                component={ProfileScreen}
+            <Stack.Screen 
+                name="Home"
+                component={DrawerNavigator}
                 options={{
                     headerShown: false,
                 }}
@@ -67,4 +66,6 @@ export default function UserStackNavigator() {
         </Stack.Navigator>
     )
 }
+
+export default UserStackNavigator;
 

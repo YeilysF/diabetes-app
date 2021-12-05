@@ -7,7 +7,7 @@ import { LinearGradient } from 'expo-linear-gradient'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import axios from "axios";
-import  AuthContext  from '../../context/store/AuthContext';
+import { AuthContext }  from '../../context/store/Auth';
 import baseURL from "../../assets/common/baseURL"
 import { logoutUser } from "../../context/actions/AuthActions"
 
@@ -26,7 +26,7 @@ const ProfileScreen = (props) => {
           context.stateUser.isAuthenticated === false || 
           context.stateUser.isAuthenticated === null
       ) {
-          props.navigation.navigate("Login")
+          props.navigation.navigate("Splash")
       }
 
       AsyncStorage.getItem("jwt")
@@ -48,14 +48,14 @@ const ProfileScreen = (props) => {
         <LinearGradient colors={['#87cefa', '#4169e1']} style={styles.container} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }}>
         <View style={styles.header}>
               <Image source={require("../../assets/app_images/defaultProfilePic.jpg")} style={styles.profileImage} resizeMode="center"></Image>
-              <Text style={[styles.title, { fontWeight: "bold", fontSize: 24, marginTop: 5 }]}> Fullname: {userProfile ? userProfile.fullname : ""}</Text>
+              <Text style={[styles.title, { fontWeight: "bold", fontSize: 24, marginTop: 5 }]}> Fullname: {userProfile ? userProfile.fullname :  ""}</Text>
               <Text style={[styles.subText]}>Email: {userProfile ? userProfile.email : ""}</Text>
         </View>
 
           <Animatable.View style={[styles.footer, {backgroundColor: "white"}]} animation="fadeInUpBig">
             <Button title={"Sign Out"} onPress={() => [AsyncStorage.removeItem("jwt"), logoutUser(context.dispatch)]}/> 
               {/* diabetis Type
-              Weight
+              Weightz
               */}
           </Animatable.View>
         </LinearGradient>

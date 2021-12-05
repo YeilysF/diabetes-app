@@ -7,41 +7,41 @@ import Feather from 'react-native-vector-icons/Feather';
 import { useTheme } from 'react-native-paper';
 
 //store
-import  AuthContext  from '../../context/store/AuthContext';
+import  { AuthContext }  from '../../context/store/Auth';
 import { loginUser } from "../../context/actions/AuthActions";
 //import Toast from "react-native-root-toast";
 
 const LoginScreen = (props) => {
     const { colors } = useTheme();
     const context = useContext(AuthContext);
-    const [error, setError] = useState(false)
-    const [loading, setLoading] = useState(false)
-    const[email, setEmail] = useState('')
-    const[password, setPassword] = useState('')
+    const [error, setError] = useState(false);
+    const [success, setSuccess] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const[email, setEmail] = useState('');
+    const[password, setPassword] = useState('');
 
     useEffect(() => {
-        if (context.stateUser.isAuthenticated === true) {
-          props.navigation.navigate("Profile", {
-            email : email,
-        });
-        }
-      }, [context.stateUser.isAuthenticated]);
+      if (context.stateUser.isAuthenticated === true) {
+        setSuccess(true);
+        props.navigation.navigate("Home");
+      } 
+    }, [context.stateUser.isAuthenticated]);
 
-      const handleSubmit = () => {
-        const user = {
-          email,
-          password,
-        };
-    
-        if (email === "" || password === "") {
-          setError(true);
-        } else {
-          loginUser(user, context.dispatch);
-        }
-
-        console.log(email,password);
+    const handleSubmit = () => {
+      const user = {
+        email,
+        password,
       };
+  
+      if (email === "" || password === "") {
+        setError(true);
+      } else {
+        loginUser(user, context.dispatch);
+      }
 
+      console.log(email,password);
+    };
+     
 
     return (
       <View style={styles.container}>
@@ -91,8 +91,9 @@ const LoginScreen = (props) => {
               onPress={() => props.navigation.navigate('Forgot Password')}>
                   <Text style={{color: '#4169e1', marginTop:15}}>Forgot password?</Text>
               </TouchableOpacity>
-              {error ? <Text style={{color: '#FF0000', marginTop:15}}>Invalid username and/or password</Text> : null}
-
+              {error ? <Text style={{color: '#FF0000', marginTop:15}}>Invalid username and/or password</Text> : null} 
+              {success ? <Text style={{color: 'green', marginTop:15}}>Success</Text> : null} 
+          
               <View style={styles.button}>
                   <TouchableOpacity 
                     onPress={() => handleSubmit()}
