@@ -15,7 +15,7 @@ const HomeScreen = (props) => {
               <Emoji name="wave" style={{fontSize: 30}} />
               </Text>
           </View> */}
-              <Image source={require("../../assets/defaultProfilePic.jpg")} style={styles.profileImage} resizeMode="center"></Image>
+              <Image source={require("../../assets/app_images/defaultProfilePic.jpg")} style={styles.profileImage} resizeMode="center"></Image>
               <Text style={[styles.title, { fontWeight: "bold", fontSize: 24, marginTop: 5 }]}>First and Last Name</Text>
               <Text style={[styles.subText]}>useremail@mail.com</Text>
         </View>
