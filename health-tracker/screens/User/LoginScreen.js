@@ -1,51 +1,47 @@
-import React from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { View, Text, TouchableOpacity, TextInput, Platform, StyleSheet, StatusBar, Alert } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import { LinearGradient } from 'expo-linear-gradient'
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
 import { useTheme } from 'react-native-paper';
-import axios from 'axios';
+
+//store
+import  { AuthContext }  from '../../context/store/Auth';
+import { loginUser } from "../../context/actions/AuthActions";
+//import Toast from "react-native-root-toast";
 
 const LoginScreen = (props) => {
-    const [username, setUsername] = React.useState("")
-    const [password, setPassword] = React.useState("")
-    const [error, setError] = React.useState(false)
-    const [loading, setLoading] = React.useState(false)
-
-    //axios.defaults.baseURL = "http://10.0.2.2:3000"   //android emulator 
-    axios.defaults.baseURL = "http://localhost:3000"  //IOS and Web 
-
-    const signInHandler = async (e) => {
-        e.preventDefault()
-        try{
-            const config = {
-                headers: {
-                    "Content-type":"application/json"
-                }
-            }
-
-            setLoading(true)
-            setError(false);
-            console.log("::"+username+password+"::" )
-            
-            const { data } = await axios.post('api/v1/Users/login',{username,password},config)
-            
-            setLoading(false)
-            console.log(data)
-        
-        }catch(error){
-            setError(true);
-        }
-    }
-    const [data, setData] = React.useState({
-        name: '',
-        password: '',
-        isValidUser: true,
-        isValidPassword: true,
-    });
-
     const { colors } = useTheme();
+    const context = useContext(AuthContext);
+    const [error, setError] = useState(false);
+    const [success, setSuccess] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const[email, setEmail] = useState('');
+    const[password, setPassword] = useState('');
+
+    useEffect(() => {
+      if (context.stateUser.isAuthenticated === true) {
+        setSuccess(true);
+        props.navigation.navigate("Home");
+      } 
+    }, [context.stateUser.isAuthenticated]);
+
+    const handleSubmit = () => {
+      const user = {
+        email,
+        password,
+      };
+  
+      if (email === "" || password === "") {
+        setError(true);
+      } else {
+        loginUser(user, context.dispatch);
+      }
+
+      console.log(email,password);
+    };
+     
 
     return (
       <View style={styles.container}>
@@ -58,34 +54,18 @@ const LoginScreen = (props) => {
             animation="fadeInUpBig" 
             style={[styles.footer, {backgroundColor: colors.background}]}
           >
-              <Text style={[styles.text_footer, {color: colors.text}]}>Email</Text>
+              <Text style={[styles.text_footer, {color: colors.text}]}>Username</Text>
               <View style={styles.action}>
-                  <FontAwesome name="user-o" color={colors.text} size={20} />
+                  <FontAwesome name="envelope-open-o" color={colors.text} size={20} />
                   <TextInput 
-                      onChangeText={(e)=> setUsername(e)}
-                      value = {username}
+                      onChangeText={(text) => setEmail(text)}
+                      value = {email}
                       placeholder="Username" 
                       style={[styles.textInput, {color: colors.text}]}
                       autoCapitalize="none"
                   />
-                  {data.check_textInputChange ? 
-                  <Animatable.View
-                      animation="bounceIn"
-                  >
-                      <Feather 
-                          name="check-circle"
-                          color="blue"
-                          size={20}
-                      />
-                  </Animatable.View>
-                  : null}
               </View>
 
-              { data.isValidUser ? null : 
-              <Animatable.View animation="fadeInLeft" duration={500}>
-              <Text style={styles.errorMsg}>Invalid email.</Text>
-              </Animatable.View>
-              }
 
               <Text style={[styles.text_footer, {
                   color: colors.text,
@@ -98,7 +78,7 @@ const LoginScreen = (props) => {
                       size={20}
                   />
                   <TextInput 
-                      onChangeText={(e)=> setPassword(e)}
+                      onChangeText={(text) => setPassword(text)}
                       value = {password}
                       placeholder="Password"
                       secureTextEntry={true}
@@ -107,21 +87,16 @@ const LoginScreen = (props) => {
                   />
               </View>
 
-              { data.isValidPassword ? null : 
-              <Animatable.View animation="fadeInLeft" duration={500}>
-              <Text style={styles.errorMsg}>Password must be 8 characters long.</Text>
-              </Animatable.View>
-              }
-        
               <TouchableOpacity
               onPress={() => props.navigation.navigate('Forgot Password')}>
-                  <Text style={{color: '#4169e1', marginTop:15}}>Forgot password?</Text>
+                  <Text style={{color: '#4169e1', marginTop:15, fontSize: 17}}>Forgot password?</Text>
               </TouchableOpacity>
-              {error && <Text style={{color: '#FF0000', marginTop:15}}>Invalid Username or Password</Text> }
-
+              {error ? <Text style={{color: '#FF0000', marginTop:15}}>Invalid username and/or password</Text> : null} 
+              {success ? <Text style={{color: 'green', marginTop:15}}>Success</Text> : null} 
+          
               <View style={styles.button}>
                   <TouchableOpacity 
-                    onPress={signInHandler}
+                    onPress={() => handleSubmit()}
                     style={styles.logIn}>
                     <LinearGradient colors={['#87cefa', '#4169e1']} style={styles.logIn}>
                         <Text style={[styles.textSign, {color:'#fff'}]}>Sign In</Text>
@@ -169,7 +144,7 @@ const styles = StyleSheet.create({
     },
     text_footer: {
         color: '#05375a',
-        fontSize: 18
+        fontSize: 20,
     },
     action: {
         flexDirection: 'row',
@@ -183,6 +158,7 @@ const styles = StyleSheet.create({
         marginTop: Platform.OS === 'ios' ? 0 : -12,
         paddingLeft: 10,
         color: '#05375a',
+        fontSize: 18
     },
     errorMsg: {
         color: '#FF0000',
@@ -201,6 +177,6 @@ const styles = StyleSheet.create({
     },
     textSign: {
         fontSize: 18,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
     }
   });

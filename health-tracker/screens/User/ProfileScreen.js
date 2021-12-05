@@ -1,7 +1,6 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, Dimensions, StyleSheet, StatusBar, Image, ImageBackground, FlatList } from 'react-native';
 import * as Animatable from 'react-native-animatable';
-import { useTheme } from '@react-navigation/native';
 import { LinearGradient } from 'expo-linear-gradient'
 
 const HomeScreen = (props) => {

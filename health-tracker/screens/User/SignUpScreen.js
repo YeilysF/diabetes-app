@@ -1,46 +1,23 @@
-import React from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { View, Text, TouchableOpacity, TextInput, Platform, StyleSheet, StatusBar, Alert, Dimensions } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import { LinearGradient } from 'expo-linear-gradient'
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
 import { useTheme } from 'react-native-paper';
+import axios from "axios";
 
-const LoginScreen = (props) => {
+const SignUpScreen = (props) => {
 
     //Hooks for user input 
-    const [fullname, setFullname] = React.useState("")
-    const [username, setUsername] = React.useState("")
-    const [email, setEmail] = React.useState("")
-    const [password, setPassword] = React.useState("")
-    const [password2, setPassword2] = React.useState("")
+    const [email, setEmail] = useState("");
+    const [fullname, setFullname] = useState("");
+    const [password, setPassword] = useState("");
+    const [error, setError] = useState("");
 
-
-    const [data, setData] = React.useState({
-        firstname: '',
-        lastName:  '',
-        email: '',
-        password: '',
-        confirm_password: '',
-        isValidEmail: true,
-        isValidPassword: true,      
-    });
 
     const { colors } = useTheme();
 
-    const nextHandler = async (e) => {
-
-        // once the passwords have been verified go to the next page passing it all the variables
-        if(password == password2){
-            props.navigation.navigate('Questionnaire',{
-                fullname : fullname,
-                username : username,
-                email : email,
-                password : password
-            })
-        }
-        
-    }
     return (
       <View style={styles.container}>
           <StatusBar backgroundColor='#009387' barStyle="light-content"/>
@@ -52,42 +29,17 @@ const LoginScreen = (props) => {
             animation="fadeInUpBig" 
             style={[styles.footer, {backgroundColor: colors.background}]}
           >
-              <Text style={[styles.text_footer, {color: colors.text}]}>Full Name</Text>
+              <Text style={[styles.text_footer, {color: colors.text}]}>Name</Text>
               <View style={styles.action}>
                   <FontAwesome name="user-o" color={colors.text} size={20} />
                   <TextInput 
-                      onChangeText={(e)=> setFullname(e)}
+                      onChangeText={(text)=> setFullname(text)}
                       placeholder="Full Name" 
-                      secureTextEntry={data.secureTextEntry ? true : false}
+                     // secureTextEntry={data.secureTextEntry ? true : false}
                       style={[styles.textInput, {color: colors.text}]}
                       autoCapitalize="none"
                   />
-                  {data.check_textInputChange ? 
-                  <Animatable.View
-                      animation="bounceIn"
-                  >
-                      <Feather 
-                          name="check-circle"
-                          color="blue"
-                          size={20}
-                      />
-                  </Animatable.View>
-                  : null}
-              </View>
-
-              <Text style={[styles.text_footer, {
-                  color: colors.text,
-                  marginTop: 35
-              }]}>Username</Text>
-              <View style={styles.action}>
-                <FontAwesome name="user-o" color={colors.text} size={20} />
-                  <TextInput 
-                      onChangeText={(e)=> setUsername(e)}
-                      placeholder="Username"
-                      secureTextEntry={data.secureTextEntry ? true : false}
-                      style={[styles.textInput, {color: colors.text}]}
-                      autoCapitalize="none"
-                  />
+                  
               </View>
 
               <Text style={[styles.text_footer, {
@@ -97,19 +49,13 @@ const LoginScreen = (props) => {
               <View style={styles.action}>
                 <FontAwesome name="envelope-open-o" color={colors.text} size={20} /> 
                   <TextInput 
-                      onChangeText={(e)=> setEmail(e)}
+                      onChangeText={(text) => setEmail(text.toLowerCase())}
                       placeholder="Email"
-                      secureTextEntry={data.secureTextEntry ? true : false}
+                     // secureTextEntry={data.secureTextEntry ? true : false}
                       style={[styles.textInput, {color: colors.text}]}
                       autoCapitalize="none"
                   />
               </View>
-
-                { data.isValidEmail ? null : 
-                <Animatable.View animation="fadeInLeft" duration={500}>
-                <Text style={styles.errorMsg}>Invalid email.</Text>
-                </Animatable.View>
-                }
 
               <Text style={[styles.text_footer, {
                   color: colors.text,
@@ -122,44 +68,24 @@ const LoginScreen = (props) => {
                       size={20}
                   />
                   <TextInput 
-                      onChangeText={(e)=> setPassword(e)}
+                      onChangeText={(text)=> setPassword(text)}
                       placeholder="Password"
-                      secureTextEntry={data.secureTextEntry ? false : true}
+                      secureTextEntry={true}
                       style={[styles.textInput, {color: colors.text}]}
                       autoCapitalize="none"
                   />
               </View>
 
-                { data.isValidPassword ? null : 
-                <Animatable.View animation="fadeInLeft" duration={500}>
-                <Text style={styles.errorMsg}>Password must be 8 characters long.</Text>
-                </Animatable.View>
-                }
-
-              <Text style={[styles.text_footer, {
-                  color: colors.text,
-                  marginTop: 35
-              }]}>Verify Password</Text>
-              <View style={styles.action}>
-                  <Feather 
-                      name="lock"
-                      color={colors.text}
-                      size={20}
-                  />
-                  <TextInput 
-                  onChangeText={(e)=> setPassword2(e)}
-                      placeholder="Verify Password"
-                      secureTextEntry={data.secureTextEntry ? false : true}
-                      style={[styles.textInput, {color: colors.text}]}
-                      autoCapitalize="none"
-                  />
-              </View>
 
               <View style={styles.button}>
                   
                   <TouchableOpacity 
                     //onPress={() => props.navigation.navigate('Questionnaire')}
-                    onPress={nextHandler}
+                    onPress={() => props.navigation.navigate('Questionnaire',{
+                        fullname : fullname,
+                        email : email,
+                        password : password
+                    })}
                     style={[styles.logIn, {borderColor: '#4169e1',borderWidth: 1,marginTop: 15}]}
                   >
                     <LinearGradient colors={['#87cefa', '#4169e1']} style={styles.logIn}>
@@ -168,7 +94,7 @@ const LoginScreen = (props) => {
                   </TouchableOpacity>
 
                   <TouchableOpacity 
-                    onPress={() => props.navigation.navigate('Login')}
+                    onPress={() => props.navigation.goBack()}
                     style={[styles.logIn, {borderColor: '#4169e1',borderWidth: 1,marginTop: 15}]}
                   >
                       <Text style={[styles.textSign, {color: '#4169e1'}]}>Back</Text>
@@ -181,7 +107,7 @@ const LoginScreen = (props) => {
     );
 };
 
-export default LoginScreen;
+export default SignUpScreen;
 
 const {height} = Dimensions.get('screen');
 
@@ -345,6 +271,7 @@ activityIndicator: {
       marginTop: Platform.OS === 'ios' ? 0 : -12,
       paddingLeft: 10,
       color: '#05375a',
+      fontSize: 18
   },
   errorMsg: {
       color: '#FF0000',

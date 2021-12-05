@@ -1,9 +1,11 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, FlatList} from 'react-native';
 
 const NotificationScreen = (props) => {
+
   return (
     <View style={styles.container}>
+      
       <Text>No New Notifications!</Text>
     </View>
   );

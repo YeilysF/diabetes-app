@@ -6,6 +6,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
 import { useTheme } from 'react-native-paper';
 import axios from 'axios';
+import baseURL from "../../assets/common/baseURL";
 
 const ForgotPassword = (props) => {
 
@@ -44,7 +45,7 @@ const ForgotPassword = (props) => {
 
                 
                 console.log("::"+username+newPassword+"::" )
-                const { data } = await axios.post('api/v1/Users/UpdatePassword',{username,newPassword},config)
+                const { data } = await axios.post(`${baseURL}Users/update`,{username,newPassword},config)
                 props.navigation.navigate('Login')
                 console.log(data)
             

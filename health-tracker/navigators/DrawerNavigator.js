@@ -12,7 +12,6 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 
 import DrawerComponent from '../components/DrawerComponent';
-import LoginScreen from '../screens/User/LoginScreen';
 import HomeNavigator from './HomeNavigator';
 
 const Drawer = createDrawerNavigator();
@@ -25,7 +24,7 @@ const DrawerNavigator = (props) => {
         >
         <Drawer.Screen 
             name="Home" 
-            component={HomeNavigator} 
+            component={MainTabNavigator} 
             options={{
              headerShown: false,
               drawerIcon: () => (

@@ -6,49 +6,50 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
 import { useTheme } from 'react-native-paper';
 import axios from 'axios';
+import baseURL from "../../assets/common/baseURL";
 
 const Questionnaire = (props) => {
 
     //hooks for user input
-    const username = props.route.params.username 
     const fullname = props.route.params.fullname
     const email = props.route.params.email 
     const password = props.route.params.password
-    const isAdmin = false
     const [diabetesType, setDiabetesType] = React.useState("")
     const [weight, setWeight] = React.useState("")
     const [country, setCountry] = React.useState("")
 
-    //axios.defaults.baseURL = "http://10.0.2.2:3000"   //android emulator 
-    axios.defaults.baseURL = "http://localhost:3000"  //IOS and Web 
-
-    const [data, setData] = React.useState({
-        name: '',
-        lastName:  '',
-        password: '',
-        verifyPassword: '',
-        isValidEmail: true,
-        isValidPassword: true,      
-    });
-    
     const { colors } = useTheme();
 
-    const registerHandler = async (e) => {
-        e.preventDefault()
-        try{
-            const config = {
-                headers: {
-                    "Content-type":"application/json"
-                }
-            }
-            //console.log("::"+username+password+"::" )
-            const { data } = await axios.post('api/v1/Users/',{fullname,username,email,password,diabetesType,weight,country,isAdmin},config)
-            props.navigation.navigate('Login')
-        
-        }catch(error){
-            console.log("there has been an error creating the user")
+    const register = () => {
+        if (email === "" || fullname === "" || password === "") {
+          setError("These fields cannot be left in blank");
         }
-    }
+    
+        let user = {
+            fullname: fullname,
+            email: email,
+            password: password, 
+            image: "", 
+            diabetesType: diabetesType, 
+            weight: weight, 
+            country: country, 
+            isAdmin: false,
+        };
+        
+        axios
+          .post(`${baseURL}Users/register`, user)
+          .then((res) => {
+            if (res.status == 200) {
+              console.log("Success")
+              setTimeout(() => {
+                props.navigation.navigate("Login");
+              }, 500);
+            }
+          })
+          .catch((error) => {
+            alert("Something went wrong. Please try again!");
+          });
+      };
 
     return (
       <View style={styles.container}>
@@ -68,21 +69,11 @@ const Questionnaire = (props) => {
                   <TextInput 
                       onChangeText={(e)=> setDiabetesType(e)}
                       placeholder="Diabetes Type" 
-                      secureTextEntry={data.secureTextEntry ? true : false}
+                    //  secureTextEntry={data.secureTextEntry ? true : false}
                       style={[styles.textInput, {color: colors.text}]}
                       autoCapitalize="none"
                   />
-                  {data.check_textInputChange ? 
-                  <Animatable.View
-                      animation="bounceIn"
-                  >
-                      <Feather 
-                          name="check-circle"
-                          color="blue"
-                          size={20}
-                      />
-                  </Animatable.View>
-                  : null}
+                  
               </View>
 
               <Text style={[styles.text_footer, {
@@ -94,7 +85,7 @@ const Questionnaire = (props) => {
                   <TextInput 
                       onChangeText={(e)=> setWeight(e)}
                       placeholder="Weight"
-                      secureTextEntry={data.secureTextEntry ? true : false}
+                      //secureTextEntry={data.secureTextEntry ? true : false}
                       style={[styles.textInput, {color: colors.text}]}
                       autoCapitalize="none"
                   />
@@ -109,7 +100,7 @@ const Questionnaire = (props) => {
                   <TextInput 
                       onChangeText={(e)=> setCountry(e)}
                       placeholder="Country"
-                      secureTextEntry={data.secureTextEntry ? true : false}
+                     // secureTextEntry={data.secureTextEntry ? true : false}
                       style={[styles.textInput, {color: colors.text}]}
                       autoCapitalize="none"
                   />
@@ -117,7 +108,7 @@ const Questionnaire = (props) => {
               <View style={styles.button}>
                   
                   <TouchableOpacity 
-                    onPress={registerHandler}
+                    onPress={() => register()}
                     style={[styles.logIn, {borderColor: '#4169e1',borderWidth: 1,marginTop: 15}]}
                   >
                     <LinearGradient colors={['#87cefa', '#4169e1']} style={styles.logIn}>
@@ -126,7 +117,7 @@ const Questionnaire = (props) => {
                   </TouchableOpacity>
 
                   <TouchableOpacity 
-                    onPress={() => props.navigation.navigate('Sign Up')}
+                    onPress={() => props.navigation.goBack()}
                     style={[styles.logIn, {borderColor: '#4169e1',borderWidth: 1,marginTop: 15}]}
                   >
                       <Text style={[styles.textSign, {color: '#4169e1'}]}>Back</Text>
@@ -300,6 +291,7 @@ activityIndicator: {
       marginTop: Platform.OS === 'ios' ? 0 : -12,
       paddingLeft: 10,
       color: '#05375a',
+      fontSize: 18
   },
   errorMsg: {
       color: '#FF0000',
