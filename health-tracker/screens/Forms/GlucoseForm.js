@@ -67,9 +67,9 @@ const GlucoseForm = (props) => {
             <Text style={[styles.text_footer, {color: colors.text}]}>Glucose</Text>
             <View style={styles.action}>
                 <MaterialCommunityIcons
-                    name="pill"
+                    name="spoon-sugar"
                     color={colors.text}
-                    size={22}
+                    size={25}
                 />
                 <TextInput
                     onChangeText={(text)=> setGlucose(text)}
