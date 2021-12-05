@@ -20,6 +20,7 @@ import ExerciseScreen from '../screens/Home/ExerciseScreen';
 import InsulinNavigator from './InsulinNavigator';
 import GlucoseNavigator from './GlucoseNavigator';
 import BPNavigator from './BPNavigator';
+import ExerciseNavigator from './ExerciseNavigator';
 
 const Stack = createStackNavigator();
 
@@ -80,7 +81,7 @@ const HomeNavigator = (props) => {
             />
             <Stack.Screen 
                 name="Exercise" 
-                component={ExerciseScreen} 
+                component={ExerciseNavigator} 
                 options={{
                   headerShown: false,
                 }}

@@ -33,7 +33,7 @@ const GlucoseForm = (props) => {
 
   //const context = useContext(AuthContext);
 
-  const addGlucose = (user) => {
+  const addGlucose = () => {
     if (glucoseLevel === "" || timeOfDay === "") {
       setError("These fields cannot be left blank");
     }
