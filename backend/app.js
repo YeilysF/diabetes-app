@@ -33,7 +33,7 @@ const UserRoutes = require('./routes/Users');
 
 app.use(`${api}/BloodPressures`, BPSRoutes);
 app.use(`${api}/Categories`, CategoryRoutes);
-app.use(`${api}/ExerciseRoutes`, ExerciseRoutes);
+app.use(`${api}/Exercises`, ExerciseRoutes);
 app.use(`${api}/Foods`, FoodRoutes);
 app.use(`${api}/Glucoses`, GlucoseRoutes);
 app.use(`${api}/Insulins`, InsulinRoutes);

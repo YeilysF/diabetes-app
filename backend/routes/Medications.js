@@ -4,7 +4,7 @@ const router = express.Router();
 
 router.post(`/add`, async (req, res) => {
     let medication = new Medication({
-      //  username: req.body.username,
+        user: req.body.user,
         medicationName: req.body.medicationName,
         quantity: req.body.quantity,
         timeOfDay: req.body.timeOfDay,
