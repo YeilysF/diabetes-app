@@ -1,7 +1,8 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import { StyleSheet, Text, TouchableOpacity, View, Image, StatusBar, Dimensions, ActivityIndicator, FlatList} from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import * as Animatable from 'react-native-animatable';
+import { useFocusEffect } from '@react-navigation/native';
 
 //icons
 import AntDesign from "react-native-vector-icons/AntDesign";
@@ -21,13 +22,12 @@ const BPScreen = (props) => {
     const deleteBP = (bp) => {
        axios.delete(`${baseURL}BloodPressures/${bp}`)
       .then((res) => {
-          console.log(res);  
-          console.log(res.data);  
+          console.log("Blood Pressure Deleted");  
       }), [bp]
     };
-
     
-    useEffect(() => {
+    useFocusEffect(
+      useCallback(() => {
       const getBP = async () => {
         try {
           const res = await axios.get(`${baseURL}BloodPressures`);
@@ -38,8 +38,7 @@ const BPScreen = (props) => {
         }
       }
       getBP(); 
-      
-    }, [bloodPressures])
+    }, []))
 
   return (
     <View style={styles.mainContainer}>

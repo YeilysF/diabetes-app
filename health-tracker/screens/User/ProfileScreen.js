@@ -18,13 +18,13 @@ const ProfileScreen = (props) => {
 
   const [userProfile, setUserProfile] = useState([])
 
-  const { stateUser, dispatch } = useContext(AuthContext); 
+  const context = useContext(AuthContext); 
 
      useFocusEffect(
        useCallback(() => {
        if (
-           stateUser.isAuthenticated === false || 
-           stateUser.isAuthenticated === null
+           context.stateUser.isAuthenticated === false || 
+           context.stateUser.isAuthenticated === null
        ) {
           // props.navigation.navigate("Login")
        }
@@ -32,17 +32,14 @@ const ProfileScreen = (props) => {
        AsyncStorage.getItem("jwt")
            .then((res) => {
                axios
-                   .get(`${baseURL}Users/${stateUser.user.userId}`, {
+                   .get(`${baseURL}Users/${context.stateUser.user.userId}`, {
                        headers: { Authorization: `Bearer ${res}` },
                    })
                    .then((user) => setUserProfile(user.data))
            })
            .catch((error) => console.log(error))
 
-       }, [stateUser.isAuthenticated]))
-
-      // console.log("user" + userProfile)
-
+       }, [context.stateUser.isAuthenticated]))
 
     return (
       <View style={styles.container}>

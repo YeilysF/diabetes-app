@@ -13,10 +13,14 @@ import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 
 import DrawerComponent from '../components/DrawerComponent';
 import HomeNavigator from './HomeNavigator';
+import  { AuthContext }  from '../context/store/Auth';
 
 const Drawer = createDrawerNavigator();
 
 const DrawerNavigator = (props) => {
+
+  const context = React.useContext(AuthContext);
+
     return (
         <Drawer.Navigator 
         initialRouteName="Home"
@@ -33,6 +37,7 @@ const DrawerNavigator = (props) => {
             }}
         />
 
+      {context.stateUser.user.isAdmin == true ? (
         <Drawer.Screen 
             name="Admin" 
             component={AdminScreen} 
@@ -47,6 +52,7 @@ const DrawerNavigator = (props) => {
               )
             }}
         />
+      ): null }
 
         </Drawer.Navigator>
     );

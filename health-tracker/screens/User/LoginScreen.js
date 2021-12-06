@@ -37,6 +37,10 @@ const LoginScreen = (props) => {
         setError(true);
       } else {
         loginUser(user, context.dispatch);
+
+        //if((context.stateUser.isAuthenticated == false)){
+        //  setError(true)
+       // }
       }
 
       console.log(email,password);
