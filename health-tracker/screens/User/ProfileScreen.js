@@ -1,4 +1,4 @@
-import React, { useContext, useState, useCallback} from 'react';
+import React, { useContext, useState, useCallback, useEffect} from 'react';
 import { View, Text, TouchableOpacity, Dimensions, StyleSheet, StatusBar, Image, FlatList, Button } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import * as Animatable from 'react-native-animatable';
@@ -7,7 +7,7 @@ import { LinearGradient } from 'expo-linear-gradient'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import axios from "axios";
-import { AuthContext }  from '../../context/store/Auth';
+import Auth, { AuthContext }  from '../../context/store/Auth';
 import baseURL from "../../assets/common/baseURL"
 import { logoutUser } from "../../context/actions/AuthActions"
 
@@ -15,33 +15,34 @@ import { logoutUser } from "../../context/actions/AuthActions"
 import Icon from "react-native-vector-icons/FontAwesome";
 
 const ProfileScreen = (props) => {
-    const { colors } = useTheme();
 
-    const [userProfile, setUserProfile] = useState()
-    const context = useContext(AuthContext);
+  const [userProfile, setUserProfile] = useState([])
 
-    useFocusEffect(
-      useCallback(() => {
-      if (
-          context.stateUser.isAuthenticated === false || 
-          context.stateUser.isAuthenticated === null
-      ) {
-          props.navigation.navigate("Splash")
-      }
+  const { stateUser, dispatch } = useContext(AuthContext); 
 
-      AsyncStorage.getItem("jwt")
-          .then((res) => {
-              axios
-                  .get(`${baseURL}Users/${context.stateUser.user.sub}`, {
-                      headers: { Authorization: `Bearer ${res}` },
-                  })
-                  .then((user) => setUserProfile(user.data))
-                  console.log(userProfile)
-          })
-          .catch((error) => console.log(error))
+     useFocusEffect(
+       useCallback(() => {
+       if (
+           stateUser.isAuthenticated === false || 
+           stateUser.isAuthenticated === null
+       ) {
+          // props.navigation.navigate("Login")
+       }
 
-      }, [context.stateUser.isAuthenticated]))
-  
+       AsyncStorage.getItem("jwt")
+           .then((res) => {
+               axios
+                   .get(`${baseURL}Users/${stateUser.user.userId}`, {
+                       headers: { Authorization: `Bearer ${res}` },
+                   })
+                   .then((user) => setUserProfile(user.data))
+           })
+           .catch((error) => console.log(error))
+
+       }, [stateUser.isAuthenticated]))
+
+      // console.log("user" + userProfile)
+
 
     return (
       <View style={styles.container}>
@@ -49,8 +50,8 @@ const ProfileScreen = (props) => {
         <LinearGradient colors={['#87cefa', '#4169e1']} style={styles.container} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }}>
         <View style={styles.header}>
               <Image source={require("../../assets/app_images/defaultProfilePic.jpg")} style={styles.profileImage} resizeMode="center"></Image>
-              <Text style={[styles.title, { fontWeight: "bold", fontSize: 24, marginTop: 5 }]}> Fullname: {userProfile ? userProfile.fullname :  ""}</Text>
-              <Text style={[styles.subText]}>Email: {userProfile ? userProfile.email : ""}</Text>
+              <Text style={[styles.title, { fontWeight: "bold", fontSize: 24, marginTop: 5 }]}> Name: {userProfile.fullname}</Text>
+              <Text style={[styles.subText]}>Email: {userProfile.email}</Text>
         </View>
 
           <Animatable.View style={[styles.footer, {backgroundColor: "white"}]} animation="fadeInUpBig">
