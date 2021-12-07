@@ -37,7 +37,7 @@ const SettingsScreen = (props) => {
           <Animatable.View style={[styles.footer, {backgroundColor: "white"}]} animation="fadeInUpBig">
               <FlatGrid
                 horizontal={true}
-                itemDimension={130}
+                itemDimension={70}
                 data={items}
                 spacing={10}
                 style={styles.gridView}
