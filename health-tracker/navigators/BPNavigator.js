@@ -20,14 +20,19 @@ const BPNavigator = () => {
                 name='Blood Pressure'
                 component={BPScreen}
                 options={{
-                    headerShown: false,
+                    headerShown: true,
+                    headerTransparent: true,
+                    headerTintColor: 'white',
                 }}
             />
             <Stack.Screen 
                 name='BP Form'
                 component={BPForm}
                 options={{
-                    headerShown: false,
+                    title: "Blood Pressure Form",
+                    headerShown: true,
+                    headerTransparent: true,
+                    headerTintColor: 'white',
                 }}
             />
         </Stack.Navigator>

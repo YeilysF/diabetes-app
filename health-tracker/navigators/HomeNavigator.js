@@ -10,6 +10,11 @@ import GlucoseNavigator from './GlucoseNavigator';
 import BPNavigator from './BPNavigator';
 import ExerciseNavigator from './ExerciseNavigator';
 
+//Icons
+import Icon from "react-native-vector-icons/FontAwesome";
+import Icon2 from "react-native-vector-icons/FontAwesome5";
+import Icon3 from "react-native-vector-icons/Feather";
+
 const Stack = createStackNavigator();
 
 const HomeNavigator = (props) => {
@@ -21,9 +26,14 @@ const HomeNavigator = (props) => {
                 name='Home'
                 component={HomeScreen}
                 options={{
-                  headerShown: false,
-                }}
-            />
+                  headerShown: true,
+                  headerTransparent: true,
+                  headerTintColor: 'white',
+                  headerLeft: () => (
+                    <Icon3 name="menu" color='white' size={25} style={{marginLeft: 23}} onPress={() => props.navigation.openDrawer()}></Icon3>
+                  ),
+                        }}
+                  />
              <Stack.Screen 
                 name="Medications" 
                 component={MedicationNavigator} 

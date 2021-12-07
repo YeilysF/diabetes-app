@@ -20,14 +20,19 @@ const MedicationNavigator = () => {
                 name='Medication'
                 component={MedicationScreen}
                 options={{
-                    headerShown: false,
+                    title: "Medications",
+                    headerShown: true,
+                    headerTransparent: true,
+                    headerTintColor: 'white',
                 }}
             />
             <Stack.Screen 
                 name='Medication Form'
                 component={MedicationForm}
                 options={{
-                    headerShown: false,
+                    headerShown: true,
+                    headerTransparent: true,
+                    headerTintColor: 'white',
                 }}
             />
         </Stack.Navigator>
