@@ -199,7 +199,7 @@ const MedicationForm = (props) => {
                 />
                 <TextInput
                     placeholder="Description"
-                    value={quantity}
+                    value={description}
                     onChangeText={(text)=> setDescription(text)}
                     multiline={true}
                     style={[styles.textInput, {color: colors.text}]}

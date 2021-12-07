@@ -112,6 +112,7 @@ const BPForm = (props) => {
                 />
                 <TextInput
                     onChangeText={(text)=> setDiastolic(text)}
+                    keyboardType='numeric'
                     value={diastolic}
                     placeholder="mmHg" 
                     style={[styles.textInput, {color: colors.text}]}
@@ -128,6 +129,7 @@ const BPForm = (props) => {
                 />
                 <TextInput
                     onChangeText={(text)=> setSystolic(text)}
+                    keyboardType='numeric'
                     placeholder="mmHg" 
                     value={systolic}
                     style={[styles.textInput, {color: colors.text}]}
@@ -144,6 +146,7 @@ const BPForm = (props) => {
                 />
                 <TextInput
                     onChangeText={(text)=> setHeartRate(text)}
+                    keyboardType='numeric'
                     placeholder="bmp" 
                     value={heartRate}
                     style={[styles.textInput, {color: colors.text}]}
