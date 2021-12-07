@@ -15,7 +15,6 @@ import HomeNavigator from '../navigators/HomeNavigator';
 import ProfileNavigator from '../navigators/ProfileNavigator';
 
 import UserStackNavigator from "./UserStackNavigator";
-import ReportScreen from "../screens/ReportScreen";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator()
@@ -41,22 +40,6 @@ const MainTabNavigator = (props) => {
           tabBarIcon: () => (
             <Icon name="home" color='#6495ed' size={30} />
             ),
-        }}
-      />
-
-       <Tab.Screen
-        name="Report"
-        component={ReportScreen}
-        options={{
-          headerShown: true,
-          headerTransparent: true,
-          headerTintColor: 'white',
-          headerLeft: () => (
-            <Icon3 name="menu" color='white' size={25} style={{marginLeft: 23}} onPress={() => props.navigation.openDrawer()}></Icon3>
-          ),
-          tabBarIcon: () => (
-            <Icon2 name="notes-medical" color='#6495ed' size={30} />
-          ),
         }}
       />
 
