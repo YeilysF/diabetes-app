@@ -5,6 +5,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import * as Animatable from 'react-native-animatable';
 import Icon from "react-native-vector-icons/AntDesign";
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+//import * as Animatable from 'react-native-animatable';
 //import { StyleSheet, Text, View, Button } from 'react-native';
 const aboutData = [{screenName:'Glucose',description:"See and post your glucose levels"},
 {screenName:'Medications', description:'See and post your medications'},
@@ -22,6 +23,7 @@ const aboutData = [{screenName:'Glucose',description:"See and post your glucose 
 const About = (props) => {
   return (
     <View style={styles.container}>
+    <Animatable.View style={[styles.footers, {backgroundColor: "white"}]} animation="fadeInUpBig">
       <View >
               <FlatList
               contentContainerStyle={styles.listContainer}
@@ -47,6 +49,7 @@ const About = (props) => {
               }}
             />
             </View>
+            </Animatable.View>      
       <View style={styles.button}>
                   <TouchableOpacity 
                     onPress={() => props.navigation.navigate("Settings")}
@@ -113,7 +116,7 @@ errorMsg: {
 },
 button: {
     alignItems: 'center',
-    marginTop: 50,
+    marginTop: 60,
     width : '90%'
 },
 logIn: {
@@ -121,6 +124,8 @@ logIn: {
     height: 50,
     justifyContent: 'center',
     alignItems: 'center',
+    marginBottom: 45,
+    marginLeft:17,
     borderRadius: 10
 },
 textSign: {
@@ -187,19 +192,20 @@ item1: {
  
 },
 listContainer: {
-  marginTop: 30,
+  marginTop: 100,
 //  height: 10,
  // flex: 1,
   //width: 100,
 },
 
 itemContainer: {
+  marginLeft: 21,
  borderRadius: 20,
- width: 400,
+ width: 350,
 // height: 40,
-  flexDirection: "column",
- marginTop: 15,
-  backgroundColor: '#20b2aa',
+flexDirection: "column",
+marginTop: 15,
+backgroundColor: '#20b2aa',
 },
 
 itemContainer1: {
@@ -209,5 +215,13 @@ itemContainer1: {
    flexDirection: "row",
    //marginTop: 30,
   // backgroundColor: '#4169e1',
- }
+ },
+ footers: {
+  flex: 2.1,
+  marginTop: 10,
+  backgroundColor: '#fff',
+  borderTopLeftRadius: 30,
+  borderTopRightRadius: 30,
+  paddingHorizontal: 5
+},
 });
