@@ -1,4 +1,4 @@
-import React, {useState, useEffect } from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import { StyleSheet, Text, TouchableOpacity, View, Image, StatusBar, Dimensions, ActivityIndicator, FlatList} from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import * as Animatable from 'react-native-animatable';
@@ -8,6 +8,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 
 import axios from 'axios';
 import baseURL from "../../assets/common/baseURL";
+import { useFocusEffect } from '@react-navigation/native';
 
 const ExerciseScreen = (props) => {
 
@@ -19,13 +20,12 @@ const ExerciseScreen = (props) => {
     const deleteExercise = (exercise) => {
        axios.delete(`${baseURL}Exercises/${exercise}`)
       .then((res) => {
-          console.log(res);  
-          console.log(res.data);  
+          console.log("Exercise Deleted");  
       }), [exercise]
     };
-
     
-    useEffect(() => {
+    useFocusEffect(
+      useCallback(() => {
       const getExercise = async () => {
         try {
           const res = await axios.get(`${baseURL}Exercises`);
@@ -37,7 +37,7 @@ const ExerciseScreen = (props) => {
       }
       getExercise(); 
 
-    }, [exercises])
+    }, []))
 
   return (
     <View style={styles.mainContainer}>
@@ -136,7 +136,8 @@ const ExerciseScreen = (props) => {
             <Image source={(require('../../assets/home_images/13.png'))} style={{width: '60%', height: '33%', marginTop: '40%'}}/>
             <Text style={styles.subText}>No records</Text>
 
-            <TouchableOpacity style={{flexDirection: 'row', alignItems: 'center'}}>
+            <TouchableOpacity style={{flexDirection: 'row', alignItems: 'center'}}
+             onPress={() => props.navigation.navigate('Exercise Form')}>
               <Text style={styles.medText}> Add Exercise Activity</Text>
               <AntDesign name="right" color='#4169e1' size={20}></AntDesign>
             </TouchableOpacity>

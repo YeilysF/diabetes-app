@@ -1,11 +1,13 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import { StyleSheet, Text, TouchableOpacity, View, Image, StatusBar, Dimensions, ActivityIndicator, FlatList} from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import * as Animatable from 'react-native-animatable';
+import { useFocusEffect } from '@react-navigation/native';
 
 //icons
 import AntDesign from "react-native-vector-icons/AntDesign";
 import Icon from "react-native-vector-icons/AntDesign";
+import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
@@ -17,17 +19,24 @@ const BPScreen = (props) => {
   const [bloodPressures, setbloodPressure] = useState([]);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(true);
-  
-    const deleteBP = (bp) => {
-       axios.delete(`${baseURL}BloodPressures/${bp}`)
-      .then((res) => {
-          console.log(res);  
-          console.log(res.data);  
-      }), [bp]
-    };
 
-    
-    useEffect(() => {
+    const editBP = (bp) => {
+      axios.get(`${baseURL}BloodPressures/${bp}`)
+     .then((res) => {
+        console.log("Heart Rate" + res.data.diastolic)
+        props.navigation.navigate('BP Form', {
+          id: res.data._id,
+          heartRate: res.data.heartRate, 
+          diastolic: res.data.diastolic, 
+          systolic: res.data.systolic, 
+          timeOfDay: res.data.timeOfDay, 
+          description: res.data.description, 
+        })
+     }), [bp]
+   };
+
+    useFocusEffect(
+      useCallback(() => {
       const getBP = async () => {
         try {
           const res = await axios.get(`${baseURL}BloodPressures`);
@@ -38,8 +47,7 @@ const BPScreen = (props) => {
         }
       }
       getBP(); 
-      
-    }, [bloodPressures])
+    }, []))
 
   return (
     <View style={styles.mainContainer}>
@@ -82,8 +90,6 @@ const BPScreen = (props) => {
                    
                       <TouchableOpacity
                         style={{
-                          borderWidth: 1,
-                          borderColor: '#4682b4',
                           alignItems: 'center',
                           justifyContent: 'center',
                           width: 25,
@@ -93,13 +99,12 @@ const BPScreen = (props) => {
                           //bottom: 10,
                           //right: 50,
                           height: 25,
-                          backgroundColor: '#fff',
-                          borderRadius: 90,
+            
                         }}
-                        onPress={() => deleteBP(item._id)}
+                        onPress={() => editBP(item._id)}
                        
                 >
-                  <Icon name='minus' size={20} color='#4682b4' />
+                  <FontAwesome5 name='edit' size={22} color='white' />
                 </TouchableOpacity>
                     
                   </View>
@@ -243,5 +248,10 @@ footer: {
      flexDirection: "row",
      //marginTop: 30,
     // backgroundColor: '#4169e1',
-   }
+   },
+
+   headerStyle: {
+    paddingLeft: 10,
+    paddingVertical: 10,
+  },
 });

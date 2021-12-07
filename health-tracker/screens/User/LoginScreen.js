@@ -39,13 +39,15 @@ const LoginScreen = (props) => {
         loginUser(user, context.dispatch);
 
         if((context.stateUser.isAuthenticated == false)){
+         setError(true)
+        }
+      }
+
+        if((context.stateUser.isAuthenticated == false)){
           setError(true)
         }
       }
-      console.log(email,password);
-    };
      
-
     return (
       <View style={styles.container}>
           <StatusBar backgroundColor='#009387' barStyle="light-content"/>
@@ -117,7 +119,7 @@ const LoginScreen = (props) => {
         </LinearGradient>
       </View>
     );
-};
+  };
 
 export default LoginScreen;
 

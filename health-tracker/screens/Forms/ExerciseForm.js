@@ -29,8 +29,16 @@ const ExerciseForm = (props) => {
   //const [date, setDate] = useState(new Date())
   const [description, setDescription] = useState("")
   const [error, setError] = useState(false);
+  const [id, setId] = useState("");
+ // const [bloodPressures, setbloodPressure] = useState([]);
 
-  //const context = useContext(AuthContext);
+  const deleteExercise = () => {
+    axios.delete(`${baseURL}BloodPressures/${id}`)
+   .then((res) => {
+       console.log("Blood Pressure Deleted");  
+       props.navigation.navigate("Blood Pressure")
+   }), []
+ };
 
   const addExercise = () => {
     if (exerciseType === "" || timeOfDay === "") {

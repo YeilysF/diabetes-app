@@ -4,7 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 //import HomeNavigator from "./HomeNavigator";
 
 //screens
-import AdminScreen from "../screens/Admin/AdminScreen";
+//import AdminScreen from "../screens/Admin/AdminScreen";
 import NotificationScreen from '../screens/Home/NotificationScreen';
 import MainTabNavigator from "../navigators/MainTabNavigator";
 
@@ -13,10 +13,15 @@ import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 
 import DrawerComponent from '../components/DrawerComponent';
 import HomeNavigator from './HomeNavigator';
+import  { AuthContext }  from '../context/store/Auth';
+import AdminNavigator from './AdminNavigator';
 
 const Drawer = createDrawerNavigator();
 
 const DrawerNavigator = (props) => {
+
+  const context = React.useContext(AuthContext);
+
     return (
         <Drawer.Navigator 
         initialRouteName="Home"
@@ -33,11 +38,12 @@ const DrawerNavigator = (props) => {
             }}
         />
 
+      {context.stateUser.user.isAdmin == true ? (
         <Drawer.Screen 
             name="Admin" 
-            component={AdminScreen} 
+            component={AdminNavigator} 
             options={{
-              headerShown: true,
+              headerShown: false,
               drawerIcon: () => (
                 <MaterialIcon
                 name="admin-panel-settings"
@@ -47,6 +53,7 @@ const DrawerNavigator = (props) => {
               )
             }}
         />
+      ): null }
 
         </Drawer.Navigator>
     );

@@ -1,12 +1,12 @@
-import React, {useState, useEffect} from 'react';
-import { StyleSheet, Text, TouchableOpacity, View, Image, StatusBar, FlatList, Dimensions, ActivityIndicator} from 'react-native';
+import React, {useState, useEffect, useCallback} from 'react';
+import { StyleSheet, Text, TouchableOpacity, View, Image, StatusBar, FlatList, Dimensions, ActivityIndicator, RefreshControl} from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import * as Animatable from 'react-native-animatable';
 import AntDesign from "react-native-vector-icons/AntDesign";
 import Icon from "react-native-vector-icons/AntDesign";
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-
+import { useFocusEffect } from '@react-navigation/native';
 import axios from 'axios';
 import baseURL from "../../assets/common/baseURL";
 
@@ -20,13 +20,13 @@ const GlucoseScreen = (props) => {
     const deleteGlucose = (glucose) => {
        axios.delete(`${baseURL}Glucoses/${glucose}`)
       .then((res) => {
-          console.log(res);  
-          console.log(res.data);  
-      }), [glucose]
+        console.log("Glucose Deleted");  
+      }),
+      [glucose]
     };
 
-    
-    useEffect(() => {
+    useFocusEffect(
+      useCallback(() => {
       const getGlucose = async () => {
         try {
           const res = await axios.get(`${baseURL}Glucoses`);
@@ -37,8 +37,9 @@ const GlucoseScreen = (props) => {
         }
       }
       getGlucose(); 
+      
+    }, []))
 
-    }, [glucoses])
 
     //color1: '#f08080', color2: '#cd5c5c',
   return (
