@@ -11,7 +11,6 @@ import Icon3 from "react-native-vector-icons/Feather";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
 //Screens
-import HealthScreen from '../screens/HealthScreen';
 import HomeNavigator from '../navigators/HomeNavigator';
 import ProfileNavigator from '../navigators/ProfileNavigator';
 
@@ -42,21 +41,6 @@ const MainTabNavigator = (props) => {
           tabBarIcon: () => (
             <Icon name="home" color='#6495ed' size={30} />
             ),
-        }}
-      />
-
-       <Tab.Screen
-        name="Health"
-        component={HealthScreen}
-        options={{
-          headerShown: true,
-          headerTransparent: true,
-          headerLeft: () => (
-            <Icon3 name="menu" color='white' size={25} style={{marginLeft: 23}} onPress={() => props.navigation.openDrawer()}></Icon3>
-          ),
-          tabBarIcon: () => (
-            <Icon name="heartbeat" color='#6495ed' size={30} />
-          ),
         }}
       />
 
