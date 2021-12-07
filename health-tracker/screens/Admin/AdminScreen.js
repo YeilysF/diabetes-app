@@ -27,10 +27,10 @@ import { AuthContext }  from '../../context/store/Auth';
 
 const AdminScreen = (props) => {
 
-  const [userList, setUserList] = useState([]);
-  const [userFilter, setUserFilter] = useState([]);
+  const [userList, setUserList] = useState();
+  const [userFilter, setUserFilter] = useState();
   const [loading, setLoading] = useState(true);
-  const [token, setToken] = useState("");
+  const [token, setToken] = useState();
 
   const [searchQuery, setSearchQuery] = React.useState('');
   const onChangeSearch = query => setSearchQuery(query);
@@ -121,7 +121,7 @@ const AdminScreen = (props) => {
                         { item.image == "" ? (
                         <Avatar.Image source={require('../../assets/app_images/default-avatar.png')} size={30}/>
                         ) : (
-                        <Avatar.Image source={item.image} size={30}/>
+                        <Avatar.Image source={{uri: item.image}} size={30}/>
                         )
                         }
                         <View style={{flex:1, justifyContent: "space-between", flexDirection: "row"}}>
