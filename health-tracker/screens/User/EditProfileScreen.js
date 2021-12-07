@@ -28,7 +28,7 @@ import { useFocusEffect } from '@react-navigation/native';
 const EditProfile = (props) => {
 
   const [userProfile, setUserProfile] = useState([])
-
+ 
   const context = useContext(AuthContext); 
 
      useFocusEffect(
@@ -51,6 +51,8 @@ const EditProfile = (props) => {
            .catch((error) => console.log(error))
 
        }, [context.stateUser.isAuthenticated]))
+       const userProfileEmail = userProfile.email
+       const testing = 'test'
 
   const { colors } = useTheme();
 
@@ -64,8 +66,9 @@ const EditProfile = (props) => {
   const [userId, setUserId]  = useState("");
   
     const editUser = () => {
-
+        const prevEmail = 'test'
       let user = {
+          prevEmail: prevEmail,
           fullname: fullname,
           email: email,
           password: password,
@@ -77,7 +80,7 @@ const EditProfile = (props) => {
       };
       
               axios
-              .post(`${baseURL}Users/`, user)
+              .post(`${baseURL}Users/EditUser`, user)
               .then((res) => {
                   if (res.status == 200) {
                   console.log("Success")

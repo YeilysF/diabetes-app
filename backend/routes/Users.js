@@ -45,6 +45,45 @@ router.post(`/`, async (req, res) => {
     res.send(user);
 });
 
+//Edit a user
+router.post(`/EditUser`, async (req, res) => {
+    
+    let user = new User({
+        prevEmail :req.body.prevEmail, 
+        fullname: req.body.fullname,
+        email: req.body.email,
+        password: req.body.password,
+        image: req.body.image,
+        diabetesType: req.body.diabetesType,
+        weight: req.body.weight,
+        country: req.body.country,
+        isAdmin: req.body.isAdmin,
+        dateCreated: Date.now(), 
+    })
+    console.log(user.prevEmail+"   HELLO ")
+
+    const userr = await User.findOneAndUpdate(
+        {
+            email:user.'ponloAqui'
+        },
+        { 
+             fullname: user.fullname,
+             email: user.email,
+             password: user.password,
+             diabetesType: user.diabetesType,
+             weight: user.weight,
+             country: user.country
+        }
+        
+    )
+    if(!userr)
+    return res.status(400).send('The user was not found')
+
+    res.send(userr);
+
+    
+});
+
 //update user password
 router.put('/:id',async (req, res)=> {
     const userExist = await User.findById(req.params.id);
