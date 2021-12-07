@@ -52,9 +52,16 @@ const ProfileScreen = (props) => {
         </View>
 
           <Animatable.View style={[styles.footer, {backgroundColor: "white"}]} animation="fadeInUpBig">
-              {/* diabetis Type
-              Weightz
-              */}
+            <View style={[styles.detailContainer]}>
+                <View style={styles.detailBox}>
+                <Text style={styles.text}>Diabetes Type: {userProfile.diabetesType}</Text> 
+                </View>
+            </View>
+            <View style={[styles.detailContainer]}>
+                <View style={styles.detailBox}>
+                <Text style={styles.text}>Weight: {userProfile.weight}</Text> 
+                </View>
+            </View>
           </Animatable.View>
         </LinearGradient>
       </View>
@@ -62,6 +69,9 @@ const ProfileScreen = (props) => {
 };
 
 export default ProfileScreen;
+
+let screenHeight = Math.round(Dimensions.get("window").height);
+let screenWidth = Math.round(Dimensions.get("window").width);
 
 const {height} = Dimensions.get("screen");
 
@@ -82,11 +92,10 @@ const styles = StyleSheet.create({
   },
   footer: {
       flex: 2.1,
-      marginTop: 15,
+      marginTop: 50,
       backgroundColor: '#fff',
       borderTopLeftRadius: 30,
       borderTopRightRadius: 30,
-     // paddingVertical: 270,
       paddingHorizontal: 5
   },
   title: {
@@ -132,10 +141,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 10,
-    //padding: 5,
     height: height * 0.185,
-    //borderColor: '#3498db',
-    //borderWidth: 2,
   },
   nameContainer: {
         alignSelf: "center",
@@ -150,10 +156,34 @@ const styles = StyleSheet.create({
   menu: {
     marginRight: 20,
   },
-  search: {
-    justifyContent: 'center',
-    width: height*0.42,
-    borderRadius: 10
+  detailContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    height: screenHeight * 0.101,
+    alignSelf: "center",
+    marginTop: "15%",
+    marginHorizontal: 25,
+    backgroundColor: "whitesmoke",
+    shadowColor: "gray",
+    shadowOffset: {
+      width: 0,
+      height: 5,
+      },
+    shadowOpacity: 0.34,
+    shadowRadius: 6.27,
+    elevation: 10,
+    borderRadius: 12,
+    opacity: 0.8
   },
-  
+  detailBox: {
+    flex: 1,
+    alignItems: "center",
+    marginLeft: 40,
+  },
+  text: {
+    fontFamily: "open-sans",
+    color: "black",
+    fontSize: 0.043 * screenWidth,
+  },
+ 
 });

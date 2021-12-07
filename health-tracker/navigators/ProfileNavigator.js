@@ -9,6 +9,7 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 
 //screen
 import ProfileScreen from '../screens/User/ProfileScreen'
+import EditProfileScreen from '../screens/User/EditProfileScreen';
 
 const Stack = createStackNavigator();
 
@@ -22,7 +23,15 @@ const ProfileNavigator = () => {
                     headerShown: false,
                 }}
             />
+            <Stack.Screen 
+                name="EditProfile" 
+                component={EditProfileScreen} 
+                options={{
+                  headerShown: false,
+                }}
+            />
         </Stack.Navigator>
+        
     )
   }
 
