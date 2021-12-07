@@ -4,6 +4,8 @@ import { NavigationContainer } from '@react-navigation/native';
 //import HomeNavigator from "./HomeNavigator";
 
 //screens
+import AdminScreen from "../screens/Admin/AdminScreen";
+import SettingsNavigator from "./SettingsNavigator";
 //import AdminScreen from "../screens/Admin/AdminScreen";
 import NotificationScreen from '../screens/Home/NotificationScreen';
 import MainTabNavigator from "../navigators/MainTabNavigator";
@@ -53,7 +55,22 @@ const DrawerNavigator = (props) => {
               )
             }}
         />
+        
       ): null }
+      <Drawer.Screen 
+            name="Settings" 
+            component={SettingsNavigator} 
+            options={{
+              headerShown: true,
+              drawerIcon: () => (
+                <MaterialIcon
+                name="settings"
+                size={20}
+                color='#6495ed'
+              />
+              )
+            }}
+        />
 
         </Drawer.Navigator>
     );

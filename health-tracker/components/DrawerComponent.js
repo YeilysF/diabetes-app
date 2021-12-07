@@ -57,12 +57,6 @@ function DrawerComponent(props) {
 
                     <Drawer.Section style={styles.drawerSection}>
                         <DrawerItemList {...props} />
-                        <DrawerItem 
-                            icon={() => (
-                                <Icon2 name="settings" size={20} color='#6495ed'/>
-                            )}
-                            label="Settings"
-                        />
                     </Drawer.Section>
                     
                 </View>
