@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import { View, StyleSheet } from 'react-native';
 import {
     useTheme,
@@ -22,7 +22,15 @@ import Icon2 from 'react-native-vector-icons/Feather';
 //import Ionicons from "react-native-vector-icons/Ionicons";
 //import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from "axios";
+import { AuthContext }  from '../context/store/Auth';
+import baseURL from "../assets/common/baseURL"
+import { logoutUser } from "../context/actions/AuthActions"
+
 function DrawerComponent(props) {
+
+    const context = useContext(AuthContext);
 
     return(
         <View style={{flex:1}}>
@@ -30,7 +38,7 @@ function DrawerComponent(props) {
                 <View style={styles.drawerContent}>
                     <View style={styles.userInfo}>
                         <View style={{flexDirection:'row',marginTop: 15}}>
-                            <Avatar.Image source={require('../assets/default-avatar.png')} size={50}/>
+                            <Avatar.Image source={require('../assets/app_images/default-avatar.png')} size={50}/>
                             <View style={{marginLeft:15, flexDirection:'column'}}>
                                 <Title style={styles.title}>User</Title>
                                 <Caption style={styles.caption}>user@gmail.com</Caption>
@@ -63,7 +71,7 @@ function DrawerComponent(props) {
                         <Icon name="exit-to-app" size={20} color='#6495ed'/>
                     )}
                     label="Sign Out"
-                    onPress={() => alert('Sign Out')}
+                    onPress={() => [AsyncStorage.removeItem("jwt"), logoutUser(context.dispatch), props.navigation.navigate("Splash")]}
                 />
             </Drawer.Section>
         </View>

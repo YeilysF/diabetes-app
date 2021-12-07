@@ -2,21 +2,23 @@ import React from "react";
 import { createStackNavigator } from '@react-navigation/stack';
 
 import LoginScreen from '../screens/User/LoginScreen';
-import RegistrationScreen from '../screens/User/RegistrationScreen';
 //import ProfileScreen from '../screens/User/ProfileScreen';
 import SplashScreen from "../screens/User/SplashScreen";
 import SignUpScreen from "../screens/User/SignUpScreen";
+import Questionnaire from "../screens/User/Questionnaire";
+import ForgotPassword from "../screens/User/ForgotPassword";
+import ProfileScreen from "../screens/User/ProfileScreen";
 
 import MainTabNavigator from "../navigators/MainTabNavigator";
-import HomeScreen from "../screens/HomeScreen";
+import HomeScreen from "../screens/Home/HomeScreen";
 import DrawerNavigator from "./DrawerNavigator";
 
 const Stack = createStackNavigator();
 
-export default function UserStackNavigator() {
+const UserStackNavigator = (props) => {
     return (
         <Stack.Navigator 
-            initialRouteName="SplashScreen"
+            initialRouteName="Splash"
         >
             <Stack.Screen 
                 name="Splash"
@@ -38,16 +40,32 @@ export default function UserStackNavigator() {
                 options={{
                     headerShown: false,
                 }}
-            />
-             <Stack.Screen 
-                name="Registration"
-                component={RegistrationScreen}
+            />    
+            <Stack.Screen 
+                name="Questionnaire"
+                component={Questionnaire}
                 options={{
-                    headerShown: false
+                    headerShown: false,
                 }}
-            />
-             
+            /> 
+            <Stack.Screen 
+                name="Forgot Password"
+                component={ForgotPassword}
+                options={{
+                    headerShown: false,
+                }}
+            /> 
+            <Stack.Screen 
+                name="Home"
+                component={DrawerNavigator}
+                options={{
+                    headerShown: false,
+                }}
+            /> 
+                          
         </Stack.Navigator>
     )
 }
+
+export default UserStackNavigator;
 

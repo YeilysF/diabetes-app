@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useContext, useState, useEffect, useCallback} from 'react';
 import { View, Text, TouchableOpacity, Dimensions, StyleSheet, StatusBar, Image, ImageBackground, FlatList } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
 import * as Animatable from 'react-native-animatable';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { useTheme } from '@react-navigation/native';
@@ -8,6 +9,11 @@ import { FlatGrid } from 'react-native-super-grid';
 import Emoji from 'react-native-emoji';
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { Searchbar } from 'react-native-paper';
+import { AuthContext }  from '../../context/store/Auth';
+
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from "axios";
+import baseURL from "../../assets/common/baseURL"
 
 //vector icons
 import Icon from "react-native-vector-icons/FontAwesome";
@@ -15,16 +21,50 @@ import Icon from "react-native-vector-icons/FontAwesome";
 const HomeScreen = (props) => {
     const { colors } = useTheme();
 
-    const [searchQuery, setSearchQuery] = React.useState('');
+    const context = useContext(AuthContext); 
+    const [userInfo, setUserInfo] = useState([])
+
+    const [searchQuery, setSearchQuery] = useState('');
     const onChangeSearch = query => setSearchQuery(query);
+  /*
+    useFocusEffect(
+      useCallback(() => {
+      if (stateUser.isAuthenticated === true) {
+        try {
+          const user = axios.get(`${baseURL}Users/${stateUser.user.userId}`);
+          setUserProfile(user.data)
+        } catch (e) {
+          console.log(e);
+        }
+      } 
+    }, []))
+  */
+
+    
+    useFocusEffect(
+      useCallback(() => {
+        if (context.stateUser.isAuthenticated === true) {
+          AsyncStorage.getItem("jwt")
+              .then((res) => {
+                  axios
+                      .get(`${baseURL}Users/${context.stateUser.user.userId}`, {
+                          headers: { Authorization: `Bearer ${res}` },
+                      })
+                      .then((user) => setUserInfo(user.data))
+              })
+              .catch((error) => console.log(error))
+        } else {
+          console.log("User NOT authenticated")
+        }
+      }, []))
 
     const [items, setItems] = React.useState([
-      { name: 'MEDICATIONS', link: require('../assets/images/2.png'), color1: '#87cefa', color2: '#6495ed', width: 140, height: 70},
-      { name: 'GLUCOSE', link: require('../assets/images/1.png'), color1: '#f08080', color2: '#cd5c5c', width: 120, height: 70},
-      { name: 'INSULIN', link: require('../assets/images/3.png'), color1: '#20b2aa', color2: '#48d1cc', width: 140, height: 70},
-      { name: 'BLOOD PRESSURE', link: require('../assets/images/6.png'), color1: '#4682b4', color2: '#1e90ff', width: 140, height: 70},
-      { name: 'NUTRITION', link: require('../assets/images/7.png'), color1: '#daa520', color2: '#ffd700', width: 150, height: 70}, 
-      { name: 'EXERCISE', link: require('../assets/images/8.png'), color1: '#b0c4de', color2: '#4682b4', width: 150, height: 70},
+      { name: 'MEDICATIONS', link: require('../../assets/home_images/2.png'), color1: '#87cefa', color2: '#6495ed', width: 140, height: 70, screen: "Medications"},
+      { name: 'GLUCOSE', link: require('../../assets/home_images/1.png'), color1: '#f08080', color2: '#cd5c5c', width: 120, height: 70, screen: "Glucose"},
+      { name: 'INSULIN', link: require('../../assets/home_images/3.png'), color1: '#20b2aa', color2: '#48d1cc', width: 140, height: 70, screen: "Insulin"},
+      { name: 'BLOOD PRESSURE', link: require('../../assets/home_images/6.png'), color1: '#4682b4', color2: '#1e90ff', width: 140, height: 70, screen: "Blood Pressure"},
+      { name: 'NUTRITION', link: require('../../assets/home_images/7.png'), color1: '#daa520', color2: '#ffd700', width: 150, height: 70, screen: "Nutrition"}, 
+      { name: 'EXERCISE', link: require('../../assets/home_images/8.png'), color1: '#b0c4de', color2: '#4682b4', width: 150, height: 70, screen: "Exercise"},
     ])
 
     return (
@@ -33,7 +73,7 @@ const HomeScreen = (props) => {
         <LinearGradient colors={['#87cefa', '#4169e1']} style={styles.container} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }}>
         <View style={styles.header}>
           <View style={styles.subHeader}>
-              <Text style={styles.title}>Hi User 
+              <Text style={styles.title}>Hi {userInfo.fullname} 
               <Emoji name="wave" style={{fontSize: 30}} />
               </Text>
           </View>
@@ -54,8 +94,9 @@ const HomeScreen = (props) => {
                 spacing={10}
                 style={styles.gridView}
                 renderItem={({ item }) => (
-                  
-                    <TouchableOpacity>
+                    <TouchableOpacity
+                    onPress={()=>props.navigation.navigate(item.screen)}
+                    >
                       <LinearGradient colors={[item.color1, item.color2]} style={[styles.itemContainer]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }}>
                       <Text style={{marginBottom: 10}}>
                         <Image source={(item.link)} style={{width: item.width, height: item.height }}/>
@@ -117,9 +158,10 @@ const styles = StyleSheet.create({
   itemContainer: {
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 10,
+    borderRadius: 15,
     //padding: 5,
-    height: height * 0.185,
+    height: height * 0.19,
+    width: height * 0.21,
     //borderColor: '#3498db',
     //borderWidth: 2,
   },

@@ -1,15 +1,17 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, FlatList} from 'react-native';
 
-const RegistrationScreen = (props) => {
+const NotificationScreen = (props) => {
+
   return (
     <View style={styles.container}>
-      <Text>Registration Screen</Text>
+      
+      <Text>No New Notifications!</Text>
     </View>
   );
 }
 
-export default RegistrationScreen;
+export default NotificationScreen;
 
 const styles = StyleSheet.create({
   container: {

@@ -2,14 +2,6 @@ const { Nutrition } = require('../models/Nutrition');
 const express = require('express');
 const router = express.Router();
 
-router.get(`/`, async (req, res) => {
-    const nutritionList = await Nutrition.find();
-    if(!nutritionList){
-        res.status(500).json({success: false})
-    }
-    res.send(nutritionList);
-})
-
 router.post(`/`, async (req, res) => {
     const nutrition = new Nutrition({
         calories: req.body.calories,
@@ -25,5 +17,13 @@ router.post(`/`, async (req, res) => {
 
     res.send(nutrition);
 });
+
+router.get(`/`, async (req, res) => {
+    const nutritionList = await Nutrition.find();
+    if(!nutritionList){
+        res.status(500).json({success: false})
+    }
+    res.status(200).send(nutritionList);
+})
 
 module.exports = router;

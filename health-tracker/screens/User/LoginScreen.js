@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { View, Text, TouchableOpacity, TextInput, Platform, StyleSheet, StatusBar, Alert } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import { LinearGradient } from 'expo-linear-gradient'
@@ -6,16 +6,46 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
 import { useTheme } from 'react-native-paper';
 
+//store
+import  { AuthContext }  from '../../context/store/Auth';
+import { loginUser } from "../../context/actions/AuthActions";
+//import Toast from "react-native-root-toast";
+
 const LoginScreen = (props) => {
-
-    const [data, setData] = React.useState({
-        username: '',
-        password: '',
-        isValidUser: true,
-        isValidPassword: true,
-    });
-
     const { colors } = useTheme();
+    const context = useContext(AuthContext);
+    const [error, setError] = useState(false);
+    const [success, setSuccess] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const[email, setEmail] = useState('');
+    const[password, setPassword] = useState('');
+
+    useEffect(() => {
+      if (context.stateUser.isAuthenticated === true) {
+        setSuccess(true);
+        props.navigation.navigate("Home");
+      } 
+    }, [context.stateUser.isAuthenticated]);
+
+    const handleSubmit = () => {
+      const user = {
+        email,
+        password,
+      };
+  
+      if (email === "" || password === "") {
+        setError(true);
+      } else {
+        loginUser(user, context.dispatch);
+
+        //if((context.stateUser.isAuthenticated == false)){
+        //  setError(true)
+       // }
+      }
+
+      console.log(email,password);
+    };
+     
 
     return (
       <View style={styles.container}>
@@ -30,30 +60,16 @@ const LoginScreen = (props) => {
           >
               <Text style={[styles.text_footer, {color: colors.text}]}>Username</Text>
               <View style={styles.action}>
-                  <FontAwesome name="user-o" color={colors.text} size={20} />
+                  <FontAwesome name="envelope-open-o" color={colors.text} size={20} />
                   <TextInput 
+                      onChangeText={(text) => setEmail(text)}
+                      value = {email}
                       placeholder="Username" 
                       style={[styles.textInput, {color: colors.text}]}
                       autoCapitalize="none"
                   />
-                  {data.check_textInputChange ? 
-                  <Animatable.View
-                      animation="bounceIn"
-                  >
-                      <Feather 
-                          name="check-circle"
-                          color="blue"
-                          size={20}
-                      />
-                  </Animatable.View>
-                  : null}
               </View>
 
-              { data.isValidUser ? null : 
-              <Animatable.View animation="fadeInLeft" duration={500}>
-              <Text style={styles.errorMsg}>Username must be 4 characters long.</Text>
-              </Animatable.View>
-              }
 
               <Text style={[styles.text_footer, {
                   color: colors.text,
@@ -66,26 +82,24 @@ const LoginScreen = (props) => {
                       size={20}
                   />
                   <TextInput 
+                      onChangeText={(text) => setPassword(text)}
+                      value = {password}
                       placeholder="Password"
-                      secureTextEntry={data.secureTextEntry ? true : false}
+                      secureTextEntry={true}
                       style={[styles.textInput, {color: colors.text}]}
                       autoCapitalize="none"
                   />
               </View>
 
-              { data.isValidPassword ? null : 
-              <Animatable.View animation="fadeInLeft" duration={500}>
-              <Text style={styles.errorMsg}>Password must be 8 characters long.</Text>
-              </Animatable.View>
-              }
-        
-              <TouchableOpacity>
-                  <Text style={{color: '#4169e1', marginTop:15}}>Forgot password?</Text>
+              <TouchableOpacity
+              onPress={() => props.navigation.navigate('Forgot Password')}>
+                  <Text style={{color: '#4169e1', marginTop:15, fontSize: 17}}>Forgot password?</Text>
               </TouchableOpacity>
-
+              {error ? <Text style={{color: '#FF0000', marginTop:15}}>Invalid username and/or password</Text> : null} 
+          
               <View style={styles.button}>
                   <TouchableOpacity 
-                    onPress={() => props.navigation.navigate('Home')} 
+                    onPress={() => handleSubmit()}
                     style={styles.logIn}>
                     <LinearGradient colors={['#87cefa', '#4169e1']} style={styles.logIn}>
                         <Text style={[styles.textSign, {color:'#fff'}]}>Sign In</Text>
@@ -133,7 +147,7 @@ const styles = StyleSheet.create({
     },
     text_footer: {
         color: '#05375a',
-        fontSize: 18
+        fontSize: 20,
     },
     action: {
         flexDirection: 'row',
@@ -147,6 +161,7 @@ const styles = StyleSheet.create({
         marginTop: Platform.OS === 'ios' ? 0 : -12,
         paddingLeft: 10,
         color: '#05375a',
+        fontSize: 18
     },
     errorMsg: {
         color: '#FF0000',
@@ -165,6 +180,6 @@ const styles = StyleSheet.create({
     },
     textSign: {
         fontSize: 18,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
     }
   });

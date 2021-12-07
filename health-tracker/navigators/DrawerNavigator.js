@@ -5,17 +5,22 @@ import { NavigationContainer } from '@react-navigation/native';
 
 //screens
 import AdminScreen from "../screens/Admin/AdminScreen";
-import NotificationScreen from '../screens/NotificationScreen';
+import NotificationScreen from '../screens/Home/NotificationScreen';
 import MainTabNavigator from "../navigators/MainTabNavigator";
 
 import Ionicons from "react-native-vector-icons/Ionicons";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 
 import DrawerComponent from '../components/DrawerComponent';
+import HomeNavigator from './HomeNavigator';
+import  { AuthContext }  from '../context/store/Auth';
 
 const Drawer = createDrawerNavigator();
 
 const DrawerNavigator = (props) => {
+
+  const context = React.useContext(AuthContext);
+
     return (
         <Drawer.Navigator 
         initialRouteName="Home"
@@ -25,13 +30,14 @@ const DrawerNavigator = (props) => {
             name="Home" 
             component={MainTabNavigator} 
             options={{
-              headerShown: false,
+             headerShown: false,
               drawerIcon: () => (
               <Ionicons name="home" size={20} color='#6495ed'/>
               )
             }}
         />
 
+      {context.stateUser.user.isAdmin == true ? (
         <Drawer.Screen 
             name="Admin" 
             component={AdminScreen} 
@@ -46,6 +52,7 @@ const DrawerNavigator = (props) => {
               )
             }}
         />
+      ): null }
 
         </Drawer.Navigator>
     );
