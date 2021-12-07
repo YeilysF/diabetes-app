@@ -19,7 +19,7 @@ const SettingsScreen = (props) => {
 
     const [items, setItems] = React.useState([
       { name: 'ABOUT', link: require('../../assets/home_images/2.png'), color1: '#87cefa', color2: '#6495ed', width: 140, height: 70, screen: "About"},
-      
+      { name: 'CHANGE PASSWORD', link: require('../../assets/home_images/2.png'), color1: '#87cefa', color2: '#6495ed', width: 140, height: 70, screen: "ChangePassword"},
     ])
 
     return (
@@ -36,6 +36,7 @@ const SettingsScreen = (props) => {
 
           <Animatable.View style={[styles.footer, {backgroundColor: "white"}]} animation="fadeInUpBig">
               <FlatGrid
+                horizontal={true}
                 itemDimension={130}
                 data={items}
                 spacing={10}
@@ -50,7 +51,6 @@ const SettingsScreen = (props) => {
                       <Text style={styles.itemName}>{item.name}</Text>
                       </LinearGradient>
                     </TouchableOpacity>
-              
                 )}
               />
           </Animatable.View>
@@ -83,7 +83,9 @@ const styles = StyleSheet.create({
       borderTopLeftRadius: 30,
       borderTopRightRadius: 30,
      // paddingVertical: 270,
-      paddingHorizontal: 5
+      paddingHorizontal: 5,
+      justifyContent:'center',
+      alignItems:'center'
   },
   title: {
     color: 'aliceblue',
@@ -98,6 +100,8 @@ const styles = StyleSheet.create({
     marginTop: 10
   },
   gridView: {
+   // flexWrap: 'wrap',
+   //flexDirection: 'row',
     flex: 1,
     marginTop: 20
   },
@@ -108,6 +112,8 @@ const styles = StyleSheet.create({
     //padding: 5,
     height: height * 0.06,
     width: height * 0.40,
+    //flexwrap: 'wrap',
+   //flexdirection: 'row'
   },
   itemName: {
     fontSize: 20,
