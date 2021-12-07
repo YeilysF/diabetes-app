@@ -10,6 +10,7 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 //screens
 import AboutScreen from "../screens/Settings/AboutScreen"
 import SettingsScreen from "../screens/Settings/SettingsScreen"
+import ChangePasswordScreen from '../screens/Settings/ChangePasswordScreen';
 
 const Stack = createStackNavigator();
 
@@ -34,6 +35,13 @@ const HomeNavigator = (props) => {
             <Stack.Screen 
                 name='About'
                 component={AboutScreen}
+                options={{
+                  headerShown: false,
+                }}
+            />
+            <Stack.Screen 
+                name='ChangePassword'
+                component={ChangePasswordScreen}
                 options={{
                   headerShown: false,
                 }}
