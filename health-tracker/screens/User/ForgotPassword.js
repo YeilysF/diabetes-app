@@ -43,11 +43,10 @@ const ForgotPassword = (props) => {
                     }
                 }
 
-                
                 console.log("::"+username+newPassword+"::" )
                 const { data } = await axios.post(`${baseURL}Users/update`,{username,newPassword},config)
                 props.navigation.navigate('Login')
-                console.log(data)
+                console.log(data) 
             
             }catch(error){
                 setErrorUsername(true);

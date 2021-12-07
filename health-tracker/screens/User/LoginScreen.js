@@ -32,17 +32,21 @@ const LoginScreen = (props) => {
         email,
         password,
       };
-  
+
       if (email === "" || password === "") {
         setError(true);
       } else {
         loginUser(user, context.dispatch);
 
-        //if((context.stateUser.isAuthenticated == false)){
-        //  setError(true)
-       // }
+        if((context.stateUser.isAuthenticated == false)){
+         setError(true)
+        }
       }
 
+        if((context.stateUser.isAuthenticated == false)){
+          setError(true)
+        }
+      }
       console.log(email,password);
     };
      
@@ -96,6 +100,7 @@ const LoginScreen = (props) => {
                   <Text style={{color: '#4169e1', marginTop:15, fontSize: 17}}>Forgot password?</Text>
               </TouchableOpacity>
               {error ? <Text style={{color: '#FF0000', marginTop:15}}>Invalid username and/or password</Text> : null} 
+              {success ? <Text style={{color: 'green', marginTop:15}}>Success</Text> : null} 
           
               <View style={styles.button}>
                   <TouchableOpacity 

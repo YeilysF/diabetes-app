@@ -132,7 +132,7 @@ router.post('/update',async (req, res)=> {
     console.log(username,newPassword+"!!!!!!")
     const user = await User.findOneAndUpdate(
         {
-            username:username
+            email:username
         },
         { 
              password: newPassword

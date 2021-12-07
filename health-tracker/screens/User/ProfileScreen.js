@@ -1,8 +1,6 @@
-import React, { useContext, useState, useCallback, useEffect} from 'react';
-import { View, Text, TouchableOpacity, Dimensions, StyleSheet, StatusBar, Image, FlatList, Button } from 'react-native';
-import { useFocusEffect } from '@react-navigation/native';
+import React from 'react';
+import { View, Text, TouchableOpacity, Dimensions, StyleSheet, StatusBar, Image, ImageBackground, FlatList } from 'react-native';
 import * as Animatable from 'react-native-animatable';
-import { useTheme } from '@react-navigation/native';
 import { LinearGradient } from 'expo-linear-gradient'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -41,27 +39,56 @@ const ProfileScreen = (props) => {
 
        }, [context.stateUser.isAuthenticated]))
 
+const HomeScreen = (props) => {
+  
     return (
       <View style={styles.container}>
         <StatusBar backgroundColor='#009387' barStyle="light-content"/>
         <LinearGradient colors={['#87cefa', '#4169e1']} style={styles.container} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }}>
         <View style={styles.header}>
+          {/* <View style={styles.subHeader}>
+              <Text style={styles.title}>Hi User 
+              <Emoji name="wave" style={{fontSize: 30}} />
+              </Text>
+          </View> */}
               <Image source={require("../../assets/app_images/defaultProfilePic.jpg")} style={styles.profileImage} resizeMode="center"></Image>
-              <Text style={[styles.title, { fontWeight: "bold", fontSize: 24, marginTop: 5 }]}> Name: {userProfile.fullname}</Text>
-              <Text style={[styles.subText]}>Email: {userProfile.email}</Text>
+              <Text style={[styles.title, { fontWeight: "bold", fontSize: 24, marginTop: 5 }]}>First and Last Name</Text>
+              <Text style={[styles.subText]}>useremail@mail.com</Text>
         </View>
 
           <Animatable.View style={[styles.footer, {backgroundColor: "white"}]} animation="fadeInUpBig">
-              {/* diabetis Type
-              Weightz
-              */}
+          <View style={[styles.detailContainer]}>
+                <View style={styles.detailBox}>
+                <Text style={styles.text}>Diabetes Type:</Text> 
+                </View>
+            </View>
+            <View style={[styles.detailContainer]}>
+                <View style={styles.detailBox}>
+                <Text style={styles.text}>Weight:</Text> 
+                </View>
+            </View>
           </Animatable.View>
+
+          <View style={styles.button}>   
+                  <TouchableOpacity 
+                    //onPress={() => props.navigation.navigate('Sign Up')}
+                    style={[styles.editprofile]}
+                  >
+                    <LinearGradient colors={['#87cefa', '#4169e1']} style={styles.editprofile}>
+                        <Text style={[styles.textSign, {color:'#fff'}]}>Edit Profile</Text>
+                    </LinearGradient>
+                  </TouchableOpacity>                  
+          </View>
+
         </LinearGradient>
       </View>
     );
 };
 
-export default ProfileScreen;
+export default HomeScreen;
+
+let screenHeight = Math.round(Dimensions.get("window").height);
+let screenWidth = Math.round(Dimensions.get("window").width);
 
 const {height} = Dimensions.get("screen");
 
@@ -82,7 +109,7 @@ const styles = StyleSheet.create({
   },
   footer: {
       flex: 2.1,
-      marginTop: 15,
+      marginTop: 35,
       backgroundColor: '#fff',
       borderTopLeftRadius: 30,
       borderTopRightRadius: 30,
@@ -155,6 +182,34 @@ const styles = StyleSheet.create({
     width: height*0.42,
     borderRadius: 10
   },
+  detailContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    height: screenHeight * 0.101,
+    alignSelf: "center",
+    marginTop: "15%",
+    marginHorizontal: 25,
+    backgroundColor: "whitesmoke",
+    shadowColor: "gray",
+    shadowOffset: {
+      width: 0,
+      height: 5,
+      },
+    shadowOpacity: 0.34,
+    shadowRadius: 6.27,
+    elevation: 10,
+    borderRadius: 12,
+    opacity: 0.8
+  },
+  detailBox: {
+    flex: 1,
+    alignItems: "center",
+    marginLeft: 40,
+  },
+  text: {
+    fontFamily: "open-sans",
+    color: "black",
+    fontSize: 0.043 * screenWidth,
+  },
   
 });
-
