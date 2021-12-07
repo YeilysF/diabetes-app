@@ -42,10 +42,6 @@ const LoginScreen = (props) => {
          setError(true)
         }
       }
-
-        if((context.stateUser.isAuthenticated == false)){
-          setError(true)
-        }
       }
      
     return (
