@@ -94,7 +94,7 @@ const MainTabNavigator = (props) => {
             <Icon3 name="menu" color='white' size={25} style={{marginLeft: 23}} onPress={() => props.navigation.openDrawer()}></Icon3>
           ), 
           headerRight: () => (
-            <Icon2 name="edit" color='white' size={25} style={{marginRight: 23}} onPress={() => alert('Edit Profile')}></Icon2>
+            <Icon2 name="edit" color='white' size={25} style={{marginRight: 23}} onPress={() => props.navigation.navigate('EditProfile')}></Icon2>
           ),
           tabBarIcon: () => (
             <Icon name="user" color='#6495ed' size={30} />

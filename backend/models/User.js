@@ -4,7 +4,8 @@ const UserSchema = mongoose.Schema({
     fullname: {type: String, required: true},
     email: {type: String, required: true},
     password: {type: String, required: true},
-    image: {type: String},
+    image: {type: String, required: true, default:
+    "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg",},
     diabetesType: {type: String, required: true},
     weight: {type: Number, required: true},
     country: {type: String, required: true},
