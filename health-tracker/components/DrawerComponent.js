@@ -30,7 +30,7 @@ import { logoutUser } from "../context/actions/AuthActions"
 
 function DrawerComponent(props) {
 
- const {stateUser} = useContext(AuthContext);
+ const context = useContext(AuthContext);
 
     return(
         <View style={{flex:1}}>
@@ -40,8 +40,8 @@ function DrawerComponent(props) {
                         <View style={{flexDirection:'row',marginTop: 15}}>
                             <Avatar.Image source={require('../assets/app_images/default-avatar.png')} size={50}/>
                             <View style={{marginLeft:15, flexDirection:'column'}}>
-                                <Title style={styles.title}>{stateUser.user.fullname}</Title>
-                                <Caption style={styles.caption}>{stateUser.user.email}</Caption>
+                                <Title style={styles.title}>{context.stateUser.user.fullname}</Title>
+                                <Caption style={styles.caption}>{context.stateUser.user.email}</Caption>
                             </View>
                         </View>
                     </View>

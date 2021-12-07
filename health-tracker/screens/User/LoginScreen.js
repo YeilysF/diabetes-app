@@ -47,10 +47,7 @@ const LoginScreen = (props) => {
           setError(true)
         }
       }
-      console.log(email,password);
-    };
      
-
     return (
       <View style={styles.container}>
           <StatusBar backgroundColor='#009387' barStyle="light-content"/>
@@ -122,7 +119,7 @@ const LoginScreen = (props) => {
         </LinearGradient>
       </View>
     );
-};
+  };
 
 export default LoginScreen;
 
