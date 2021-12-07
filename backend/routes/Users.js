@@ -33,7 +33,8 @@ router.post(`/`, async (req, res) => {
         diabetesType: req.body.diabetesType,
         weight: req.body.weight,
         country: req.body.country,
-        isAdmin: req.body.isAdmin
+        isAdmin: req.body.isAdmin,
+        dateCreated: Date.now(), 
     })
 
     user = await user.save();

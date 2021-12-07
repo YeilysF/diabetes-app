@@ -35,7 +35,6 @@ const HomeNavigator = (props) => {
                 options={{
                   headerShown: false,
                 }}
-                
             />
             <Stack.Screen 
                 name="Notifications" 
