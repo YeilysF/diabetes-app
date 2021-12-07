@@ -37,7 +37,6 @@ const GlucoseForm = (props) => {
     if (glucoseLevel === "" || timeOfDay === "") {
       setError("These fields cannot be left blank");
     }
-
     let glucose = {
         glucoseLevel: glucoseLevel,
         timeOfDay: timeOfDay,

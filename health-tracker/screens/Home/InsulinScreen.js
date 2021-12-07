@@ -1,5 +1,6 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import { StyleSheet, Text, TouchableOpacity, View, Image, StatusBar, FlatList, Dimensions, ActivityIndicator} from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
 import { LinearGradient } from 'expo-linear-gradient';
 import * as Animatable from 'react-native-animatable';
 import Icon from "react-native-vector-icons/AntDesign";
@@ -18,13 +19,12 @@ const InsulinScreen = (props) => {
     const deleteInsulin = (insulin) => {
        axios.delete(`${baseURL}Insulins/${insulin}`)
       .then((res) => {
-          console.log(res);  
-          console.log(res.data);  
+        console.log("Insulin Deleted");   
       }), [insulin]
     };
-
-    
-    useEffect(() => {
+   
+    useFocusEffect(
+      useCallback(() => {
       const getInsulin = async () => {
         try {
           const res = await axios.get(`${baseURL}Insulins`);
@@ -36,7 +36,7 @@ const InsulinScreen = (props) => {
       }
       getInsulin(); 
       
-    }, [insulins])
+    }, []))
     
 
   return (
