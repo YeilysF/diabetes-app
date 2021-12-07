@@ -7,7 +7,6 @@ import { NavigationContainer } from '@react-navigation/native';
 import AdminScreen from "../screens/Admin/AdminScreen";
 import SettingsNavigator from "./SettingsNavigator";
 //import AdminScreen from "../screens/Admin/AdminScreen";
-import NotificationScreen from '../screens/Home/NotificationScreen';
 import MainTabNavigator from "../navigators/MainTabNavigator";
 
 import Ionicons from "react-native-vector-icons/Ionicons";
@@ -61,7 +60,7 @@ const DrawerNavigator = (props) => {
             name="Settings" 
             component={SettingsNavigator} 
             options={{
-              headerShown: true,
+              headerShown: false,
               drawerIcon: () => (
                 <MaterialIcon
                 name="settings"

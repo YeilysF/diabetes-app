@@ -29,7 +29,7 @@ const SettingsScreen = (props) => {
         <View style={styles.header}>
           <View style={styles.subHeader}>
               <Text style={styles.title}>Settings 
-              <Emoji name="wave" style={{fontSize: 30}} />
+              <Emoji name="gear" style={{fontSize: 30}} />
               </Text>
           </View>
         </View>
@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
   },
   footer: {
-      flex: 3.5,
+      flex: 4,
       backgroundColor: '#fff',
       borderTopLeftRadius: 30,
       borderTopRightRadius: 30,
@@ -108,8 +108,6 @@ const styles = StyleSheet.create({
     //padding: 5,
     height: height * 0.06,
     width: height * 0.40,
-    //borderColor: '#FFD700',
-    //borderWidth: 10,
   },
   itemName: {
     fontSize: 20,

@@ -150,11 +150,13 @@ const HomeScreen = (props) => {
 
 export default HomeScreen;
 
-const {height} = Dimensions.get("screen");
+const {height, width} = Dimensions.get("screen");
 
 const styles = StyleSheet.create({
   container: {
     flex: 1, 
+    height: height,
+    width: width,
   },
   header: {
       flex: 1,

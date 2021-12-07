@@ -151,11 +151,13 @@ const InsulinScreen = (props) => {
 
 export default InsulinScreen;
 
-const {width} = Dimensions.get('screen');
+const {width, height} = Dimensions.get('screen');
 
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
+    height: height,
+    width: width,
   },
   container: {
     flex: 1,

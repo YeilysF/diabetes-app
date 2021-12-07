@@ -11,7 +11,7 @@ import { StyleSheet,
   Image, 
   TouchableOpacity} from 'react-native';
 
-import {Avatar} from 'react-native-paper';
+import {Avatar, Searchbar} from 'react-native-paper';
 import { Header, Item, Input } from "native-base"
 
 import * as Animatable from 'react-native-animatable';
@@ -25,28 +25,15 @@ import axios from "axios";
 import baseURL from "../../assets/common/baseURL"
 import { AuthContext }  from '../../context/store/Auth';
 
-const ListHeader = () => {
-  return(
-      <View
-          elevation={1}
-          style={styles.listHeader}
-      >
-          <View style={styles.headerItem}>
-              <Text style={{ fontWeight: '600', marginLeft: 70}}>Name</Text>
-          </View>
-          <View style={styles.headerItem}>
-              <Text style={{ fontWeight: '600',  marginLeft: 80}}>Date Created</Text>
-          </View>
-      </View>
-  )
-}
-
 const AdminScreen = (props) => {
 
-  const [userList, setUserList] = useState([]);
+  const [userList, setUserList] = useState();
   const [userFilter, setUserFilter] = useState();
   const [loading, setLoading] = useState(true);
   const [token, setToken] = useState();
+
+  const [searchQuery, setSearchQuery] = React.useState('');
+  const onChangeSearch = query => setSearchQuery(query);
 
   useFocusEffect(
     useCallback(
@@ -65,7 +52,12 @@ const AdminScreen = (props) => {
                     setUserFilter(res.data);
                     setLoading(false);
                 })
-        },
+                return () => {
+                  setUserList();
+                  setUserFilter();
+                  setLoading(true);
+              }
+            },
             [],
           )
       )
@@ -76,40 +68,55 @@ const AdminScreen = (props) => {
     }
     setUserFilter(
         userList.filter((i) => 
-            i.name.toLowerCase().includes(text.toLowerCase())
+          i.fullname.toLowerCase().includes(text.toLowerCase())
         )
     )
+   
 }
 
-  const deleteUser = (id) => {
-    axios
-        .delete(`${baseURL}Users/${id}`, {
-            headers: { Authorization: `Bearer ${token}` },
-        })
-        .then((res) => {
-            const users = userFilter.filter((item) => item.id !== id)
-            setUserFilter(users)
-        })
-        .catch((error) => console.log(error));
-}
+  const editUser = (user) => {
+    axios.get(`${baseURL}Users/${user}`)
+  .then((res) => {
+      props.navigation.navigate('List Users', {
+        id: res.data._id,
+        fullname: res.data.fullname,
+        email: res.data.email,
+        password: res.data.password,
+        diabetesType: res.data.diabetesType,
+        weight: res.data.weight,
+        image: res.data.image,
+        country: res.data.country,
+      })
+  }), [user]
+  };
 
   return (
 
     <View style={styles.container}>
         <StatusBar backgroundColor='#009387' barStyle="light-content"/>
         <LinearGradient colors={['#87cefa', '#4169e1']} style={styles.container} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }}>
-        <View style={styles.header}>
+        <View style={styles.header}> 
+      
+
         </View>
-          <Animatable.View style={[styles.footer, {backgroundColor: "white"}]} animation="fadeInUpBig">
-          <View style={styles.titleContainer}>
-              <Text style={styles.title}>Manage Users</Text>
-              </View>
+          <Animatable.View style={[styles.footer, {backgroundColor: "white", alignItems: "center"}]} animation="fadeInUpBig">
+
+              <View style={styles.searchContainer}>
+                <Searchbar
+                  placeholder="Search users"
+                  onChangeText={(text) => searchUser(text)}
+                  value={userFilter}
+                  style={styles.search}
+              />
+            </View>
+    
             <View style={styles.userContainer}>
               <FlatList 
-                data={userList}
-                ListHeaderComponent={ListHeader}
+                data={userFilter}
                 renderItem={({ item }) => (
-                  <TouchableOpacity style={{}}>
+                  <TouchableOpacity 
+                  onPress={() => editUser(item._id)}
+                  >
                     <View style={styles.item}>
                         { item.image == "" ? (
                         <Avatar.Image source={require('../../assets/app_images/default-avatar.png')} size={30}/>
@@ -147,6 +154,8 @@ const styles = StyleSheet.create({
 },
   container: {
     flex: 1, 
+    width: width,
+    height: height
   },
   header: {
       flex: 1,
@@ -176,25 +185,6 @@ const styles = StyleSheet.create({
    // paddingHorizontal: 100,
     backgroundColor:  '#4169e1',
   },
-  button: {
-    alignItems: 'center',
-    marginTop: -120
-  },
-  editprofile: {
-    width: '90%',
-    height: 50,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 10,
-    marginTop: -50
-  
-  },
-  profileImage: {
-        width: 110,
-        height: 110,
-        borderRadius: 60,
-        marginTop: '23%'
-  },
   textSign: {
     fontSize: 18,
     fontWeight: 'bold',
@@ -204,11 +194,6 @@ const styles = StyleSheet.create({
     fontSize: 17,
     marginTop: 5,
   },
-  gridView: {
-    flex: 1,
-    marginTop: 20
-  },
- 
   item: {
    // backgroundColor: '#4169e1',
     borderWidth: 1,
@@ -223,11 +208,17 @@ const styles = StyleSheet.create({
   userContainer: {
     flex: 1,
     marginTop: 8,
-  //  flexDirection: "row",
-    //flexWrap: "wrap",
+    flexDirection: "row",
+
   },
   itemContainer: {
-   // flexDirection: "column",
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 15,
+    marginTop: 20,
+    //padding: 5,
+    height: height * 0.055,
+    width: height * 0.40,
   },
   itemSub: {
     fontSize: 18,
@@ -238,20 +229,26 @@ const styles = StyleSheet.create({
    itemSubDate: {
     fontSize: 17,
    },
-   listHeader: {
-    flexDirection: 'row',
-    padding: 5,
-    borderTopWidth: 1,
-    borderTopColor: "blue",
-    alignItems: "center",
-    justifyContent: "flex-end",
-    borderBottomWidth: 1,
-    borderBottomColor: "blue",
-},
+
   headerItem: {
       //margin: 3,
-      width: 200,
+      width: 190,
   },
+  itemName: {
+    fontSize: 20,
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: "center"
+  },
+  search: {
+    justifyContent: 'center',
+    width: height*0.42,
+    borderRadius: 10
+  },
+  searchContainer: {
+    alignItems: 'center',
+    marginTop: 30
+  }
   
 });
 

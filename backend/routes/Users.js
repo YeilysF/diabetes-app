@@ -103,8 +103,8 @@ router.post('/login', async (req,res) => {
 })
 
 //update user info
-/*
-router.put('/:id',async (req, res)=> {
+
+router.put('/updateUser/:id',async (req, res)=> {
     const user = await User.findByIdAndUpdate(
         req.params.id,
         {
@@ -124,7 +124,7 @@ router.put('/:id',async (req, res)=> {
     return res.status(400).send('The user info cannot be updated')
 
     res.send(user);
-})*/
+})
 
 router.post('/update',async (req, res)=> {
 
