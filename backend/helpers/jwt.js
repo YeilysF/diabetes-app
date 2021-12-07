@@ -14,9 +14,10 @@ function authJwt() {
             {url: /\/api\/v1\/Exercises(.*)/ , methods: ['GET', 'PUT', 'POST', 'DELETE'] },
             {url: /\/api\/v1\/BloodPressures(.*)/ , methods: ['GET', 'PUT', 'POST', 'DELETE'] },
             {url: /\/api\/v1\/Insulins(.*)/ , methods: ['GET', 'PUT', 'POST', 'DELETE'] },
-           // {url: /\/api\/v1\/Users(.*)/ , methods: ['GET', 'POST', 'PUT', 'DELETE'] },
+            {url: /\/api\/v1\/Users(.*)/ , methods: ['GET', 'POST', 'PUT', 'DELETE'] },
             `${api}/Users/login`,
             `${api}/Users/register`,
+            `${api}/Users/update`,
         ]
     })
 }

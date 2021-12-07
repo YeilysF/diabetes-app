@@ -1,6 +1,6 @@
 import moment from 'moment';
-import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, TextInput, Platform, StyleSheet, StatusBar, Alert, Button } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, TouchableOpacity, TextInput, Platform, StyleSheet, StatusBar, Alert, Button, Dimensions } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import { LinearGradient } from 'expo-linear-gradient'
 import Fontisto from 'react-native-vector-icons/Fontisto';
@@ -19,13 +19,23 @@ import baseURL from "../../assets/common/baseURL";
 const BPForm = (props) => {
   const { colors } = useTheme();
 
-  const [heartRate, setHeartRate] = useState("")
-  const [diastolic, setDiastolic] = useState("")
-  const [systolic, setSystolic] = useState("")
+  const [heartRate, setHeartRate] = useState(0)
+  const [diastolic, setDiastolic] = useState(0)
+  const [systolic, setSystolic] = useState(0)
   const [timeOfDay, setTimeOfDay] = useState("")
   const [date, setDate] = useState(new Date())
   const [description, setDescription] = useState("")
   const [error, setError] = useState(false);
+  const [id, setId] = useState("");
+ // const [bloodPressures, setbloodPressure] = useState([]);
+
+  const deleteBP = () => {
+    axios.delete(`${baseURL}BloodPressures/${id}`)
+   .then((res) => {
+       console.log("Blood Pressure Deleted");  
+       props.navigation.navigate("Blood Pressure")
+   }), []
+ };
 
   const addBP = () => {
     if (heartRate === "" || diastolic === "" || systolic === "" || timeOfDay === "") {
@@ -41,18 +51,47 @@ const BPForm = (props) => {
         description: description,
     };
     
-    axios
-      .post(`${baseURL}BloodPressures/add`, bloodPressure)
-      .then((res) => {
-        if (res.status == 200) {
-          console.log("Success")
-            props.navigation.navigate("Blood Pressure");
+    if(id !== "") {
+        axios
+        .put(`${baseURL}BloodPressures/${id}`, bloodPressure)
+        .then((res) => {
+            if(res.status == 200 || res.status == 201) {
+                setTimeout(() => {
+                    props.navigation.navigate("Blood Pressure");
+                }, 500)
+            }
+        })
+        .catch((error) => {
+            console.log("Error"+error)
+        })
+        } else{
+            axios
+            .post(`${baseURL}BloodPressures/add`, bloodPressure)
+            .then((res) => {
+                if (res.status == 200) {
+                console.log("Success")
+                    props.navigation.navigate("Blood Pressure");
+                }
+            })
+            .catch((error) => {
+                console.log("Error"+ error)
+            });
         }
-      })
-      .catch((error) => {
-        console.log("Error"+ error)
-      });
   };
+
+    useEffect(() => {
+        if(!props.route.params) {
+            setId("");
+        } else {
+            setId(props.route.params.id);
+            setHeartRate(props.route.params.heartRate.toString());
+            setDiastolic(props.route.params.diastolic.toString());
+            setSystolic(props.route.params.systolic.toString());
+            setTimeOfDay(props.route.params.timeOfDay);
+            setDescription(props.route.params.description);
+        }
+    }, [])
+
    
   return (
     <View style={styles.container}>
@@ -73,6 +112,7 @@ const BPForm = (props) => {
                 />
                 <TextInput
                     onChangeText={(text)=> setDiastolic(text)}
+                    value={diastolic}
                     placeholder="mmHg" 
                     style={[styles.textInput, {color: colors.text}]}
                     autoCapitalize="none"
@@ -89,6 +129,7 @@ const BPForm = (props) => {
                 <TextInput
                     onChangeText={(text)=> setSystolic(text)}
                     placeholder="mmHg" 
+                    value={systolic}
                     style={[styles.textInput, {color: colors.text}]}
                     autoCapitalize="none"
                 />
@@ -104,6 +145,7 @@ const BPForm = (props) => {
                 <TextInput
                     onChangeText={(text)=> setHeartRate(text)}
                     placeholder="bmp" 
+                    value={heartRate}
                     style={[styles.textInput, {color: colors.text}]}
                     autoCapitalize="none"
                 />
@@ -124,6 +166,7 @@ const BPForm = (props) => {
             <TextInput
                 onChangeText={(text)=> setTimeOfDay(text)}
                 placeholder="(Breakfast, Lunch, Dinner, ...)" 
+                value={timeOfDay}
                 style={[styles.textInput, {color: colors.text}]}
                 autoCapitalize="none"
             />
@@ -133,17 +176,15 @@ const BPForm = (props) => {
             <Text style={[styles.text_footer, {
                 color: colors.text,
                 marginTop: 20
-            }]}>Date and Time</Text>
+            }]}>Date</Text>
 
             <View style={styles.action}>
 
             <TouchableOpacity style={{marginTop: 50}} 
                 onPress={() => setOpen(true)}
             >
-               
             </TouchableOpacity>
                 
-
                 <DatePicker
                 style={{width: 300}}
                 date={date}
@@ -172,7 +213,7 @@ const BPForm = (props) => {
 
             <Text style={[styles.text_footer, {
                 color: colors.text,
-                marginTop: 20
+                marginTop: 5
             }]}>Notes (Optional) </Text>
             <View style={styles.action}>
                 <SimpleLineIcons
@@ -183,6 +224,7 @@ const BPForm = (props) => {
                 <TextInput
                     placeholder="Description"
                     onChangeText={(text)=> setDescription(text)}
+                    value={description}
                     multiline={true}
                     style={[styles.textInput, {color: colors.text}]}
                     autoCapitalize="none"
@@ -198,11 +240,21 @@ const BPForm = (props) => {
                 </LinearGradient>
             </TouchableOpacity>
 
+            {id  ? (
+            <TouchableOpacity style={{marginTop: 20}} 
+                onPress={(() => deleteBP())}
+            >
+                <LinearGradient colors={['#87cefa', '#4169e1']} style={styles.logIn}>
+                            <Text style={[styles.textSign, {color:'#fff'}]}>Delete</Text>
+                </LinearGradient>
+            </TouchableOpacity>
+            ) : null}
+            
             <TouchableOpacity 
                     onPress={() => props.navigation.goBack()}
                     style={[styles.logIn, {borderColor: '#4169e1',borderWidth: 1,marginTop: 15}]}
                   >
-                      <Text style={[styles.textSign, {color: '#4169e1'}]}>Back</Text>
+                      <Text style={[styles.textSign, {color: '#4169e1'}]}>Cancel</Text>
                   </TouchableOpacity>
         </Animatable.View>
       </LinearGradient>
@@ -212,10 +264,15 @@ const BPForm = (props) => {
 
 export default BPForm;
 
+const {height, width} = Dimensions.get("screen");
+
 const styles = StyleSheet.create({
     container: {
       flex: 1, 
-      backgroundColor: '#009387'
+      backgroundColor: '#009387',
+      height: height,
+      width: width,
+     // flexWrap: 'wrap'
     },
     header: {
         flex: 1,
@@ -227,9 +284,9 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         borderTopLeftRadius: 30,
         borderTopRightRadius: 30,
-        paddingHorizontal: 30,
+        width: width,
+       paddingHorizontal: 30,
         paddingVertical: 30,
-        
     },
     text_header: {
         color: '#fff',
@@ -242,7 +299,7 @@ const styles = StyleSheet.create({
     },
     action: {
         flexDirection: 'row',
-        marginTop: 10,
+        marginTop: 2,
         borderBottomWidth: 1,
         borderBottomColor: '#f2f2f2',
         paddingBottom: 5,
