@@ -173,6 +173,7 @@ const ListUsers = (props) => {
                 <TextInput
                     onChangeText={(text)=> setWeight(text)}
                     value={weight}
+                    keyboardType='numeric'
                     placeholder="lbs" 
                     style={[styles.textInput, {color: colors.text}]}
                     autoCapitalize="none"
@@ -234,6 +235,7 @@ const styles = StyleSheet.create({
     flex: 1,
     height: height,
     width: width,
+    flexWrap: "wrap"
   },
   container: {
     flex: 1,

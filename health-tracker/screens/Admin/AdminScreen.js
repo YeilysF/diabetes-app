@@ -27,10 +27,10 @@ import { AuthContext }  from '../../context/store/Auth';
 
 const AdminScreen = (props) => {
 
-  const [userList, setUserList] = useState();
-  const [userFilter, setUserFilter] = useState();
+  const [userList, setUserList] = useState([]);
+  const [userFilter, setUserFilter] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [token, setToken] = useState();
+  const [token, setToken] = useState("");
 
   const [searchQuery, setSearchQuery] = React.useState('');
   const onChangeSearch = query => setSearchQuery(query);
