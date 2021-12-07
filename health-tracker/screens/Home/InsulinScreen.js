@@ -16,12 +16,18 @@ const InsulinScreen = (props) => {
   const [token, setToken] = useState();
   const [loading, setLoading] = useState(true);
   
-    const deleteInsulin = (insulin) => {
-       axios.delete(`${baseURL}Insulins/${insulin}`)
-      .then((res) => {
-        console.log("Insulin Deleted");   
-      }), [insulin]
-    };
+  const editInsulin = (ins) => {
+    axios.get(`${baseURL}Insulins/${ins}`)
+   .then((res) => {
+      props.navigation.navigate('Insulin Form', {
+        id: res.data._id,
+        insulinName: res.data.insulinName, 
+        units: res.data.units, 
+        timeOfDay: res.data.timeOfDay, 
+        description: res.data.description, 
+      })
+   }), [ins]
+ };
    
     useFocusEffect(
       useCallback(() => {
@@ -78,24 +84,18 @@ const InsulinScreen = (props) => {
                    
                       <TouchableOpacity
                         style={{
-                          borderWidth: 1,
-                          borderColor: '#20b2aa',
                           alignItems: 'center',
                           justifyContent: 'center',
                           width: 25,
                           top: 10,
                           right: 5,
                           position: "absolute",
-                          //bottom: 10,
-                          //right: 50,
                           height: 25,
-                          backgroundColor: '#fff',
-                          borderRadius: 90,
                         }}
-                        onPress={() => deleteInsulin(item._id)}
+                        onPress={() => editInsulin(item._id)}
                        
                 >
-                  <Icon name='minus' size={20} color='#20b2aa' />
+                 <FontAwesome5 name='edit' size={22} color='white' />
                 </TouchableOpacity>
                     
                   </View>
@@ -151,11 +151,13 @@ const InsulinScreen = (props) => {
 
 export default InsulinScreen;
 
-const {width} = Dimensions.get('screen');
+const {width, height} = Dimensions.get('screen');
 
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
+    height: height,
+    width: width,
   },
   container: {
     flex: 1,

@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { View, Text, TouchableOpacity, TextInput, Platform, StyleSheet, StatusBar, Alert, Button } from 'react-native';
+import { View, Text, TouchableOpacity, TextInput, Platform, StyleSheet, StatusBar, Alert, Button, Dimensions } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import { LinearGradient } from 'expo-linear-gradient'
 import Fontisto from 'react-native-vector-icons/Fontisto';
@@ -25,18 +25,15 @@ const ExerciseForm = (props) => {
   const { colors } = useTheme();
   const [exerciseType, setExerciseType] = useState("")
   const [timeOfDay, setTimeOfDay] = useState("")
- // const [duration, setDuration] = useState(0)
-  //const [date, setDate] = useState(new Date())
   const [description, setDescription] = useState("")
   const [error, setError] = useState(false);
   const [id, setId] = useState("");
- // const [bloodPressures, setbloodPressure] = useState([]);
 
   const deleteExercise = () => {
-    axios.delete(`${baseURL}BloodPressures/${id}`)
+    axios.delete(`${baseURL}Exercises/${id}`)
    .then((res) => {
-       console.log("Blood Pressure Deleted");  
-       props.navigation.navigate("Blood Pressure")
+       console.log("Exercise Deleted");  
+       props.navigation.navigate("Exercise")
    }), []
  };
 
@@ -48,22 +45,47 @@ const ExerciseForm = (props) => {
     let exercise = {
         exerciseType: exerciseType,
         timeOfDay: timeOfDay,
-       // dateTime: date,
         description: description,
     };
-    
-    axios
-      .post(`${baseURL}Exercises/add`, exercise)
-      .then((res) => {
-        if (res.status == 200) {
-          console.log("Success")
-            props.navigation.navigate("Exercise");
+
+    if(id !== "") {
+        axios
+        .put(`${baseURL}Exercises/${id}`, exercise)
+        .then((res) => {
+            if(res.status == 200 || res.status == 201) {
+                setTimeout(() => {
+                    props.navigation.navigate("Exercise");
+                }, 500)
+            }
+        })
+        .catch((error) => {
+            console.log("Error"+error)
+        })
+        } else{
+            axios
+            .post(`${baseURL}Exercises/add`, exercise)
+            .then((res) => {
+                if (res.status == 200) {
+                console.log("Success")
+                    props.navigation.navigate("Exercise");
+                }
+            })
+            .catch((error) => {
+                console.log("Error"+ error)
+            });
         }
-      })
-      .catch((error) => {
-        console.log("Error"+ error)
-      });
   };
+
+  useEffect(() => {
+    if(!props.route.params) {
+        setId("");
+    } else {
+        setId(props.route.params.id);
+        setExerciseType(props.route.params.exerciseType);
+        setTimeOfDay(props.route.params.timeOfDay);
+        setDescription(props.route.params.description);
+    }
+}, [])
    
   return (
     <View style={styles.container}>
@@ -84,6 +106,7 @@ const ExerciseForm = (props) => {
                 />
                 <TextInput
                     onChangeText={(text)=> setExerciseType(text)}
+                    value={exerciseType}
                     placeholder="(Walking, Running, Jogging...)" 
                     style={[styles.textInput, {color: colors.text}]}
                     autoCapitalize="none"
@@ -99,6 +122,7 @@ const ExerciseForm = (props) => {
                 />
                 <TextInput
                     onChangeText={(text)=> setTimeOfDay(text)}
+                    value={timeOfDay}
                     placeholder="(Morning, Afternoon, Night...)" 
                     style={[styles.textInput, {color: colors.text}]}
                     autoCapitalize="none"
@@ -118,6 +142,7 @@ const ExerciseForm = (props) => {
                 />
                 <TextInput
                     placeholder="Description"
+                    value={description}
                     onChangeText={(text)=> setDescription(text)}
                     multiline={true}
                     style={[styles.textInput, {color: colors.text}]}
@@ -134,11 +159,21 @@ const ExerciseForm = (props) => {
                 </LinearGradient>
             </TouchableOpacity>
 
+            {id  ? (
+            <TouchableOpacity style={{marginTop: 20}} 
+                onPress={(() => deleteExercise())}
+            >
+                <LinearGradient colors={['#87cefa', '#4169e1']} style={styles.logIn}>
+                            <Text style={[styles.textSign, {color:'#fff'}]}>Delete</Text>
+                </LinearGradient>
+            </TouchableOpacity>
+            ) : null}
+
              <TouchableOpacity 
                     onPress={() => props.navigation.goBack()}
                     style={[styles.logIn, {borderColor: '#4169e1',borderWidth: 1,marginTop: 15}]}
                   >
-                      <Text style={[styles.textSign, {color: '#4169e1'}]}>Back</Text>
+                      <Text style={[styles.textSign, {color: '#4169e1'}]}>Cancel</Text>
                   </TouchableOpacity>
         </Animatable.View>
       </LinearGradient>
@@ -148,118 +183,89 @@ const ExerciseForm = (props) => {
 
 export default ExerciseForm;
 
+const {height, width} = Dimensions.get("screen");
+
 const styles = StyleSheet.create({
-  container: {
-    flex: 1, 
-    backgroundColor: '#009387'
-  },
-  header: {
-      flex: 1,
-      justifyContent: 'flex-end',
-      paddingHorizontal: 20,
-  },
-  footer: {
-      flex: 6,
-      backgroundColor: '#fff',
-      borderTopLeftRadius: 30,
-      borderTopRightRadius: 30,
-      paddingHorizontal: 30,
-      paddingVertical: 30,
-      
-  },
-  text_header: {
-      color: '#fff',
-      fontWeight: 'bold',
-      fontSize: 30
-  },
-  text_footer: {
-      //color: 'blue',
-      fontSize: 20,
-  },
-  action: {
-      flexDirection: 'row',
-      marginTop: 10,
-      borderBottomWidth: 1,
-      borderBottomColor: '#f2f2f2',
-      paddingBottom: 5,
-      width: 350
-  },
-  textInput: {
-      flex: 1,
-      marginTop: Platform.OS === 'ios' ? 0 : -12,
-      paddingLeft: 8,
-      color: '#05375a',
-      fontSize: 20,
-     // borderBottomColor: "black",
-     // borderBottomWidth: 0.2
-  },
-  errorMsg: {
-      color: '#FF0000',
-      fontSize: 14,
-  },
-  button: {
-      alignItems: 'center',
-      marginTop: 50
-  },
-  logIn: {
-      width: '100%',
-      height: 50,
-      justifyContent: 'center',
-      alignItems: 'center',
-      borderRadius: 10
-  },
-  textSign: {
-      fontSize: 18,
-      fontWeight: 'bold'
-  },
-  picker: {
-    paddingHorizontal: 120,
-    borderWidth: 1,
-    height: 38,
-    borderColor: "#666",
-  },
-  dropdown: {
-    height: 38,
-    borderColor: 'gray',
-    borderWidth: 0.5,
-    paddingHorizontal: 121,
-    marginLeft: 9
-  },
-});
-
-
-/*
-
-   <Text style={[styles.text_footer, {
-                color: colors.text,
-                marginTop: 25
-            }]}>Date and Time</Text>
-            <View style={styles.action}>
-
-                <DatePicker
-                style={{width: 300}}
-                date={date}
-                mode="time"
-                placeholder="Select time"
-                confirmBtnText="Confirm"
-                cancelBtnText="Cancel"
-                customStyles={{
-                dateIcon: {
-                    position: 'absolute',
-                    left: 0,
-                    top: 4,
-                    marginLeft: 0,
-                },
-                dateInput: {
-                    marginLeft: 36,
-                }
-                }}
-                onDateChange={(date) => setDate(date)}
-            />
-            </View>
-
-
-
-
-*/
+    container: {
+      flex: 1, 
+      backgroundColor: '#009387',
+      height: height,
+      width: width,
+     // flexWrap: 'wrap'
+    },
+    header: {
+        flex: 1,
+        justifyContent: 'flex-end',
+        paddingHorizontal: 20,
+    },
+    footer: {
+        flex: 6,
+        backgroundColor: '#fff',
+        borderTopLeftRadius: 30,
+        borderTopRightRadius: 30,
+        width: width,
+       paddingHorizontal: 30,
+        paddingVertical: 30,
+    },
+    text_header: {
+        color: '#fff',
+        fontWeight: 'bold',
+        fontSize: 30
+    },
+    text_footer: {
+        //color: 'blue',
+        fontSize: 20,
+    },
+    action: {
+        flexDirection: 'row',
+        marginTop: 2,
+        borderBottomWidth: 1,
+        borderBottomColor: '#f2f2f2',
+        paddingBottom: 5,
+        width: 350,
+        borderBottomColor: "black",
+        borderBottomWidth: 0.17
+    },
+    textInput: {
+        flex: 1,
+        marginTop: Platform.OS === 'ios' ? 0 : -12,
+        paddingLeft: 8,
+        color: '#05375a',
+        fontSize: 20,
+       // borderBottomColor: "black",
+       // borderBottomWidth: 0.2
+    },
+    errorMsg: {
+        color: '#FF0000',
+        fontSize: 14,
+    },
+    button: {
+        alignItems: 'center',
+        marginTop: 50
+    },
+    logIn: {
+        width: '100%',
+        height: 50,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 10
+    },
+    textSign: {
+        fontSize: 18,
+        fontWeight: 'bold'
+    },
+    picker: {
+      paddingHorizontal: 120,
+      borderWidth: 1,
+      height: 38,
+      borderColor: "#666",
+    },
+    dropdown: {
+      height: 38,
+      borderColor: 'gray',
+      borderWidth: 0.5,
+      paddingHorizontal: 121,
+      marginLeft: 9
+    },
+  });
 

@@ -5,6 +5,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import * as Animatable from 'react-native-animatable';
 import Icon from "react-native-vector-icons/AntDesign";
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 
 import axios from 'axios';
 import baseURL from "../../assets/common/baseURL";
@@ -16,13 +17,18 @@ const MedicationScreen = (props) => {
   const [token, setToken] = useState();
   const [loading, setLoading] = useState(true);
   
-    const deleteMeds = (meds) => {
-       axios.delete(`${baseURL}Medications/${meds}`)
-      .then((res) => {
-          console.log("Medication Deleted");     
-      }), [meds]
-    };
-
+  const editMedication = (med) => {
+    axios.get(`${baseURL}Medications/${med}`)
+   .then((res) => {
+      props.navigation.navigate('Medication Form', {
+        id: res.data._id,
+        medicationName: res.data.medicationName, 
+        quantity: res.data.quantity, 
+        timeOfDay: res.data.timeOfDay, 
+        description: res.data.description, 
+      })
+   }), [med]
+ };
     
     useFocusEffect(
       useCallback(() => {
@@ -83,24 +89,18 @@ const MedicationScreen = (props) => {
 
                       <TouchableOpacity
                         style={{
-                          borderWidth: 1,
-                          borderColor: '#6495ed',
                           alignItems: 'center',
                           justifyContent: 'center',
                           width: 25,
                           top: 10,
                           right: 5,
                           position: "absolute",
-                          //bottom: 10,
-                          //right: 50,
                           height: 25,
-                          backgroundColor: '#fff',
-                          borderRadius: 90,
                         }}
-                        onPress={() => deleteMeds(item._id)}
+                        onPress={() => editMedication(item._id)}
                        
                 >
-                  <Icon name='minus' size={20} color='#6495ed' />
+                  <FontAwesome5 name='edit' size={22} color='white' />
                 </TouchableOpacity>
                     
                   </View>
@@ -158,11 +158,13 @@ const MedicationScreen = (props) => {
 
 export default MedicationScreen;
 
-const {width} = Dimensions.get('screen');
+const {width, height} = Dimensions.get('screen');
 
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
+    height: height,
+    width: width,
   },
   container: {
     flex: 1,

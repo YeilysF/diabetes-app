@@ -9,6 +9,7 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 
 //screen
 import AdminScreen from '../screens/Admin/AdminScreen';
+import ListUsers from '../screens/Admin/ListUsers';
 
 const Stack = createStackNavigator();
 
@@ -25,6 +26,19 @@ const AdminNavigator = (props) => {
                     headerLeft: () => (
                         <Icon3 name="menu" color='white' size={25} style={{marginLeft: 23}} onPress={() => props.navigation.openDrawer()}></Icon3>
                       ),
+                      headerRight: () => (
+                        <Icon3 name="plus" color='white' size={25} style={{marginRight: 23}} onPress={() => props.navigation.navigate("List Users")}></Icon3>
+                      ),
+                }}
+            />
+            <Stack.Screen 
+                name='List Users'
+                component={ListUsers}
+                options={{
+                    headerShown: true,
+                    headerTransparent: true,
+                    headerTintColor: "white",
+                   
                 }}
             />
         </Stack.Navigator>

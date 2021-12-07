@@ -1,15 +1,11 @@
-import React, {useContext} from 'react';
+import React, {useContext, useCallback, useState} from 'react';
 import { View, StyleSheet } from 'react-native';
 import {
     useTheme,
     Avatar,
     Title,
     Caption,
-    Paragraph,
     Drawer,
-    Text,
-    TouchableRipple,
-    Switch
 } from 'react-native-paper';
 import {
     DrawerContentScrollView,
@@ -27,10 +23,23 @@ import axios from "axios";
 import { AuthContext }  from '../context/store/Auth';
 import baseURL from "../assets/common/baseURL"
 import { logoutUser } from "../context/actions/AuthActions"
+import { useFocusEffect } from '@react-navigation/native';
 
 function DrawerComponent(props) {
 
  const context = useContext(AuthContext);
+ const [userInfo, setUserInfo] = useState([])
+
+ useFocusEffect(
+    useCallback(() => {
+      if (context.stateUser.isAuthenticated === true) {
+        axios
+            .get(`${baseURL}Users/${context.stateUser.user.userId}`)
+            .then((user) => setUserInfo(user.data))
+      } else {
+        console.log("User NOT authenticated")
+      }
+    }, []))
 
     return(
         <View style={{flex:1}}>
@@ -40,20 +49,14 @@ function DrawerComponent(props) {
                         <View style={{flexDirection:'row',marginTop: 15}}>
                             <Avatar.Image source={require('../assets/app_images/default-avatar.png')} size={50}/>
                             <View style={{marginLeft:15, flexDirection:'column'}}>
-                                <Title style={styles.title}>{context.stateUser.user.fullname}</Title>
-                                <Caption style={styles.caption}>{context.stateUser.user.email}</Caption>
+                                <Title style={styles.title}>{userInfo.fullname}</Title>
+                                <Caption style={styles.caption}>{userInfo.email}</Caption>
                             </View>
                         </View>
                     </View>
 
                     <Drawer.Section style={styles.drawerSection}>
                         <DrawerItemList {...props} />
-                        <DrawerItem 
-                            icon={() => (
-                                <Icon2 name="settings" size={20} color='#6495ed'/>
-                            )}
-                            label="Settings"
-                        />
                     </Drawer.Section>
                     
                 </View>
