@@ -27,13 +27,13 @@ const ListUsers = (props) => {
 
     const { colors } = useTheme();
 
-    const [fullname, setFullname] = useState("");
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [image, setImage] = useState("");
-    const [diabetesType, setDiabetesType] = useState("");
-    const [weight, setWeight] = useState(0);
-    const [country, setCountry]  = useState("");
+    const [fullname, setFullname] = useState();
+    const [email, setEmail] = useState();
+    const [password, setPassword] = useState();
+    const [image, setImage] = useState();
+    const [diabetesType, setDiabetesType] = useState();
+    const [weight, setWeight] = useState();
+    const [country, setCountry]  = useState();
     const [userId, setUserId]  = useState("");
     const [error, setError] = useState("");
 
@@ -235,7 +235,6 @@ const styles = StyleSheet.create({
     flex: 1,
     height: height,
     width: width,
-    flexWrap: "wrap"
   },
   container: {
     flex: 1,
