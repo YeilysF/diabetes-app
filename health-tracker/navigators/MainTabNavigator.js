@@ -44,9 +44,6 @@ const MainTabNavigator = (props) => {
           headerLeft: () => (
             <Icon3 name="menu" color='white' size={25} style={{marginLeft: 23}} onPress={() => props.navigation.openDrawer()}></Icon3>
           ),
-          headerRight: () => (
-            <Ionicons name="notifications" color='white' size={25} style={{marginRight: 23}} onPress={() => props.navigation.navigate('Notifications')}></Ionicons>
-          ),
           tabBarIcon: () => (
             <Icon name="home" color='#6495ed' size={30} />
             ),
