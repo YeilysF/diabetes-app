@@ -23,23 +23,6 @@ const HomeScreen = (props) => {
 
     const context = useContext(AuthContext); 
     const [userInfo, setUserInfo] = useState([])
-
-    //const [searchQuery, setSearchQuery] = useState('');
-    //const onChangeSearch = query => setSearchQuery(query);
-  /*
-    useFocusEffect(
-      useCallback(() => {
-      if (stateUser.isAuthenticated === true) {
-        try {
-          const user = axios.get(`${baseURL}Users/${stateUser.user.userId}`);
-          setUserProfile(user.data)
-        } catch (e) {
-          console.log(e);
-        }
-      } 
-    }, []))
-  */
-
     
     useFocusEffect(
       useCallback(() => {
@@ -57,6 +40,7 @@ const HomeScreen = (props) => {
           console.log("User NOT authenticated")
         }
       }, []))
+
     const searched = true; 
     const [searchQuery, setSearchQuery] = React.useState('');
     const onChangeSearch = query => {
@@ -108,7 +92,6 @@ const HomeScreen = (props) => {
       }
       
     }
-
 
     const [items, setItems] = React.useState([
       { name: 'MEDICATIONS', link: require('../../assets/home_images/2.png'), color1: '#87cefa', color2: '#6495ed', width: 140, height: 70, screen: "Medications"},

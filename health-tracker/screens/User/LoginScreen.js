@@ -37,16 +37,12 @@ const LoginScreen = (props) => {
         setError(true);
       } else {
         loginUser(user, context.dispatch);
-
-        if((context.stateUser.isAuthenticated == false)){
-         setError(true)
-        }
       }
 
-        if((context.stateUser.isAuthenticated == false)){
-          setError(true)
-        }
+      if((context.stateUser.isAuthenticated == false)){
+        setError(true)
       }
+    }
      
     return (
       <View style={styles.container}>
