@@ -1,6 +1,6 @@
 import moment from 'moment';
-import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, TextInput, Platform, StyleSheet, StatusBar, Alert, Button } from 'react-native';
+import React, { useState, useContext, useEffect } from 'react';
+import { View, Text, TouchableOpacity, TextInput, Platform, StyleSheet, StatusBar, Alert, Button, Dimensions } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import { LinearGradient } from 'expo-linear-gradient'
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -25,6 +25,15 @@ const MedicationForm = (props) => {
   const [quantity, setQuantity] = useState("")
   const [description, setDescription] = useState("")
   const [error, setError] = useState(false);
+  const [id, setId] = useState("");
+
+  const deleteMedication = () => {
+    axios.delete(`${baseURL}Medications/${id}`)
+   .then((res) => {
+       console.log("Medication Deleted");  
+       props.navigation.navigate("Medication")
+   }), []
+ };
 
   const addMedication = () => {
     if (medicationName === "" || timeOfDay === "" || quantity === "") {
@@ -38,19 +47,46 @@ const MedicationForm = (props) => {
         dateTime: date,
         description: description,
     };
-    
-    axios
-      .post(`${baseURL}Medications/add`, medication)
-      .then((res) => {
-        if (res.status == 200) {
-          console.log("Success")
-            props.navigation.navigate("Medication");
+
+    if(id !== "") {
+        axios
+        .put(`${baseURL}Medications/${id}`, medication)
+        .then((res) => {
+            if(res.status == 200 || res.status == 201) {
+                setTimeout(() => {
+                    props.navigation.navigate("Medication");
+                }, 500)
+            }
+        })
+        .catch((error) => {
+            console.log("Error"+error)
+        })
+        } else{
+            axios
+            .post(`${baseURL}Medications/add`, medication)
+            .then((res) => {
+                if (res.status == 200) {
+                console.log("Success")
+                    props.navigation.navigate("Medication");
+                }
+            })
+            .catch((error) => {
+                console.log("Error"+ error)
+            });
         }
-      })
-      .catch((error) => {
-        console.log("Error"+ error)
-      });
   };
+
+  useEffect(() => {
+    if(!props.route.params) {
+        setId("");
+    } else {
+        setId(props.route.params.id);
+        setMedication(props.route.params.medicationName);
+        setQuantity(props.route.params.quantity.toString());
+        setTimeOfDay(props.route.params.timeOfDay);
+        setDescription(props.route.params.description);
+    }
+}, [])
    
   return (
     <View style={styles.container}>
@@ -72,6 +108,7 @@ const MedicationForm = (props) => {
                 <TextInput
                     onChangeText={(text)=> setMedication(text)}
                     placeholder="(Metformin, Glipizide, ...)" 
+                    value={medicationName}
                     style={[styles.textInput, {color: colors.text}]}
                     autoCapitalize="none"
                 />
@@ -92,6 +129,7 @@ const MedicationForm = (props) => {
             <TextInput
                 onChangeText={(text)=> setTimeOfDay(text)}
                 placeholder="(Breakfast, Lunch, Dinner, ...)" 
+                value={timeOfDay}
                 style={[styles.textInput, {color: colors.text}]}
                 autoCapitalize="none"
             />
@@ -123,6 +161,9 @@ const MedicationForm = (props) => {
                 },
                 dateInput: {
                     marginLeft: 36,
+                    left: 0,
+                    alignItems: "flex-start",
+                    borderWidth: 0
                 }
                 }}
                 onDateChange={(date) => setDate(date)}
@@ -138,6 +179,7 @@ const MedicationForm = (props) => {
             <FontAwesome name="medkit" color={colors.text} size={20} />
                 <TextInput 
                     placeholder="Medication units..."
+                    value={quantity}
                     keyboardType='numeric'
                     onChangeText={(text)=> setQuantity(text)}
                     style={[styles.textInput, {color: colors.text}]}
@@ -157,6 +199,7 @@ const MedicationForm = (props) => {
                 />
                 <TextInput
                     placeholder="Description"
+                    value={quantity}
                     onChangeText={(text)=> setDescription(text)}
                     multiline={true}
                     style={[styles.textInput, {color: colors.text}]}
@@ -173,11 +216,21 @@ const MedicationForm = (props) => {
                 </LinearGradient>
             </TouchableOpacity>
 
+            {id  ? (
+            <TouchableOpacity style={{marginTop: 20}} 
+                onPress={(() => deleteMedication())}
+            >
+                <LinearGradient colors={['#87cefa', '#4169e1']} style={styles.logIn}>
+                            <Text style={[styles.textSign, {color:'#fff'}]}>Delete</Text>
+                </LinearGradient>
+            </TouchableOpacity>
+            ) : null}
+
             <TouchableOpacity 
                     onPress={() => props.navigation.goBack()}
                     style={[styles.logIn, {borderColor: '#4169e1',borderWidth: 1,marginTop: 15}]}
                   >
-                      <Text style={[styles.textSign, {color: '#4169e1'}]}>Back</Text>
+                      <Text style={[styles.textSign, {color: '#4169e1'}]}>Cancel</Text>
                   </TouchableOpacity>
         </Animatable.View>
       </LinearGradient>
@@ -187,98 +240,88 @@ const MedicationForm = (props) => {
 
 export default MedicationForm;
 
+const {height, width} = Dimensions.get("screen");
+
 const styles = StyleSheet.create({
-  container: {
-    flex: 1, 
-    backgroundColor: '#009387'
-  },
-  header: {
-      flex: 1,
-      justifyContent: 'flex-end',
-      paddingHorizontal: 20,
-  },
-  footer: {
-      flex: 6,
-      backgroundColor: '#fff',
-      borderTopLeftRadius: 30,
-      borderTopRightRadius: 30,
-      paddingHorizontal: 30,
-      paddingVertical: 30,
-      
-  },
-  text_header: {
-      color: '#fff',
-      fontWeight: 'bold',
-      fontSize: 30
-  },
-  text_footer: {
-      //color: 'blue',
-      fontSize: 20,
-  },
-  action: {
-      flexDirection: 'row',
-      marginTop: 10,
-      borderBottomWidth: 1,
-      borderBottomColor: '#f2f2f2',
-      paddingBottom: 5,
-      width: 350
-  },
-  textInput: {
-      flex: 1,
-      marginTop: Platform.OS === 'ios' ? 0 : -12,
-      paddingLeft: 8,
-      color: '#05375a',
-      fontSize: 20,
-     // borderBottomColor: "black",
-     // borderBottomWidth: 0.2
-  },
-  errorMsg: {
-      color: '#FF0000',
-      fontSize: 14,
-  },
-  button: {
-      alignItems: 'center',
-      marginTop: 50
-  },
-  logIn: {
-      width: '100%',
-      height: 50,
-      justifyContent: 'center',
-      alignItems: 'center',
-      borderRadius: 10
-  },
-  textSign: {
-      fontSize: 18,
-      fontWeight: 'bold'
-  },
-  picker: {
-    paddingHorizontal: 120,
-    borderWidth: 1,
-    height: 38,
-    borderColor: "#666",
-  },
-  dropdown: {
-    height: 38,
-    borderColor: 'gray',
-    borderWidth: 0.5,
-    paddingHorizontal: 121,
-    marginLeft: 9
-  },
-});
-
-/*
-
-    <Dropdown
-                    style={[styles.dropdown]}
-                    data={dataTime}
-                    maxHeight={200}
-                    labelField="label"
-                    valueField="value"
-                    placeholder="Select time of day"
-                    value={timeOfDay}
-                    onChange={item => {
-                        setTimeOfDay(item.value);
-                    }}
-                />
-
-*/ 
+    container: {
+      flex: 1, 
+      backgroundColor: '#009387',
+      height: height,
+      width: width,
+     // flexWrap: 'wrap'
+    },
+    header: {
+        flex: 1,
+        justifyContent: 'flex-end',
+        paddingHorizontal: 20,
+    },
+    footer: {
+        flex: 6,
+        backgroundColor: '#fff',
+        borderTopLeftRadius: 30,
+        borderTopRightRadius: 30,
+        width: width,
+       paddingHorizontal: 30,
+        paddingVertical: 30,
+    },
+    text_header: {
+        color: '#fff',
+        fontWeight: 'bold',
+        fontSize: 30
+    },
+    text_footer: {
+        //color: 'blue',
+        fontSize: 20,
+    },
+    action: {
+        flexDirection: 'row',
+        marginTop: 2,
+        borderBottomWidth: 1,
+        borderBottomColor: '#f2f2f2',
+        paddingBottom: 5,
+        width: 350,
+        borderBottomColor: "black",
+        borderBottomWidth: 0.17
+    },
+    textInput: {
+        flex: 1,
+        marginTop: Platform.OS === 'ios' ? 0 : -12,
+        paddingLeft: 8,
+        color: '#05375a',
+        fontSize: 20,
+       // borderBottomColor: "black",
+       // borderBottomWidth: 0.2
+    },
+    errorMsg: {
+        color: '#FF0000',
+        fontSize: 14,
+    },
+    button: {
+        alignItems: 'center',
+        marginTop: 50
+    },
+    logIn: {
+        width: '100%',
+        height: 50,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 10
+    },
+    textSign: {
+        fontSize: 18,
+        fontWeight: 'bold'
+    },
+    picker: {
+      paddingHorizontal: 120,
+      borderWidth: 1,
+      height: 38,
+      borderColor: "#666",
+    },
+    dropdown: {
+      height: 38,
+      borderColor: 'gray',
+      borderWidth: 0.5,
+      paddingHorizontal: 121,
+      marginLeft: 9
+    },
+  });

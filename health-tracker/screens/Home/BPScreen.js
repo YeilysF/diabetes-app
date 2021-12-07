@@ -23,7 +23,6 @@ const BPScreen = (props) => {
     const editBP = (bp) => {
       axios.get(`${baseURL}BloodPressures/${bp}`)
      .then((res) => {
-        console.log("Heart Rate" + res.data.diastolic)
         props.navigation.navigate('BP Form', {
           id: res.data._id,
           heartRate: res.data.heartRate, 
@@ -96,10 +95,7 @@ const BPScreen = (props) => {
                           top: 10,
                           right: 5,
                           position: "absolute",
-                          //bottom: 10,
-                          //right: 50,
                           height: 25,
-            
                         }}
                         onPress={() => editBP(item._id)}
                        

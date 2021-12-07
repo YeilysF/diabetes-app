@@ -1,6 +1,6 @@
 import moment from 'moment';
-import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, TextInput, Platform, StyleSheet, StatusBar, Alert, Button } from 'react-native';
+import React, { useState, useContext, useEffect } from 'react';
+import { View, Text, TouchableOpacity, TextInput, Platform, StyleSheet, StatusBar, Alert, Button, Dimensions } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import { LinearGradient } from 'expo-linear-gradient'
 import Fontisto from 'react-native-vector-icons/Fontisto';
@@ -29,6 +29,15 @@ const InsulinForm = (props) => {
   const [units, setUnits] = useState("")
   const [description, setDescription] = useState("")
   const [error, setError] = useState(false);
+  const [id, setId] = useState("");
+
+  const deleteInsulin = () => {
+    axios.delete(`${baseURL}Insulins/${id}`)
+   .then((res) => {
+       console.log("Insulin Deleted");  
+       props.navigation.navigate("Insulin")
+   }), []
+ };
 
   const addInsulin = () => {
     if (insulinName === "" || timeOfDay === "" || units === "") {
@@ -42,19 +51,46 @@ const InsulinForm = (props) => {
         dateTime: date,
         description: description,
     };
-    
-    axios
-      .post(`${baseURL}Insulins/add`, insulin)
-      .then((res) => {
-        if (res.status == 200) {
-          console.log("Success")
-            props.navigation.navigate("Insulin");
+
+    if(id !== "") {
+        axios
+        .put(`${baseURL}Insulins/${id}`, insulin)
+        .then((res) => {
+            if(res.status == 200 || res.status == 201) {
+                setTimeout(() => {
+                    props.navigation.navigate("Insulin");
+                }, 500)
+            }
+        })
+        .catch((error) => {
+            console.log("Error"+error)
+        })
+        } else{
+            axios
+            .post(`${baseURL}Insulins/add`, insulin)
+            .then((res) => {
+                if (res.status == 200) {
+                console.log("Success")
+                    props.navigation.navigate("Insulin");
+                }
+            })
+            .catch((error) => {
+                console.log("Error"+ error)
+            });
         }
-      })
-      .catch((error) => {
-        console.log("Error"+ error)
-      });
   };
+
+  useEffect(() => {
+    if(!props.route.params) {
+        setId("");
+    } else {
+        setId(props.route.params.id);
+        setInsulin(props.route.params.insulinName);
+        setUnits(props.route.params.units.toString());
+        setTimeOfDay(props.route.params.timeOfDay);
+        setDescription(props.route.params.description);
+    }
+}, [])
    
   return (
     <View style={styles.container}>
@@ -75,6 +111,7 @@ const InsulinForm = (props) => {
                 />
                 <TextInput
                     onChangeText={(text)=> setInsulin(text)}
+                    value={insulinName}
                     placeholder="(Tresiba, Admelog...)" 
                     style={[styles.textInput, {color: colors.text}]}
                     autoCapitalize="none"
@@ -95,6 +132,7 @@ const InsulinForm = (props) => {
             />
             <TextInput
                 onChangeText={(text)=> setTimeOfDay(text)}
+                value={timeOfDay}
                 placeholder="(Breakfast, Lunch, Dinner, ...)" 
                 style={[styles.textInput, {color: colors.text}]}
                 autoCapitalize="none"
@@ -114,7 +152,7 @@ const InsulinForm = (props) => {
                 mode="date"
                 placeholder="Select date"
                 format="MM-DD-YYYY"
-                minDate="01-01-2020"
+                minDate="01-01-2000"
                 maxDate="12-01-2026"
                 confirmBtnText="Confirm"
                 cancelBtnText="Cancel"
@@ -127,6 +165,9 @@ const InsulinForm = (props) => {
                 },
                 dateInput: {
                     marginLeft: 36,
+                    left: 0,
+                    alignItems: "flex-start",
+                    borderWidth: 0
                 }
                 }}
                 onDateChange={(date) => setDate(date)}
@@ -142,6 +183,7 @@ const InsulinForm = (props) => {
             <FontAwesome5 name="syringe" color={colors.text} size={20} />
                 <TextInput 
                     placeholder="Units..."
+                    value={units}
                     keyboardType='numeric'
                     onChangeText={(text)=> setUnits(text)}
                     style={[styles.textInput, {color: colors.text}]}
@@ -161,6 +203,7 @@ const InsulinForm = (props) => {
                 />
                 <TextInput
                     placeholder="Description"
+                    value={description}
                     onChangeText={(text)=> setDescription(text)}
                     multiline={true}
                     style={[styles.textInput, {color: colors.text}]}
@@ -177,11 +220,21 @@ const InsulinForm = (props) => {
                 </LinearGradient>
             </TouchableOpacity>
 
+            {id  ? (
+            <TouchableOpacity style={{marginTop: 20}} 
+                onPress={(() => deleteInsulin())}
+            >
+                <LinearGradient colors={['#87cefa', '#4169e1']} style={styles.logIn}>
+                            <Text style={[styles.textSign, {color:'#fff'}]}>Delete</Text>
+                </LinearGradient>
+            </TouchableOpacity>
+            ) : null}
+
             <TouchableOpacity 
                     onPress={() => props.navigation.goBack()}
                     style={[styles.logIn, {borderColor: '#4169e1',borderWidth: 1,marginTop: 15}]}
                   >
-                      <Text style={[styles.textSign, {color: '#4169e1'}]}>Back</Text>
+                      <Text style={[styles.textSign, {color: '#4169e1'}]}>Cancel</Text>
                   </TouchableOpacity>
         </Animatable.View>
       </LinearGradient>
@@ -191,98 +244,85 @@ const InsulinForm = (props) => {
 
 export default InsulinForm;
 
+const {height, width} = Dimensions.get("screen");
+
 const styles = StyleSheet.create({
-  container: {
-    flex: 1, 
-    backgroundColor: '#009387'
-  },
-  header: {
-      flex: 1,
-      justifyContent: 'flex-end',
-      paddingHorizontal: 20,
-  },
-  footer: {
-      flex: 6,
-      backgroundColor: '#fff',
-      borderTopLeftRadius: 30,
-      borderTopRightRadius: 30,
-      paddingHorizontal: 30,
-      paddingVertical: 30,
-      
-  },
-  text_header: {
-      color: '#fff',
-      fontWeight: 'bold',
-      fontSize: 30
-  },
-  text_footer: {
-      //color: 'blue',
-      fontSize: 20,
-  },
-  action: {
-      flexDirection: 'row',
-      marginTop: 10,
-      borderBottomWidth: 1,
-      borderBottomColor: '#f2f2f2',
-      paddingBottom: 5,
-      width: 350
-  },
-  textInput: {
-      flex: 1,
-      marginTop: Platform.OS === 'ios' ? 0 : -12,
-      paddingLeft: 8,
-      color: '#05375a',
-      fontSize: 20,
-     // borderBottomColor: "black",
-     // borderBottomWidth: 0.2
-  },
-  errorMsg: {
-      color: '#FF0000',
-      fontSize: 14,
-  },
-  button: {
-      alignItems: 'center',
-      marginTop: 50
-  },
-  logIn: {
-      width: '100%',
-      height: 50,
-      justifyContent: 'center',
-      alignItems: 'center',
-      borderRadius: 10
-  },
-  textSign: {
-      fontSize: 18,
-      fontWeight: 'bold'
-  },
-  picker: {
-    paddingHorizontal: 120,
-    borderWidth: 1,
-    height: 38,
-    borderColor: "#666",
-  },
-  dropdown: {
-    height: 38,
-    borderColor: 'gray',
-    borderWidth: 0.5,
-    paddingHorizontal: 121,
-    marginLeft: 9
-  },
-});
-
-/*
-
-    <Dropdown
-                    style={[styles.dropdown]}
-                    data={dataTime}
-                    maxHeight={200}
-                    labelField="label"
-                    valueField="value"
-                    placeholder="Select time of day"
-                    value={timeOfDay}
-                    onChange={item => {
-                        setTimeOfDay(item.value);
-                    }}
-                />
-
-*/ 
+    container: {
+      flex: 1, 
+      backgroundColor: '#009387',
+      height: height,
+      width: width,
+     // flexWrap: 'wrap'
+    },
+    header: {
+        flex: 1,
+        justifyContent: 'flex-end',
+        paddingHorizontal: 20,
+    },
+    footer: {
+        flex: 6,
+        backgroundColor: '#fff',
+        borderTopLeftRadius: 30,
+        borderTopRightRadius: 30,
+        width: width,
+       paddingHorizontal: 30,
+        paddingVertical: 30,
+    },
+    text_header: {
+        color: '#fff',
+        fontWeight: 'bold',
+        fontSize: 30
+    },
+    text_footer: {
+        //color: 'blue',
+        fontSize: 20,
+    },
+    action: {
+        flexDirection: 'row',
+        marginTop: 2,
+        borderBottomWidth: 1,
+        borderBottomColor: '#f2f2f2',
+        paddingBottom: 5,
+        width: 350,
+        borderBottomColor: "black",
+        borderBottomWidth: 0.17
+    },
+    textInput: {
+        flex: 1,
+        marginTop: Platform.OS === 'ios' ? 0 : -12,
+        paddingLeft: 8,
+        color: '#05375a',
+        fontSize: 20,
+    },
+    errorMsg: {
+        color: '#FF0000',
+        fontSize: 14,
+    },
+    button: {
+        alignItems: 'center',
+        marginTop: 50
+    },
+    logIn: {
+        width: '100%',
+        height: 50,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 10
+    },
+    textSign: {
+        fontSize: 18,
+        fontWeight: 'bold'
+    },
+    picker: {
+      paddingHorizontal: 120,
+      borderWidth: 1,
+      height: 38,
+    },
+    dropdown: {
+      height: 38,
+      borderColor: 'gray',
+      borderWidth: 0.5,
+      paddingHorizontal: 121,
+      marginLeft: 9
+    },
+  });

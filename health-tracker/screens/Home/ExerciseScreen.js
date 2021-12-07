@@ -5,6 +5,7 @@ import * as Animatable from 'react-native-animatable';
 import AntDesign from "react-native-vector-icons/AntDesign";
 import Icon from "react-native-vector-icons/AntDesign";
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 
 import axios from 'axios';
 import baseURL from "../../assets/common/baseURL";
@@ -17,12 +18,17 @@ const ExerciseScreen = (props) => {
   const [token, setToken] = useState();
   const [loading, setLoading] = useState(true);
   
-    const deleteExercise = (exercise) => {
-       axios.delete(`${baseURL}Exercises/${exercise}`)
-      .then((res) => {
-          console.log("Exercise Deleted");  
-      }), [exercise]
-    };
+  const editExercise = (ex) => {
+    axios.get(`${baseURL}Exercises/${ex}`)
+   .then((res) => {
+      props.navigation.navigate('Exercise Form', {
+        id: res.data._id,
+        exerciseType: res.data.exerciseType, 
+        timeOfDay: res.data.timeOfDay, 
+        description: res.data.description, 
+      })
+   }), [ex]
+ };
     
     useFocusEffect(
       useCallback(() => {
@@ -81,24 +87,18 @@ const ExerciseScreen = (props) => {
                    
                       <TouchableOpacity
                         style={{
-                          borderWidth: 1,
-                          borderColor: '#4169e1',
                           alignItems: 'center',
                           justifyContent: 'center',
                           width: 25,
                           top: 10,
                           right: 5,
                           position: "absolute",
-                          //bottom: 10,
-                          //right: 50,
                           height: 25,
-                          backgroundColor: '#fff',
-                          borderRadius: 90,
                         }}
-                        onPress={() => deleteExercise(item._id)}
+                        onPress={() => editExercise(item._id)}
                        
                 >
-                  <Icon name='minus' size={20} color='#4169e1' />
+                  <FontAwesome5 name='edit' size={22} color='white' />
                 </TouchableOpacity>
                     
                   </View>
@@ -154,11 +154,13 @@ const ExerciseScreen = (props) => {
 
 export default ExerciseScreen;
 
-const {width} = Dimensions.get('screen');
+const {width, height} = Dimensions.get('screen');
 
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
+    height: height,
+    width: width,
   },
   container: {
     flex: 1,

@@ -204,6 +204,9 @@ const BPForm = (props) => {
                 },
                 dateInput: {
                     marginLeft: 36,
+                    left: 0,
+                    alignItems: "flex-start",
+                    borderWidth: 0
                 }
                 }}
                 onDateChange={(date) => setDate(date)}
@@ -303,7 +306,9 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         borderBottomColor: '#f2f2f2',
         paddingBottom: 5,
-        width: 350
+        width: 350,
+        borderBottomColor: "black",
+        borderBottomWidth: 0.17
     },
     textInput: {
         flex: 1,

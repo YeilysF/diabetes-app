@@ -27,6 +27,15 @@ router.get(`/`, async (req, res) => {
     res.status(200).send(glucoseList);
 })
 
+router.get('/:id', async(req,res)=>{
+    const glucose = await Glucose.findById(req.params.id);
+
+    if(!glucose) {
+        res.status(500).json({message: 'The glucose with the given ID was NOT found.'})
+    } 
+    res.status(200).send(glucose);
+})
+
 //delete glucose
 router.delete('/:id', (req, res)=>{
     Glucose.findByIdAndRemove(req.params.id).then(glucose =>{
@@ -38,6 +47,27 @@ router.delete('/:id', (req, res)=>{
     }).catch(err=>{
        return res.status(500).json({success: false, error: err}) 
     })
+})
+
+router.put('/:id',async (req, res)=> {
+
+    const glucose = await Glucose.findByIdAndUpdate(
+        req.params.id,
+        {
+            user: req.body.user,
+            glucoseLevel: req.body.glucoseLevel,
+            timeOfDay: req.body.timeOfDay,
+            dateTime: req.body.dateTime,
+            dateCreated: Date.now(), 
+            description: req.body.description
+        },
+        { new: true}
+    )
+
+    if(!glucose)
+    return res.status(400).send('the glucose cannot be created!')
+
+    res.send(glucose);
 })
 
 module.exports = router;
