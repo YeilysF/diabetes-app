@@ -1,12 +1,13 @@
 const mongoose = require("mongoose");
 
 const NutritionSchema = mongoose.Schema({
-    calories: {type: Number, required: true},
-    protein: {type: Number, required: true},
-    carbs: {type: Number, required: true},
-    fat: {type: Number, required: true},
-   // foodName: {type: String, required: true},  //link
-    sugar: {type: Number, required: true},
+    user: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
+    mealName: {type: String, required: true},
+    timeOfDay: {type: String},
+    dateTime: {type: Date, required: true},
+    dateCreated: {type: Date, default: Date.now},
+    description: {type: String},
+   // foodList: {type: mongoose.Schema.Types.ObjectId, ref: 'Food'},
 });
 
 exports.Nutrition = mongoose.model('Nutrition', NutritionSchema);

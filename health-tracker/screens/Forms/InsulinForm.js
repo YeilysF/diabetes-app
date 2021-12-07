@@ -26,7 +26,7 @@ const InsulinForm = (props) => {
   const [insulinName, setInsulin] = useState("")
   const [timeOfDay, setTimeOfDay] = useState("")
   const [date, setDate] = useState(new Date())
-  const [units, setUnits] = useState("")
+  const [units, setUnits] = useState(0)
   const [description, setDescription] = useState("")
   const [error, setError] = useState(false);
   const [id, setId] = useState("");

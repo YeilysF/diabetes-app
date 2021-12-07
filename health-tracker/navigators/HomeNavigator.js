@@ -14,6 +14,7 @@ import ExerciseNavigator from './ExerciseNavigator';
 import Icon from "react-native-vector-icons/FontAwesome";
 import Icon2 from "react-native-vector-icons/FontAwesome5";
 import Icon3 from "react-native-vector-icons/Feather";
+import NutritionNavigator from './NutritionNavigator';
 
 const Stack = createStackNavigator();
 
@@ -64,7 +65,7 @@ const HomeNavigator = (props) => {
             />
             <Stack.Screen 
                 name="Nutrition" 
-                component={NutritionScreen} 
+                component={NutritionNavigator} 
                 options={{
                   headerShown: false,
                 }}
