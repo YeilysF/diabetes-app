@@ -38,12 +38,7 @@ const MainTabNavigator = (props) => {
         name="Home"
         component={HomeNavigator}
         options={{
-          headerShown: true,
-          headerTransparent: true,
-          headerTintColor: 'white',
-          headerLeft: () => (
-            <Icon3 name="menu" color='white' size={25} style={{marginLeft: 23}} onPress={() => props.navigation.openDrawer()}></Icon3>
-          ),
+          headerShown: false,
           tabBarIcon: () => (
             <Icon name="home" color='#6495ed' size={30} />
             ),

@@ -20,14 +20,18 @@ const GlucoseNavigator = () => {
                 name='Glucose'
                 component={GlucoseScreen}
                 options={{
-                    headerShown: false,
+                    headerShown: true,
+                    headerTransparent: true,
+                    headerTintColor: 'white',
                 }}
             />
             <Stack.Screen 
                 name='Glucose Form'
                 component={GlucoseForm}
                 options={{
-                    headerShown: false,
+                    headerShown: true,
+                    headerTransparent: true,
+                    headerTintColor: 'white',
                 }}
             />
         </Stack.Navigator>

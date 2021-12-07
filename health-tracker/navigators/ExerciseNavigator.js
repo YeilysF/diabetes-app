@@ -14,14 +14,19 @@ const ExerciseNavigator = () => {
                 name='Exercise'
                 component={ExerciseScreen}
                 options={{
-                    headerShown: false,
+                    title: "Exercise",
+                    headerShown: true,
+                    headerTransparent: true,
+                    headerTintColor: 'white',
                 }}
             />
             <Stack.Screen 
                 name='Exercise Form'
                 component={ExerciseForm}
                 options={{
-                    headerShown: false,
+                    headerShown: true,
+                    headerTransparent: true,
+                    headerTintColor: 'white',
                 }}
             />
         </Stack.Navigator>
