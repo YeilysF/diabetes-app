@@ -48,18 +48,6 @@ function DrawerComponent(props) {
 
                     <Drawer.Section style={styles.drawerSection}>
                         <DrawerItemList {...props} />
-                        <DrawerItem 
-                            icon={() => (
-                                <Icon2 name="settings" size={20} color='#6495ed'/>
-                            )}
-                            label="Settings"
-                        />
-                        <DrawerItem 
-                            icon={() => (
-                                <Icon name="account-check-outline" size={20} color='#6495ed'/>
-                            )}
-                            label="Support"
-                        />
                     </Drawer.Section>
                     
                 </View>

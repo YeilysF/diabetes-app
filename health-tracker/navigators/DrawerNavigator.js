@@ -5,6 +5,7 @@ import { NavigationContainer } from '@react-navigation/native';
 
 //screens
 import AdminScreen from "../screens/Admin/AdminScreen";
+import SettingsScreen from "../screens/Settings/SettingsScreen";
 import NotificationScreen from '../screens/Home/NotificationScreen';
 import MainTabNavigator from "../navigators/MainTabNavigator";
 
@@ -41,6 +42,20 @@ const DrawerNavigator = (props) => {
               drawerIcon: () => (
                 <MaterialIcon
                 name="admin-panel-settings"
+                size={20}
+                color='#6495ed'
+              />
+              )
+            }}
+        />
+        <Drawer.Screen 
+            name="Settings" 
+            component={SettingsScreen} 
+            options={{
+              headerShown: true,
+              drawerIcon: () => (
+                <MaterialIcon
+                name="settings"
                 size={20}
                 color='#6495ed'
               />
