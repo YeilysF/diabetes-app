@@ -10,19 +10,6 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 //screens
 import AboutScreen from "../screens/Settings/AboutScreen"
 import SettingsScreen from "../screens/Settings/SettingsScreen"
-import NotificationScreen from "../screens/Home/NotificationScreen";
-import InsulinScreen from "../screens/Home/InsulinScreen";
-import GlucoseScreen from "../screens/Home/GlucoseScreen";
-import HomeScreen from "../screens/Home/HomeScreen";
-import MedicationNavigator from "./MedicationNavigator";
-import MainTabNavigator from './MainTabNavigator';
-import BPScreen from '../screens/Home/BPScreen';
-import NutritionScreen from '../screens/Home/NutritionScreen';
-import ExerciseScreen from '../screens/Home/ExerciseScreen';
-import InsulinNavigator from './InsulinNavigator';
-import GlucoseNavigator from './GlucoseNavigator';
-import BPNavigator from './BPNavigator';
-import ExerciseNavigator from './ExerciseNavigator';
 
 const Stack = createStackNavigator();
 
@@ -35,7 +22,13 @@ const HomeNavigator = (props) => {
                 name='Settings'
                 component={SettingsScreen}
                 options={{
-                  headerShown: false,
+                  headerShown: true,
+                    headerTransparent: true,
+                    headerTintColor: "white",
+                    title: "",
+                    headerLeft: () => (
+                    <Icon3 name="menu" color='white' size={25} style={{marginLeft: 23}} onPress={() => props.navigation.openDrawer()}></Icon3>
+                  ),
                 }}
             />
             <Stack.Screen 
