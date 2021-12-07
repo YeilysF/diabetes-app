@@ -28,6 +28,15 @@ router.get(`/`, async (req, res) => {
     res.status(200).send(medicationList);
 })
 
+router.get('/:id', async(req,res)=>{
+    const medication = await Medication.findById(req.params.id);
+
+    if(!medication) {
+        res.status(500).json({message: 'The medication with the given ID was NOT found.'})
+    } 
+    res.status(200).send(medication);
+})
+
 //delete medication
 router.delete('/:id', (req, res)=>{
     Medication.findByIdAndRemove(req.params.id).then(medication =>{
@@ -40,6 +49,30 @@ router.delete('/:id', (req, res)=>{
        return res.status(500).json({success: false, error: err}) 
     })
 })
+
+
+router.put('/:id',async (req, res)=> {
+
+    const medication = await Medication.findByIdAndUpdate(
+        req.params.id,
+        {
+            user: req.body.user,
+            medicationName: req.body.medicationName,
+            quantity: req.body.quantity,
+            timeOfDay: req.body.timeOfDay,
+            dateTime: req.body.dateTime,
+            dateCreated: Date.now(), 
+            description: req.body.description
+        },
+        { new: true}
+    )
+
+    if(!medication)
+    return res.status(400).send('the medication cannot be created!')
+
+    res.send(medication);
+})
+
 
 
 module.exports = router;

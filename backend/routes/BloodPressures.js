@@ -32,7 +32,7 @@ router.get('/:id', async(req,res)=>{
     const bloodPressure = await BloodPressure.findById(req.params.id);
 
     if(!bloodPressure) {
-        res.status(500).json({message: 'The user with the given ID was NOT found.'})
+        res.status(500).json({message: 'The blood pressure with the given ID was NOT found.'})
     } 
     res.status(200).send(bloodPressure);
 })
@@ -67,7 +67,7 @@ router.put('/:id',async (req, res)=> {
     )
 
     if(!bloodPressure)
-    return res.status(400).send('the user cannot be created!')
+    return res.status(400).send('the blood pressure cannot be created!')
 
     res.send(bloodPressure);
 })

@@ -24,4 +24,5 @@ router.get(`/`, async (req, res) => {
     res.status(200).send(foodList);
 })
 
+
 module.exports = router;
