@@ -1,5 +1,4 @@
 # Heath Tracker Application for Diabetic Patients
-
 ---
 
 Proudly Developed By: <br>
