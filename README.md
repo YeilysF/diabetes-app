@@ -1,7 +1,7 @@
 # Heath Tracker Application for Diabetic Patients
 ---
 
-Proudly Developed By: <br>
+Developed By: <br>
 + **Yeilys Fundora** <br>
 + **Hayron Alvarez** <br>
 + **Brayan Alfonso Barroso** <br>
